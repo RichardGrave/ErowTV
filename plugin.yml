@@ -1,0 +1,13 @@
+main: graver.erowtv.main.ErowTV
+name: ErowTV
+version: 1.0
+author: Richard Grave
+description: ErowTV
+api-version: 1.13
+commands:
+  test:
+    description: Test command to check if commands are loaded
+    usage: /test
+  player_direction:
+    description: Get the players direction
+    usage: /player_direction

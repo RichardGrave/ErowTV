@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ErowTV:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ErowTV_jar</output-path>
+    <root id="archive" name="ErowTV.jar">
+      <element id="module-output" name="ErowTV" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../BuildSpigot/Spigot/Spigot-API/target/spigot-api-1.14.2-R0.1-SNAPSHOT.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../BuildSpigot/Spigot/Spigot-API/target/spigot-api-1.14.2-R0.1-SNAPSHOT-shaded.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

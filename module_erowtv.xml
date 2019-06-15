@@ -17,24 +17,24 @@
   
   <path id="erowtv.module.production.classpath">
     <path refid="${module.jdk.classpath.erowtv}"/>
-    <path refid="library.target.classpath"/>
+    <path refid="library.spigot-api-1.14.2-r0.1-snapshot.classpath"/>
   </path>
   
   <path id="erowtv.runtime.production.module.classpath">
     <pathelement location="${erowtv.output.dir}"/>
-    <path refid="library.target.classpath"/>
+    <path refid="library.spigot-api-1.14.2-r0.1-snapshot.classpath"/>
   </path>
   
   <path id="erowtv.module.classpath">
     <path refid="${module.jdk.classpath.erowtv}"/>
     <pathelement location="${erowtv.output.dir}"/>
-    <path refid="library.target.classpath"/>
+    <path refid="library.spigot-api-1.14.2-r0.1-snapshot.classpath"/>
   </path>
   
   <path id="erowtv.runtime.module.classpath">
     <pathelement location="${erowtv.testoutput.dir}"/>
     <pathelement location="${erowtv.output.dir}"/>
-    <path refid="library.target.classpath"/>
+    <path refid="library.spigot-api-1.14.2-r0.1-snapshot.classpath"/>
   </path>
   
   

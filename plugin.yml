@@ -1,6 +1,6 @@
 main: graver.erowtv.main.ErowTV
 name: ErowTV
-version: 1.0
+version: '1.0'
 author: Richard Grave
 description: ErowTV
 api-version: 1.13

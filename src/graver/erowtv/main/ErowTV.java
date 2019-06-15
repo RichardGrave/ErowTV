@@ -2,7 +2,7 @@ package graver.erowtv.main;
 
 import graver.erowtv.commands.TestCommand;
 import graver.erowtv.constants.Constants;
-import graver.erowtv.constants.Enumerations.CustomItem;
+import graver.erowtv.constants.Enumerations;
 import graver.erowtv.constants.Messages;
 import graver.erowtv.item.BlockEvents;
 import graver.erowtv.player.PlayerCommands;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ErowTV extends JavaPlugin {
+public class ErowTV extends JavaPlugin implements Enumerations {
 	// TODO:RG alles wat maar een String is overzetten naar een constanten/message
 	
 	public static Map<String, List<?>> serverMemory; //TODO:RG Check if this is really needed

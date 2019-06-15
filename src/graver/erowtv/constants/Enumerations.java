@@ -2,9 +2,9 @@ package graver.erowtv.constants;
 
 import org.bukkit.block.BlockFace;
 
-public final class Enumerations {
+public interface Enumerations {
 
-	private Enumerations(){}
+//	private Enumerations(){}
 	
 	public static enum PlayerDirection {
 		
@@ -15,7 +15,7 @@ public final class Enumerations {
 		LOST(Constants.ENUM_PLAYER_DIRECTION_LOST);
 
 		private final String direction;
-		
+
 		private PlayerDirection(String direction) {
 			this.direction = direction;
 		}

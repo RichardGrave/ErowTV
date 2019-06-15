@@ -1,6 +1,8 @@
 package graver.erowtv.recipes;
 
-import graver.erowtv.constants.Enumerations.CustomItem;
+
+//import graver.erowtv.constants.Enumerations;
+import graver.erowtv.constants.Enumerations;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -11,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class BuildingBlocksRecipes {
+public final class BuildingBlocksRecipes implements Enumerations {
 	
 	//Dont instantiate or subclass the class
 	private BuildingBlocksRecipes() {

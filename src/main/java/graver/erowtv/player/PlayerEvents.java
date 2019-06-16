@@ -40,17 +40,23 @@ public class PlayerEvents implements Listener {
 	public void onPlayerInteract(PlayerInteractEvent event) {
 //		event.getPlayer().sendMessage(EmeraldValley.pluginFolder);
 		try {
-
-
 			//Handle sign clicks
 			if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.SPRUCE_SIGN) {
 				SignTools.wallSignClickedByPlayer(event.getPlayer(), event.getClickedBlock());
 				
-			//Handle button clicks	
+			//Handle button clicks
+			//!! Doesn't do anything yet
 			}else if(event.getAction() == Action.RIGHT_CLICK_BLOCK &&
 					(event.getClickedBlock().getType() == Material.ACACIA_BUTTON || event.getClickedBlock().getType() == Material.STONE_BUTTON)) {
 				ButtonTools.buttonClickedByPlayer(event.getPlayer(), event.getClickedBlock());
-				
+
+			//Handle Prismarine clicks
+			}else if(event.getAction() == Action.RIGHT_CLICK_BLOCK &&
+					(event.getClickedBlock().getType() == Material.PRISMARINE)) {
+//			ButtonTools.leverClickedByPlayer(event.getPlayer(), event.getClickedBlock());
+
+				//TODO:RG redstone stick gebruiken
+
 			//Handle right clicks
 			}else if ((event.getAction() == Action.RIGHT_CLICK_BLOCK) && (event.getHand() == EquipmentSlot.HAND)) {
 				// Check which hand is used. Event is fired twice -> for Main Hand and Off Hand

@@ -321,11 +321,12 @@ public final class BlockTools {
 		
 		//TODO:RG Maybe better check for BlockFace if To block is behind you???
 		//Maybe just a warning that the sign cannot be between both block??
-		
-		//Either wallSign or Button (Wood or Stone)
-		BlockFace blockFace = (clickedBlock.getType() == Material.SPRUCE_SIGN ?
-				((org.bukkit.material.Sign)((Sign)clickedBlock.getState()).getData()).getAttachedFace() : 
-					((org.bukkit.material.Button)clickedBlock.getState().getData()).getAttachedFace());
+
+		BlockFace blockFace = getBlockFaceClickedBlock(clickedBlock);
+//		//Either wallSign or Button (Wood or Stone)
+//		BlockFace blockFace = (clickedBlock.getType() == Material.SPRUCE_SIGN ?
+//				((org.bukkit.material.Sign)((Sign)clickedBlock.getState()).getData()).getAttachedFace() :
+//					((org.bukkit.material.Button)clickedBlock.getState().getData()).getAttachedFace());
 		
 		//Calculate the correct distances
 		switch (blockFace) {
@@ -404,10 +405,12 @@ public final class BlockTools {
 		//TODO:RG Maybe better check for BlockFace if To block is behind you???
 		//Maybe just a warning that the sign cannot be between both block??
 		
-		//Either wallSign or Button (Wood or Stone)
-		BlockFace blockFace = (clickedBlock.getType() == Material.SPRUCE_SIGN ?
-				((org.bukkit.material.Sign)((Sign)clickedBlock.getState()).getData()).getAttachedFace() : 
-					((org.bukkit.material.Button)clickedBlock.getState().getData()).getAttachedFace());
+		BlockFace blockFace = getBlockFaceClickedBlock(clickedBlock);
+//		BlockFace blockFace = (clickedBlock.getType() == Material.SPRUCE_SIGN ?
+//				((org.bukkit.material.Sign)((Sign)clickedBlock.getState()).getData()).getAttachedFace() :
+//				(clickedBlock.getType() == Material.STONE_BUTTON ?
+//					((org.bukkit.material.Button)clickedBlock.getState().getData()).getAttachedFace() :
+//						((org.bukkit.material.Lever)clickedBlock.getState().getData()).getAttachedFace()));
 		
 		//Calculate the correct distances
 		switch (blockFace) {
@@ -449,6 +452,15 @@ public final class BlockTools {
 		//TODO:RG startX and startZ??
 		//Height needs +1 because the height of the COPY_TO block its the actual height we are going to copy
 		return new int[] { startX, startY, startZ, depth, (height+1), width, xas, zas, isNorthSouth, facingDirection };
+	}
+
+	//Either Sign or Stone Button or else a Lever
+	public static BlockFace getBlockFaceClickedBlock(Block clickedBlock){
+		return (clickedBlock.getType() == Material.SPRUCE_SIGN ?
+				((org.bukkit.material.Sign)((Sign)clickedBlock.getState()).getData()).getAttachedFace() :
+				(clickedBlock.getType() == Material.STONE_BUTTON ?
+						((org.bukkit.material.Button)clickedBlock.getState().getData()).getAttachedFace() :
+						((org.bukkit.material.Lever)clickedBlock.getState().getData()).getAttachedFace()));
 	}
 	
 	/**

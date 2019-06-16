@@ -31,7 +31,7 @@ public final class DestroyBlockTool {
 	 * Not the positions of the blocks them selfs.
 	 * 
 	 * @param player
-	 * @param wallSign is needed to read a name to be used for a JSON file name to save it all
+	 * @param clickedBlock is needed to read a name to be used for a JSON file name to save it all
 	 * @param fromBlock
 	 * @param toBlock
 	 */
@@ -52,14 +52,16 @@ public final class DestroyBlockTool {
 			
 			if(directions.length != 0) {
 				player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 1.0f, 1.0f);
-				
-				
+
 				destroyBlocksAtAllPositions(player, directions);
 				
 				//Set blocks and the sign to AIR
 				blockFrom.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
 				blockTo.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
-				clickedBlock.setType(Material.AIR);
+//				clickedBlock.setType(Material.AIR);
+//				clickedBlock.breakNaturally();
+
+				//TODO:RG redstone stick gebruiken
 				
 				//Remove the memory after the copy
 				ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION);
@@ -72,7 +74,7 @@ public final class DestroyBlockTool {
 			player.sendMessage("Blocks are not in the same world");
 		}
 	}
-	
+
 	/**
 	 * Destroy the blocks with help of calculated positions from BlockTools.getBlockDirections(fromBlock, toBlock, dataSign)
 	 * 

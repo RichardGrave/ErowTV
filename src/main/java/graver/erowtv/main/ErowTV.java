@@ -86,10 +86,10 @@ public class ErowTV extends JavaPlugin implements Enumerations {
 	 * @param player
 	 */
 	public static void addPlayerToMemory(Player player) {
-		player.sendMessage("AddPlayerToMemory");
+//		player.sendMessage("AddPlayerToMemory"); //Alleen voor test
 		if(!playerMemory.containsKey(player.getUniqueId().toString())) {
 			playerMemory.put(player.getUniqueId().toString(), new HashMap<String, List<?>>());
-			player.sendMessage("PlayerAddedToMemory");
+//			player.sendMessage("PlayerAddedToMemory");
 		}
 	}
 	

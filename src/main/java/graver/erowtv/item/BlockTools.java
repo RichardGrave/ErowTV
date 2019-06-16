@@ -18,6 +18,10 @@ import org.bukkit.material.Stairs;
 import java.util.Arrays;
 import java.util.List;
 
+
+/*
+ * Block methods that should be use for any type of block in the game.
+ */
 public final class BlockTools {
 
 	//Dont instantiate or subclass the class
@@ -323,10 +327,10 @@ public final class BlockTools {
 		//Maybe just a warning that the sign cannot be between both block??
 
 		BlockFace blockFace = getBlockFaceClickedBlock(clickedBlock);
-//		//Either wallSign or Button (Wood or Stone)
-//		BlockFace blockFace = (clickedBlock.getType() == Material.SPRUCE_SIGN ?
-//				((org.bukkit.material.Sign)((Sign)clickedBlock.getState()).getData()).getAttachedFace() :
-//					((org.bukkit.material.Button)clickedBlock.getState().getData()).getAttachedFace());
+		if(blockFace == null){
+			//return empty int[]
+			return new int[]{};
+		}
 		
 		//Calculate the correct distances
 		switch (blockFace) {
@@ -406,11 +410,10 @@ public final class BlockTools {
 		//Maybe just a warning that the sign cannot be between both block??
 		
 		BlockFace blockFace = getBlockFaceClickedBlock(clickedBlock);
-//		BlockFace blockFace = (clickedBlock.getType() == Material.SPRUCE_SIGN ?
-//				((org.bukkit.material.Sign)((Sign)clickedBlock.getState()).getData()).getAttachedFace() :
-//				(clickedBlock.getType() == Material.STONE_BUTTON ?
-//					((org.bukkit.material.Button)clickedBlock.getState().getData()).getAttachedFace() :
-//						((org.bukkit.material.Lever)clickedBlock.getState().getData()).getAttachedFace()));
+		if(blockFace == null){
+			//return empty int[]
+			return new int[]{};
+		}
 		
 		//Calculate the correct distances
 		switch (blockFace) {
@@ -455,12 +458,24 @@ public final class BlockTools {
 	}
 
 	//Either Sign or Stone Button or else a Lever
-	public static BlockFace getBlockFaceClickedBlock(Block clickedBlock){
-		return (clickedBlock.getType() == Material.SPRUCE_SIGN ?
-				((org.bukkit.material.Sign)((Sign)clickedBlock.getState()).getData()).getAttachedFace() :
-				(clickedBlock.getType() == Material.STONE_BUTTON ?
-						((org.bukkit.material.Button)clickedBlock.getState().getData()).getAttachedFace() :
-						((org.bukkit.material.Lever)clickedBlock.getState().getData()).getAttachedFace()));
+	public static BlockFace getBlockFaceClickedBlock(Block clickedBlock) {
+		if(clickedBlock.getType() == Material.SPRUCE_SIGN) {
+			return ((org.bukkit.material.Sign) ((Sign) clickedBlock.getState()).getData()).getAttachedFace();
+
+		} else if(clickedBlock.getType() == Material.REDSTONE_TORCH ||
+				clickedBlock.getType() == Material.REDSTONE_WALL_TORCH) {
+			return((org.bukkit.material.RedstoneTorch)clickedBlock.getState().getData()).getAttachedFace();
+
+		} else if(clickedBlock.getType() == Material.STONE_BUTTON){
+			return ((org.bukkit.material.Button) clickedBlock.getState().getData()).getAttachedFace();
+
+		}else if(clickedBlock.getType() == Material.LEVER){
+			return ((org.bukkit.material.Lever)clickedBlock.getState().getData()).getAttachedFace();
+		}
+
+		//TODO:RG make a default?
+		//This is bad
+		return null;
 	}
 	
 	/**

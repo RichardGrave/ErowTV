@@ -1,5 +1,6 @@
 package graver.erowtv.item;
 
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -7,19 +8,30 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class BlockEvents implements Listener {
 
+	/**
+	 * Check if a certain block is placed and handle the action that needs to be done.
+	 * @param event
+	 */
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		try {
 			BlockTools.getDataForBlockType(event.getPlayer(),event.getBlockPlaced());
 //			PasteBlockTool.changeDirectionForBlockType(event.getPlayer(),event.getBlockPlaced(), null, new String[] {});
+			//This checks for CustomItem block made by me.
+			//Dont use for game blocks.
 			BlockTools.blockPlaced(event.getPlayer(), event.getBlockPlaced());
+
+			if(event.getBlockPlaced().getType() == Material.REDSTONE_WALL_TORCH ||
+					event.getBlockPlaced().getType() == Material.REDSTONE_TORCH) {
+				event.getPlayer().sendMessage("Inside redstone_torch");
+				SpecialBlockTools.redstoneTorchPlacedByPlayer(event.getPlayer(), event.getBlockPlaced());
+			}
 		} catch (Exception ex) {
 			event.getPlayer().sendMessage("[EventException]:[onBlockPlace]");
 			ex.printStackTrace();
 		}
-
 	}
-	
+
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
 		try {
@@ -29,7 +41,7 @@ public class BlockEvents implements Listener {
 			ex.printStackTrace();
 		}
 	}
-	
+
 }
 
 

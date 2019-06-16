@@ -58,7 +58,7 @@ public final class DestroyBlockTool {
 				//Set blocks and the sign to AIR
 				blockFrom.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
 				blockTo.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
-//				clickedBlock.setType(Material.AIR);
+				clickedBlock.setType(Material.AIR);
 //				clickedBlock.breakNaturally();
 
 				//TODO:RG redstone stick gebruiken

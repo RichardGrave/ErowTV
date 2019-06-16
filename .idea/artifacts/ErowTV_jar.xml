@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="ErowTV:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/ErowTV_jar</output-path>
-    <root id="archive" name="ErowTV.jar">
-      <element id="module-output" name="ErowTV" />
-    </root>
-  </artifact>
-</component>

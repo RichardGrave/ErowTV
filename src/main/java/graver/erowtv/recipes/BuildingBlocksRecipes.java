@@ -122,6 +122,40 @@ public final class BuildingBlocksRecipes implements Enumerations {
 	}
 
 	/**
+	 * Create recipe for a multi paste block.
+	 * Right-Click copy a Paste Block's action to multi paste directly what was saved to a yml with the Copy blocks.
+	 *
+	 * @param key with NamespacedKey
+	 * @return ShapedRecipe
+	 */
+	public static ShapedRecipe createMultiPasteBlock(NamespacedKey key) {
+		ItemStack itemStack = new ItemStack(Material.DIAMOND_BLOCK, 1);
+
+		//Get meta from item so we can change it
+		ItemMeta meta = itemStack.getItemMeta();
+		meta.setDisplayName(CustomItem.MULTI_PASTE_BLOCK.getCustomItemName());
+		//Add glow to item
+		meta.addEnchant(Enchantment.LUCK, 1, true);
+
+		//Add item lore to overwrite default enchantment text
+		List<String> itemLore = new ArrayList<String>();
+		itemLore.add(CustomItem.PASTE_BLOCK.getLore());
+		meta.setLore(itemLore);
+		// Set the meta of the block to the edited meta.
+		itemStack.setItemMeta(meta);
+
+		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
+
+		//Set shape and ingredients
+		recipe.shape("DWD", "W W", "DWD");
+
+		recipe.setIngredient('D', Material.DIAMOND_BLOCK);
+		recipe.setIngredient('W', Material.COMPASS);
+
+		return recipe;
+	}
+
+	/**
 	 * Create recipe for a copy FROM block (also needs a copy TO block).
 	 * With copy FROM and TO blocks you can calculate x, y and z to copy the block within.
 	 *

@@ -24,10 +24,13 @@ public class ErowTV extends JavaPlugin implements Enumerations {
 	public static Map<String, Map<String, List<?>>> playerMemory;
 	
 	public static String pluginFolder;
+
+	public static JavaPlugin javaPluginErowTV;
 	
 	@Override
 	public void onEnable() {
 		try {
+			this.javaPluginErowTV = this;
 			playerMemory = new HashMap<String, Map<String,List<?>>>();
 			serverMemory = new HashMap<String, List<?>>();
 			pluginFolder = getDataFolder().getParentFile().getAbsolutePath() + "/copy_blocks/";
@@ -76,6 +79,9 @@ public class ErowTV extends JavaPlugin implements Enumerations {
 		getServer().addRecipe(BuildingBlocksRecipes.createDestroyFromBlock(new NamespacedKey(this, CustomItem.DESTROY_FROM_BLOCK.getKey())));
 		getServer().addRecipe(BuildingBlocksRecipes.createDestroyToBlock(new NamespacedKey(this, CustomItem.DESTROY_TO_BLOCK.getKey())));
 		getServer().addRecipe(BuildingBlocksRecipes.createPasteBlock(new NamespacedKey(this, CustomItem.PASTE_BLOCK.getKey())));
+		getServer().addRecipe(BuildingBlocksRecipes.createMultiPasteBlock(new NamespacedKey(this, CustomItem.MULTI_PASTE_BLOCK.getKey())));
+
+		//TODO:RG MULTI-PASTE naar players memory.
 		
 		getLogger().info(Messages.EROWTV_RECIPE_REGISTRATION_COMPLETE);
 	}
@@ -158,5 +164,9 @@ public class ErowTV extends JavaPlugin implements Enumerations {
 		}
 		
 		return playerMemory.get(player.getUniqueId().toString()).containsKey(memoryName);
+	}
+
+	public static JavaPlugin getJavaPluginErowTV(){
+		return javaPluginErowTV;
 	}
 }

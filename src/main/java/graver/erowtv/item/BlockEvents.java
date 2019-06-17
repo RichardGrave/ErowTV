@@ -1,5 +1,7 @@
 package graver.erowtv.item;
 
+import graver.erowtv.main.ErowTV;
+import graver.erowtv.special.YoutubeSubCounter;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +26,14 @@ public class BlockEvents implements Listener {
 			if(event.getBlockPlaced().getType() == Material.REDSTONE_WALL_TORCH ||
 					event.getBlockPlaced().getType() == Material.REDSTONE_TORCH) {
 				event.getPlayer().sendMessage("Inside redstone_torch");
-				SpecialBlockTools.redstoneTorchPlacedByPlayer(event.getPlayer(), event.getBlockPlaced());
+//				SpecialBlockTools.redstoneTorchPlacedByPlayer(event.getPlayer(), event.getBlockPlaced());
+
+				//TODO:RG moet nog beter
+//				delay is per Spigot Ticks. 20 ticks is 1 seconde
+				//delay wachten tot het begint te runnen.
+				//period is tijd tussen de volgende run.
+				//TODO:RG Constanten van maken.
+				new YoutubeSubCounter(event.getPlayer()).runTaskTimer(ErowTV.getJavaPluginErowTV(), 40, 40);
 			}
 		} catch (Exception ex) {
 			event.getPlayer().sendMessage("[EventException]:[onBlockPlace]");

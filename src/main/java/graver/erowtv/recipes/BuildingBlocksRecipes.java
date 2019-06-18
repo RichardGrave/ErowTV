@@ -113,27 +113,27 @@ public final class BuildingBlocksRecipes implements Enumerations {
 		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
 
 		//Set shape and ingredients
-		recipe.shape("D D", " W ", "D D");
+		recipe.shape("D D", " C ", "D D");
 
 		recipe.setIngredient('D', Material.DIAMOND_BLOCK);
-		recipe.setIngredient('W', Material.COMPASS);
+		recipe.setIngredient('C', Material.COMPASS);
 
 		return recipe;
 	}
 
 	/**
-	 * Create recipe for a multi paste block.
-	 * Right-Click copy a Paste Block's action to multi paste directly what was saved to a yml with the Copy blocks.
+	 * Create recipe for a paste sign.
+	 * Right-Click copy a Paste Sign's paste what was saved to a yml with the Copy blocks.
 	 *
 	 * @param key with NamespacedKey
 	 * @return ShapedRecipe
 	 */
-	public static ShapedRecipe createMultiPasteBlock(NamespacedKey key) {
-		ItemStack itemStack = new ItemStack(Material.DIAMOND_BLOCK, 1);
+	public static ShapedRecipe createPasteSign(NamespacedKey key) {
+		ItemStack itemStack = new ItemStack(Material.SPRUCE_SIGN, 1);
 
 		//Get meta from item so we can change it
 		ItemMeta meta = itemStack.getItemMeta();
-		meta.setDisplayName(CustomItem.MULTI_PASTE_BLOCK.getCustomItemName());
+		meta.setDisplayName(CustomItem.PASTE_BLOCK.getCustomItemName());
 		//Add glow to item
 		meta.addEnchant(Enchantment.LUCK, 1, true);
 
@@ -147,10 +147,10 @@ public final class BuildingBlocksRecipes implements Enumerations {
 		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
 
 		//Set shape and ingredients
-		recipe.shape("DWD", "W W", "DWD");
+		recipe.shape("SCS", "C C", "SCS");
 
-		recipe.setIngredient('D', Material.DIAMOND_BLOCK);
-		recipe.setIngredient('W', Material.COMPASS);
+		recipe.setIngredient('S', Material.SPRUCE_SIGN);
+		recipe.setIngredient('C', Material.COMPASS);
 
 		return recipe;
 	}
@@ -163,7 +163,7 @@ public final class BuildingBlocksRecipes implements Enumerations {
 	 * @return ShapedRecipe
 	 */
 	public static ShapedRecipe createDestroyFromBlock(NamespacedKey key) {
-		ItemStack itemStack = new ItemStack(Material.PRISMARINE, 1);
+		ItemStack itemStack = new ItemStack(Material.TNT, 1);
 
 		//Get meta from item so we can change it
 		ItemMeta meta = itemStack.getItemMeta();
@@ -181,9 +181,9 @@ public final class BuildingBlocksRecipes implements Enumerations {
 		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
 
 		//Set shape and ingredients
-		recipe.shape("P P", "T T", "P P");
+		recipe.shape("C C", "T T", "C C");
 
-		recipe.setIngredient('P', Material.PRISMARINE);
+		recipe.setIngredient('C', Material.GUNPOWDER);
 		recipe.setIngredient('T', Material.TNT);
 
 		return recipe;
@@ -197,7 +197,7 @@ public final class BuildingBlocksRecipes implements Enumerations {
 	 * @return ShapedRecipe
 	 */
 	public static ShapedRecipe createDestroyToBlock(NamespacedKey key) {
-		ItemStack itemStack = new ItemStack(Material.PRISMARINE, 1);
+		ItemStack itemStack = new ItemStack(Material.TNT, 1);
 
 		//Get meta from item so we can change it
 		ItemMeta meta = itemStack.getItemMeta();
@@ -215,9 +215,9 @@ public final class BuildingBlocksRecipes implements Enumerations {
 		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
 
 		//Set shape and ingredients
-		recipe.shape("PTP", "   ", "PTP");
+		recipe.shape("CTC", "   ", "CTC");
 		
-		recipe.setIngredient('P', Material.PRISMARINE);
+		recipe.setIngredient('C', Material.COMPASS);
 		recipe.setIngredient('T', Material.TNT);
 
 		return recipe;

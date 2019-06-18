@@ -28,10 +28,11 @@ public final class SignTools {
 		
 		//Turn the block into a Sign
 		Sign wallSign = (Sign)clickedBlock.getState();
+
 		//Get MaterialData from sign for the attachedFace thats needed to get relative block
-		org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)wallSign.getData();
+		org.bukkit.block.data.type.WallSign dataSign = (org.bukkit.block.data.type.WallSign)wallSign.getBlockData();
 		
-		Block blockBehindSign = clickedBlock.getRelative(dataSign.getAttachedFace());
+		Block blockBehindSign = clickedBlock.getRelative(dataSign.getFacing().getOppositeFace());
 		
 		handleWallSignClicked(player, clickedBlock, wallSign, blockBehindSign);
 	}

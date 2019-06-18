@@ -41,7 +41,7 @@ public class PlayerEvents implements Listener {
 //		event.getPlayer().sendMessage(EmeraldValley.pluginFolder);
 		try {
 			//Handle sign clicks
-			if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.SPRUCE_SIGN) {
+			if(event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.SPRUCE_WALL_SIGN) {
 				SignTools.wallSignClickedByPlayer(event.getPlayer(), event.getClickedBlock());
 				
 			//Handle button clicks

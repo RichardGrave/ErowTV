@@ -35,8 +35,8 @@ public interface Enumerations {
 		TWO_BY_TWO("Two by Two", "I command you to multiply"),
 		COPY_FROM_BLOCK("Copy FROM block", "You also need a Copy TO block"),
 		COPY_TO_BLOCK("Copy TO block",  "You also need a Copy FROM block"),
-		PASTE_BLOCK("Paste block", "Paste something from a yml file"),
-		MULTI_PASTE_BLOCK("Multi Paste block", "Copy a Paste action from a sign for multi-use"),
+		PASTE_BLOCK("Paste block", "Paste whatever you want, how often you want."),
+		PASTE_SIGN("Paste sign", "Please SIGN this contract and I will build it"),
 		DESTROY_FROM_BLOCK("Destroy FROM block", "You also need a Destroy TO block"),
 		DESTROY_TO_BLOCK("Destroy TO block",  "You also need a Destroy FROM block"),
 		NO_RECIPE("No Recipe", "");

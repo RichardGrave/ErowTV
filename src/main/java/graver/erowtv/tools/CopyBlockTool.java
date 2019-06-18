@@ -139,7 +139,7 @@ public final class CopyBlockTool {
 					String[] directionalData = BlockTools.getDataForBlockType(player, block);
 					
 					//Deprecated but needed
-					String blockData = block.getType().getId() + Constants.SEP_BLOCK_DATA + block.getState().getData().getData()
+					String blockData = block.getBlockData().getMaterial() + Constants.SEP_BLOCK_DATA + block.getState().getData().getData()
 							+ Constants.SEP_BLOCK_DATA + (directionalData.length > 0 ? directionalData[0] : "") + Constants.SEP_BLOCK;
 					
 					if(!tmpBlockData.isEmpty()) {

@@ -10,7 +10,10 @@ import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
-import org.bukkit.block.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Furnace;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Stairs;
@@ -460,9 +463,13 @@ public final class BlockTools {
 	//Either Sign or Stone Button or else a Lever
 	public static BlockFace getBlockFaceClickedBlock(Block clickedBlock) {
 		if(clickedBlock.getType() == Material.SPRUCE_SIGN) {
-			return ((org.bukkit.material.Sign) ((Sign) clickedBlock.getState()).getData()).getAttachedFace();
+			return ((org.bukkit.block.data.type.Sign) clickedBlock.getState()).getRotation().getOppositeFace();
 
-		} else if(clickedBlock.getType() == Material.REDSTONE_TORCH ||
+		}else if(clickedBlock.getType() == Material.SPRUCE_WALL_SIGN){
+			return ((org.bukkit.block.data.type.WallSign) clickedBlock.getState().getBlockData()).getFacing().getOppositeFace();
+
+			//TODO:RG use org.bukkit.block.data.type.
+		}else if(clickedBlock.getType() == Material.REDSTONE_TORCH ||
 				clickedBlock.getType() == Material.REDSTONE_WALL_TORCH) {
 			return((org.bukkit.material.RedstoneTorch)clickedBlock.getState().getData()).getAttachedFace();
 

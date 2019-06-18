@@ -31,7 +31,7 @@ public final class ItemTools {
 					BlockTools.placeBlockByPlayerPosition(player, block, null, Constants.APPLY_PHYSICS, 2, 2, 2);
 				break;
 
-				case MULTI_PASTE_BLOCK:
+				case PASTE_BLOCK:
 					//TODO:RG Check of een sign is clicked. Zo ja, kijk of er een paste actie opstaat (hoeft geen paste block te zijn).
 					//Dan die actie kopieren.
 //					BlockTools.placeBlockByPlayerPosition(player, block, null, Constants.APPLY_PHYSICS, 2, 2, 2);

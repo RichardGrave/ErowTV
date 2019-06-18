@@ -25,6 +25,8 @@ public class ErowTV extends JavaPlugin implements Enumerations {
 	
 	public static String pluginFolder;
 
+	//Reference to this plugin.
+	//For use with BukkitRunnable's that need the plugin to start.
 	public static JavaPlugin javaPluginErowTV;
 	
 	@Override
@@ -79,7 +81,7 @@ public class ErowTV extends JavaPlugin implements Enumerations {
 		getServer().addRecipe(BuildingBlocksRecipes.createDestroyFromBlock(new NamespacedKey(this, CustomItem.DESTROY_FROM_BLOCK.getKey())));
 		getServer().addRecipe(BuildingBlocksRecipes.createDestroyToBlock(new NamespacedKey(this, CustomItem.DESTROY_TO_BLOCK.getKey())));
 		getServer().addRecipe(BuildingBlocksRecipes.createPasteBlock(new NamespacedKey(this, CustomItem.PASTE_BLOCK.getKey())));
-		getServer().addRecipe(BuildingBlocksRecipes.createMultiPasteBlock(new NamespacedKey(this, CustomItem.MULTI_PASTE_BLOCK.getKey())));
+		getServer().addRecipe(BuildingBlocksRecipes.createPasteSign(new NamespacedKey(this, CustomItem.PASTE_SIGN.getKey())));
 
 		//TODO:RG MULTI-PASTE naar players memory.
 		

@@ -105,4 +105,5 @@ public final class Constants {
 	public final static String SEP_BLOCK = "$";
 
 	public final static String SEP_ROW_BLOCK_COUNT = "%";
+
 }

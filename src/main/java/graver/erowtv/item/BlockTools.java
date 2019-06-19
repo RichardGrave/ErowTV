@@ -672,7 +672,7 @@ public final class BlockTools {
 	 */
 	public static void changeDataForBlockType(Player player, Block block, BlockFace blockFace, String[] blockState) {
 		//TODO:RG Need to save Directions en inverted -> calculate correct ones for pasting		
-		player.sendMessage(block.getState().getData().getClass().getName());
+//		player.sendMessage(block.getState().getData().getClass().getName());
 		
 		//!!Remember: Blocks are not copies of data. So if skull is a block then this:
 		//Skull skull = (Skull)block.getState();

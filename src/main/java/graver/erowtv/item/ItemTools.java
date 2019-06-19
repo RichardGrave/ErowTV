@@ -3,9 +3,7 @@ package graver.erowtv.item;
 import graver.erowtv.constants.Constants;
 import graver.erowtv.constants.Enumerations.CustomItem;
 import graver.erowtv.main.ErowTV;
-import graver.erowtv.tools.PasteBlockTool;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -44,18 +42,19 @@ public final class ItemTools {
 						List<String> fileNameToCopy = Arrays.asList(fileNameForPaste);
 						ErowTV.storePlayerMemory(player, Constants.MEMORY_PASTE_BLOCK_ACTION, fileNameToCopy);
 
-					}else{
-						//If it's not a sign then use the copy action
-						//Start pasting
-						World.Environment environment = player.getWorld().getEnvironment();
-						int playersWorld = (environment == World.Environment.NETHER ? Constants.WORLD_NETHER : environment == World.Environment.NORMAL ? Constants.WORLD_NORMAL : Constants.WORLD_END);
-						List<String> fileNameCopy = (List<String>)ErowTV.readPlayerMemory(player, Constants.MEMORY_PASTE_BLOCK_ACTION);
-						//Has to have a filename else do nothing
-						if(fileNameCopy != null && !fileNameCopy.isEmpty()) {
-							List<Integer> position = Arrays.asList(playersWorld, clickedBlock.getX(), clickedBlock.getY(), clickedBlock.getZ());
-							PasteBlockTool.pasteBlocks(player, clickedBlock, null, fileNameCopy.get(0), position);
-						}
 					}
+//					else{
+//						//If it's not a sign then use the copy action
+//						//Start pasting
+//						World.Environment environment = player.getWorld().getEnvironment();
+//						int playersWorld = (environment == World.Environment.NETHER ? Constants.WORLD_NETHER : environment == World.Environment.NORMAL ? Constants.WORLD_NORMAL : Constants.WORLD_END);
+//						List<String> fileNameCopy = (List<String>)ErowTV.readPlayerMemory(player, Constants.MEMORY_PASTE_BLOCK_ACTION);
+//						//Has to have a filename else do nothing
+//						if(fileNameCopy != null && !fileNameCopy.isEmpty()) {
+//							List<Integer> position = Arrays.asList(playersWorld, clickedBlock.getX(), clickedBlock.getY(), clickedBlock.getZ());
+//							PasteBlockTool.pasteBlocks(player, clickedBlock, null, fileNameCopy.get(0), position);
+//						}
+//					}
 				break;
 
 				case NO_RECIPE:

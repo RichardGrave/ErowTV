@@ -33,16 +33,19 @@ public final class PasteBlockTool {
 	 * Paste every block from file
 	 * 
 	 * @param player
-	 * @param sign is needed to read a name to be used for a JSON file name to save it all
+	 * @param sign is needed to read a name to be used for a JSON file name to paste from
+	 * @param fileName if this is not empty then dont use the sign but this filename to paste from
 	 * @param pasteBlock
 	 */
-	public static void pasteBlocks(Player player, Block clickedBlock, Sign sign, List<Integer> pasteBlock) {
+	public static void pasteBlocks(Player player, Block clickedBlock, Sign sign, String fileName, List<Integer> pasteBlock) {
 		//We need to check if the blocks are in the same world.
 		Block blockTo = player.getWorld().getBlockAt(pasteBlock.get(Constants.BLOCK_POS_X),
 				pasteBlock.get(Constants.BLOCK_POS_Y),pasteBlock.get(Constants.BLOCK_POS_Z));
-		
-		//Get file name
-		String fileName = sign.getLine(0).trim();
+
+		if(fileName == null || fileName.isEmpty()) {
+			//Get file name if no filename is given
+			fileName = sign.getLine(0).trim();
+		}
 
 		if(fileName != null && !fileName.isEmpty()) {
 			//No whitespaces
@@ -50,18 +53,30 @@ public final class PasteBlockTool {
 			
 			//Check if file with name exists
 			if(YmlFileTool.doesFileExist(fileName)) {
+
 				//Get directions for pasting
-				int[] directions = BlockTools.getBlockDirections(pasteBlock, clickedBlock);
+				//If a sign is clicked then CustomBlockFace is NULL else it's the players facing direction
+				int[] directions = (sign != null ? BlockTools.getBlockDirections(pasteBlock, clickedBlock, null)
+									: BlockTools.getBlockDirections(pasteBlock, clickedBlock, player.getFacing()));
 			
 				//We can start pasting if array is filled
 				if(directions.length != 0) {
 					//Depth, height and width are in the file
-					BlockFace blockFace = ((org.bukkit.block.data.type.Sign) clickedBlock.getState().getBlockData()).getRotation().getOppositeFace();
+
+					BlockFace blockFace;
+					if(sign != null) {
+						//This is for signs
+						blockFace = ((org.bukkit.block.data.type.Sign) clickedBlock.getState().getBlockData()).getRotation().getOppositeFace();
+						sign.getBlock().setType(Material.AIR);
+					}else {
+						//This is from placing on clicked blocks
+						blockFace = player.getFacing();
+					}
+
 					pasteBlocksAtAllPositions(player, fileName, directions, blockFace);
-			
 					//Set blocks and the sign to AIR
 					blockTo.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
-					sign.getBlock().setType(Material.AIR);
+
 		
 					//Remove the memory after the copy
 					ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_PASTE_POSITION);
@@ -75,7 +90,7 @@ public final class PasteBlockTool {
 			player.sendMessage("Filename is needed. Please fill in a name on the first row");
 		}
 	}
-	
+
 	/**
 	 * Paste the blocks with help of calculated positions from BlockTools.getBlockDirections(fromBlock, toBlock, dataSign)
 	 * 

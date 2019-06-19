@@ -127,7 +127,7 @@ public final class BlockTools {
 			case DESTROY_TO_BLOCK:
 				thereCanBeOnlyOne(player, block, Constants.MEMORY_DESTROY_TO_POSITION);
 				break;
-			case PASTE_BLOCK:
+			case PASTE_SIGN:
 				//This is a sign, make it editable(false).
 				((Sign)block.getState()).setEditable(false);
 				thereCanBeOnlyOne(player, block, Constants.MEMORY_PASTE_POSITION);
@@ -310,9 +310,10 @@ public final class BlockTools {
 	 * 
 	 * @param block
 	 * @param clickedBlock
+	 * @param customBlockFace
 	 * @return startX, startY, startZ, depth, height, width and directions ints for xas (-1 or +1) en zas (-1 or +1)
 	 */
-	public static int[] getBlockDirections(List<Integer> block, Block clickedBlock) {
+	public static int[] getBlockDirections(List<Integer> block, Block clickedBlock, BlockFace customBlockFace) {
 		//Check if its BlockFace is facing to the North or to the South. It is importent for placing/copying the blocks
 		int isNorthSouth = Constants.NOT_NORTH_SOUTH;
 		
@@ -328,7 +329,8 @@ public final class BlockTools {
 		//TODO:RG Maybe better check for BlockFace if To block is behind you???
 		//Maybe just a warning that the sign cannot be between both block??
 
-		BlockFace blockFace = getBlockFaceClickedBlock(clickedBlock);
+		//If customBlockFace is null then search the BlockFace of the clickedBlock
+		BlockFace blockFace = (customBlockFace != null ? customBlockFace : getBlockFaceClickedBlock(clickedBlock));
 		if(blockFace == null){
 			//return empty int[]
 			return new int[]{};
@@ -462,7 +464,7 @@ public final class BlockTools {
 	//Either Sign or Stone Button or else a Lever
 	public static BlockFace getBlockFaceClickedBlock(Block clickedBlock) {
 		if(clickedBlock.getType() == Material.SPRUCE_SIGN) {
-			return ((org.bukkit.block.data.type.Sign) clickedBlock.getState().getBlockData()).getRotation();
+			return ((org.bukkit.block.data.type.Sign) clickedBlock.getState().getBlockData()).getRotation().getOppositeFace();
 
 		}else if(clickedBlock.getType() == Material.SPRUCE_WALL_SIGN){
 			return ((org.bukkit.block.data.type.WallSign) clickedBlock.getState().getBlockData()).getFacing().getOppositeFace();
@@ -477,10 +479,10 @@ public final class BlockTools {
 
 		}else if(clickedBlock.getType() == Material.LEVER){
 			return ((org.bukkit.material.Lever)clickedBlock.getState().getData()).getAttachedFace();
+
 		}
 
-		//TODO:RG make a default?
-		//This is bad
+		//Default
 		return null;
 	}
 	

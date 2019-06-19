@@ -89,6 +89,7 @@ public final class Constants {
 	public static final boolean DIRECTION_DONT_USE_SIMPLE = false;
 	
 	//Memory names
+	public static final String MEMORY_PASTE_BLOCK_ACTION = "PASTE_BLOCK_ACTION";
 	public static final String MEMORY_PASTE_POSITION = "PASTE_POSITION";
 	
 	public static final String MEMORY_COPY_TO_POSITION = "COPY_TO_POSITION";

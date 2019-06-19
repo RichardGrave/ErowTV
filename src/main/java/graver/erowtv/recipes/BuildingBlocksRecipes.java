@@ -133,13 +133,13 @@ public final class BuildingBlocksRecipes implements Enumerations {
 
 		//Get meta from item so we can change it
 		ItemMeta meta = itemStack.getItemMeta();
-		meta.setDisplayName(CustomItem.PASTE_BLOCK.getCustomItemName());
+		meta.setDisplayName(CustomItem.PASTE_SIGN.getCustomItemName());
 		//Add glow to item
 		meta.addEnchant(Enchantment.LUCK, 1, true);
 
 		//Add item lore to overwrite default enchantment text
 		List<String> itemLore = new ArrayList<String>();
-		itemLore.add(CustomItem.PASTE_BLOCK.getLore());
+		itemLore.add(CustomItem.PASTE_SIGN.getLore());
 		meta.setLore(itemLore);
 		// Set the meta of the block to the edited meta.
 		itemStack.setItemMeta(meta);

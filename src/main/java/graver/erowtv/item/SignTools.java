@@ -23,7 +23,7 @@ public final class SignTools {
 	 * @param player
 	 * @param clickedBlock
 	 */
-	public static void wallSignClickedByPlayer(Player player, Block clickedBlock) {
+	public static void leftClickWallSignByPlayer(Player player, Block clickedBlock) {
 		//We already know its a wall sign. That was checked before this method was called.
 		
 		//Turn the block into a Sign
@@ -44,7 +44,7 @@ public final class SignTools {
 	 * @param player
 	 * @param clickedBlock
 	 */
-	public static void signClickedByPlayer(Player player, Block clickedBlock) {
+	public static void leftClickSignByPlayer(Player player, Block clickedBlock) {
 		//We already know its a sign. That was checked before this method was called.
 
 		//Turn the block into a Sign
@@ -57,7 +57,21 @@ public final class SignTools {
 
 		handleWallSignClicked(player, clickedBlock, sign, blockBehindSign);
 	}
-	
+
+
+	/**
+	 * Only for Signs
+	 * Check if there is something needed to be done when a wallsign is clicked
+	 *
+	 * @param player
+	 * @param clickedBlock
+	 */
+	public static void rightClickSignByPlayer(Player player, Block clickedBlock) {
+		//We already know its a sign. That was checked before this method was called.
+
+		//TODO:RG Misschien later wat mee doen?
+	}
+
 	public static void handleWallSignClicked(Player player, Block clickedBlock, Sign sign, Block blockBehindSign) {
 		if(BlockTools.isBlockPositionTheSame(blockBehindSign,(List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_COPY_FROM_POSITION))) {
 			//We also need the COPY_TO position
@@ -83,7 +97,7 @@ public final class SignTools {
 			//Here we check clickedBlock, not blockBehindSign. So the sign itself.
 		}else if(BlockTools.isBlockPositionTheSame(clickedBlock,(List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_PASTE_POSITION))) {
 			//Start pasting
-			PasteBlockTool.pasteBlocks(player, clickedBlock, sign, (List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_PASTE_POSITION));
+			PasteBlockTool.pasteBlocks(player, clickedBlock, sign, null, (List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_PASTE_POSITION));
 		}
 	}
 }

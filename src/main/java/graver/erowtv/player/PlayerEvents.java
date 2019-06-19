@@ -41,9 +41,15 @@ public class PlayerEvents implements Listener {
 //		event.getPlayer().sendMessage(EmeraldValley.pluginFolder);
 		try {
 			//Handle sign clicks
+			//!!! Use left-click then you dont have to switch to an empty hand. Right-click with same block replaces the block
 			if(event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.SPRUCE_WALL_SIGN) {
 				SignTools.wallSignClickedByPlayer(event.getPlayer(), event.getClickedBlock());
-				
+
+			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.SPRUCE_SIGN) {
+				SignTools.signClickedByPlayer(event.getPlayer(), event.getClickedBlock());
+
+				//Handle button clicks
+				//!! Doesn't do anything yet
 			//Handle button clicks
 			//!! Doesn't do anything yet
 			}else if(event.getAction() == Action.RIGHT_CLICK_BLOCK &&

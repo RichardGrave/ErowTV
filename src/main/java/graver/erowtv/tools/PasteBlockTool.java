@@ -30,20 +30,19 @@ public final class PasteBlockTool {
 	}
 	
 	/**
-	 * Copy every blok from the COPY_FROM to the COPY_TO block
-	 * Not the positions of the blocks them selfs.
+	 * Paste every block from file
 	 * 
 	 * @param player
-	 * @param wallSign is needed to read a name to be used for a JSON file name to save it all
+	 * @param sign is needed to read a name to be used for a JSON file name to save it all
 	 * @param pasteBlock
 	 */
-	public static void pasteBlocks(Player player, Block clickedBlock, Sign wallSign, List<Integer> pasteBlock) {
+	public static void pasteBlocks(Player player, Block clickedBlock, Sign sign, List<Integer> pasteBlock) {
 		//We need to check if the blocks are in the same world.
 		Block blockTo = player.getWorld().getBlockAt(pasteBlock.get(Constants.BLOCK_POS_X),
 				pasteBlock.get(Constants.BLOCK_POS_Y),pasteBlock.get(Constants.BLOCK_POS_Z));
 		
 		//Get file name
-		String fileName = wallSign.getLine(0).trim();
+		String fileName = sign.getLine(0).trim();
 
 		if(fileName != null && !fileName.isEmpty()) {
 			//No whitespaces
@@ -57,12 +56,12 @@ public final class PasteBlockTool {
 				//We can start pasting if array is filled
 				if(directions.length != 0) {
 					//Depth, height and width are in the file
-					BlockFace blockFace = ((org.bukkit.material.Sign)((Sign)clickedBlock.getState()).getData()).getAttachedFace();
+					BlockFace blockFace = ((org.bukkit.block.data.type.Sign) clickedBlock.getState().getBlockData()).getRotation().getOppositeFace();
 					pasteBlocksAtAllPositions(player, fileName, directions, blockFace);
 			
 					//Set blocks and the sign to AIR
 					blockTo.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
-					wallSign.getBlock().setType(Material.AIR);
+					sign.getBlock().setType(Material.AIR);
 		
 					//Remove the memory after the copy
 					ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_PASTE_POSITION);
@@ -78,7 +77,7 @@ public final class PasteBlockTool {
 	}
 	
 	/**
-	 * Copy the blocks with help of calculated positions from BlockTools.getBlockDirections(fromBlock, toBlock, dataSign)
+	 * Paste the blocks with help of calculated positions from BlockTools.getBlockDirections(fromBlock, toBlock, dataSign)
 	 * 
 	 * @param player
 	 * @param positions
@@ -142,8 +141,9 @@ public final class PasteBlockTool {
 					//If isMulti then get number of blocks as Integer. Else its only 1 block.
 					int numberOfBlocks = (!blockData[0].isEmpty() ? Integer.parseInt(blockData[0].substring(1)) : 1);
 					//Parse needed blockData
-					int typeId = Integer.parseInt(blockData[1]);
-					byte data = Byte.parseByte(blockData[2]);
+//					int typeId = Integer.parseInt(blockData[1]);
+					Material material = Material.getMaterial(blockData[1]);
+//					byte data = Byte.parseByte(blockData[2]);
 					
 					for(int iterBlock = 0; iterBlock < numberOfBlocks; iterBlock++) {
 						//If equal to 1 then its direction is NorthSouth
@@ -159,7 +159,8 @@ public final class PasteBlockTool {
 						//TODO:RG Sign data -> Text + Checst, Furnace, etc. -> items it contains
 						//TODO:RG moet nog Deprecated but needed
 //						block.setTypeId(typeId);
-//						block.setData(data);
+						block.setType(material);
+
 
 						//Some Directionals handle there own update()
 						if(block.getState().getData() instanceof Directional) {

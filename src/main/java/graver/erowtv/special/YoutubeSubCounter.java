@@ -7,6 +7,10 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.Channel;
 import com.google.api.services.youtube.model.ChannelListResponse;
+import graver.erowtv.constants.Enumerations;
+import graver.erowtv.player.PlayerTools;
+import graver.erowtv.tools.NumbersTool;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -31,11 +35,18 @@ public class YoutubeSubCounter extends BukkitRunnable{
 //    }
 
         private Player player;
+        private Block placedBlock;
+        private Enumerations.PlayerDirection direction;
         private int checkCounter = 0;
 
-        public YoutubeSubCounter(Player player) {
+        public YoutubeSubCounter(Player player, Block placedBlock) {
             this.player = player;
+            this.placedBlock = placedBlock;
+            this.direction = PlayerTools.getPlayerDirection(player);
         }
+
+        //TODO:RG Kleur van blokken laten bepalen aan de hand van aantal subscribers
+        //Zoals bronze, zilver, diamond??
 
         @Override
         public void run() {
@@ -55,9 +66,13 @@ public class YoutubeSubCounter extends BukkitRunnable{
 
                 List<Channel> channels = response.getItems();
                 for (Channel channel : channels) {
-                    player.sendMessage("[CheckCounter= "+checkCounter+"]Channel subscribers: "+
-                            channel.getStatistics().getSubscriberCount().toString());
+                    player.sendMessage("[CheckCounter= "+checkCounter+"][ErowTV Channel subscribers: "+
+                            channel.getStatistics().getSubscriberCount().toString() +"]");
+
+                    NumbersTool.buildEntireNumber(player, channel.getStatistics().getSubscriberCount(),
+                            placedBlock, direction);
                 }
+
                 checkCounter++;
             }catch (Exception ex){
                 player.sendMessage("[Youtube][Exception]["+ex.getMessage()+"]");

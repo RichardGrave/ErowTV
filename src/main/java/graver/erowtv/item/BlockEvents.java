@@ -53,7 +53,7 @@ public class BlockEvents implements Listener {
 			if(placedBlock.getType() == Material.REDSTONE_WALL_TORCH ||
 					placedBlock.getType() == Material.REDSTONE_TORCH) {
 
-				new YoutubeSubCounter(player).runTaskTimer(ErowTV.getJavaPluginErowTV(), 20, (20 * 10));
+				new YoutubeSubCounter(player, placedBlock).runTaskTimer(ErowTV.getJavaPluginErowTV(), 20, (20 * 10));
 				//TODO:RG weer aanzetten
 				//SpecialBlockTools.redstoneTorchPlacedByPlayer(player, placedBlock);
 			}else {

@@ -1,10 +1,12 @@
 package graver.erowtv.tools;
 
+import graver.erowtv.constants.Enumerations;
 import graver.erowtv.player.PlayerTools;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
+import java.math.BigInteger;
 
 public final class NumbersTool {
 
@@ -29,27 +31,27 @@ public final class NumbersTool {
 	private static String[] numNine = new String[] { "0xxxx", "0000x", "0xxxx", "0x00x", "0xxxx" };
 	private static String[] numClear = new String[] { "00000", "00000", "00000", "00000", "00000" };
 	
-	public static void rgNumberTimer(World world, int number, int x, int y, int z) {
+//	public static void rgNumberTimer(World world, int number, int x, int y, int z) {
 //		int counter = 1;
-		// var buildNumber = function(){
-		// rgMakeBigNumber(world, counter+'', x, y, z, direction)
-		// //stop at given number
-		// if(counter == number){
-		// clearInterval(timerId)
-		// var clearString = ''
-		// for(var cli = 0; cli < number.length; cli++){
-		// clearString = clearString + ' '
-		// }
-		// rgMakeBigNumber(world, clearString, x, y, z, direction)
-		// }
-		// counter = counter + 1
-		// }
-		// //Set timer
-		// var timerId = setInterval(buildNumber, 100)
+//		 var buildNumber = function(){
+//		 rgMakeBigNumber(world, counter+'', x, y, z, direction)
+//		 //stop at given number
+//		 if(counter == number){
+//		 clearInterval(timerId)
+//		 var clearString = ''
+//		 for(var cli = 0; cli < number.length; cli++){
+//		 clearString = clearString + ' '
+//		 }
+//		 rgMakeBigNumber(world, clearString, x, y, z, direction)
+//		 }
+//		 counter = counter + 1
+//		 }
+//		 //Set timer
+//		 var timerId = setInterval(buildNumber, 100)
+//
+//	}
 
-	}
-
-	public static void rgMakeBigNumber(World world, int number, int x, int y, int z) {
+//	public static void rgMakeBigNumber(World world, int number, int x, int y, int z) {
 		// var isNorthSouth = (direction == rgDirections.NORTH || direction ==
 		// rgDirections.SOUTH ? true : false)
 		// var startNum = (number.length - 1)
@@ -73,17 +75,45 @@ public final class NumbersTool {
 		//
 		// rgMakeNumber(world, number[i], x, y, z, direction)
 		// }
-
-	}
+//	}
 
 	/**
-	 * Get the right pattern to build the number
-	 * 
+	 * Build entire number
+	 *
+	 * @param player
+	 * @param bigNumber
+	 * @param clickedBlock
+	 * @param customDirection
+	 */
+	public static void buildEntireNumber(Player player, BigInteger bigNumber, Block clickedBlock, Enumerations.PlayerDirection customDirection) {
+		char[] numberPieces = bigNumber.toString().toCharArray();
+//		player.sendMessage("BigNumber: " + bigNumber.toString());
+
+		//TODO:RG hier gebleven krijg bij getPatternForNumberAndBuild 49 en 48
+		//Has to contain numbers else skip
+		if(numberPieces.length >0) {
+			for (int reverseIter = (numberPieces.length - 1); reverseIter >= 0; reverseIter--) {
+				try {
+//				player.sendMessage("numberPieces[reverseIter]: " + numberPieces[reverseIter]);
+					getPatternForNumberAndBuild(player, Integer.valueOf(numberPieces[reverseIter]), clickedBlock, customDirection);
+				}catch (Exception ex){
+					player.sendMessage("[NumbersTool][buildEntireNumber][Not a number]");
+				}
+			}
+		}
+	}
+
+
+
+	/**
+	 * Get the right pattern and build the number
+	 *
 	 * @param player
 	 * @param number
 	 * @param clickedBlock
+	 * @param customDirection
 	 */
-	public static void chooseNumber(Player player, int number, Block clickedBlock) {
+	public static void getPatternForNumberAndBuild(Player player, int number, Block clickedBlock, Enumerations.PlayerDirection customDirection) {
 		//Yas + 1 to place on top of the block
 		int yas = clickedBlock.getY() + 1;
 		int xas = clickedBlock.getX();
@@ -93,37 +123,37 @@ public final class NumbersTool {
 		
 		switch (number) {
 		case 0:
-			buildNumber(player, numZero, xas, yas, zas);
+			buildSingleNumber(player, numZero, xas, yas, zas, customDirection);
 			break;
 		case 1:
-			buildNumber(player, numOne, xas, yas, zas);
+			buildSingleNumber(player, numOne, xas, yas, zas, customDirection);
 			break;
 		case 2:
-			buildNumber(player, numTwo, xas, yas, zas);
+			buildSingleNumber(player, numTwo, xas, yas, zas, customDirection);
 			break;
 		case 3:
-			buildNumber(player, numThree, xas, yas, zas);
+			buildSingleNumber(player, numThree, xas, yas, zas, customDirection);
 			break;
 		case 4:
-			buildNumber(player, numFour, xas, yas, zas);
+			buildSingleNumber(player, numFour, xas, yas, zas, customDirection);
 			break;
 		case 5:
-			buildNumber(player, numFive, xas, yas, zas);
+			buildSingleNumber(player, numFive, xas, yas, zas, customDirection);
 			break;
 		case 6:
-			buildNumber(player, numSix, xas, yas, zas);
+			buildSingleNumber(player, numSix, xas, yas, zas, customDirection);
 			break;
 		case 7:
-			buildNumber(player, numSeven, xas, yas, zas);
+			buildSingleNumber(player, numSeven, xas, yas, zas, customDirection);
 			break;
 		case 8:
-			buildNumber(player, numEight, xas, yas, zas);
+			buildSingleNumber(player, numEight, xas, yas, zas, customDirection);
 			break;
 		case 9:
-			buildNumber(player, numNine, xas, yas, zas);
+			buildSingleNumber(player, numNine, xas, yas, zas, customDirection);
 			break;
 		default:
-			buildNumber(player, numClear, xas, yas, zas);
+			buildSingleNumber(player, numClear, xas, yas, zas, customDirection);
 			break;
 		}
 	}
@@ -136,8 +166,9 @@ public final class NumbersTool {
 	 * @param xas
 	 * @param yas
 	 * @param zas
+	 * @param customDirection
 	 */
-	public static void buildNumber(Player player, String[] numberPattern, int xas, int yas, int zas) {
+	public static void buildSingleNumber(Player player, String[] numberPattern, int xas, int yas, int zas, Enumerations.PlayerDirection customDirection) {
 		int tmpYas = 0;
 		
 		for (String pattern : numberPattern) {
@@ -152,8 +183,10 @@ public final class NumbersTool {
 				int placeX = xas;
 				int isNorthSouth = 0;
 
-				// Even with clickedBlock we need to use the player direction
-				switch (PlayerTools.getPlayerDirection(player)) {
+				// Even with clickedBlock we need to use the player direction OR a customDirection
+				Enumerations.PlayerDirection direction = (customDirection != Enumerations.PlayerDirection.LOST ? customDirection : PlayerTools.getPlayerDirection(player));
+
+				switch (direction) {
 				case NORTH:
 					placeX = xas + tmpXas;
 					isNorthSouth = 1;

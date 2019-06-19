@@ -1,10 +1,23 @@
 package graver.erowtv.special;
 
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.model.Channel;
+import com.google.api.services.youtube.model.ChannelListResponse;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.IOException;
+import java.util.List;
+
 public class YoutubeSubCounter extends BukkitRunnable{
 
+    private final String YOUTUBE_API_KEY = "AIzaSyAGe1jAtgU7A4NIjVhBIMSWJ9l0cn5wSv4";
+    private final String YOUTUBE_APP_NAME = "ErowTV Channel";
+    private final String YOUTUBE_CHANNEL_ID = "UCinO1QSRjtQi6hiabNDhhzw";
 
     //TODO:RG Kijken of een subs counter mogelijk is
     //Dat om de 30 seconden checkt hoeveel subs we hebben.
@@ -18,24 +31,37 @@ public class YoutubeSubCounter extends BukkitRunnable{
 //    }
 
         private Player player;
-        private int countdown;
+        private int checkCounter = 0;
 
         public YoutubeSubCounter(Player player) {
             this.player = player;
-            this.countdown = 5;
         }
 
         @Override
         public void run() {
-            if (countdown <= 0) {
-                player.sendMessage("Countdown is over. Cancelling task.");
+            try {
+                HttpRequestInitializer httpRequestInitializer = new HttpRequestInitializer() {
+                    public void initialize(HttpRequest request) throws IOException {
+                    }
+                };
 
-                this.cancel(); // cancel this task. countdown is over.
-                return;
+                YouTube youTube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), httpRequestInitializer)
+                        .setApplicationName(YOUTUBE_APP_NAME)
+                        .build();
+                YouTube.Channels.List search = youTube.channels().list("statistics");
+                search.setId(YOUTUBE_CHANNEL_ID);
+                search.setKey(YOUTUBE_API_KEY);
+                ChannelListResponse response = search.execute();
+
+                List<Channel> channels = response.getItems();
+                for (Channel channel : channels) {
+                    player.sendMessage("[CheckCounter= "+checkCounter+"]Channel subscribers: "+
+                            channel.getStatistics().getSubscriberCount().toString());
+                }
+                checkCounter++;
+            }catch (Exception ex){
+                player.sendMessage("[Youtube][Exception]["+ex.getMessage()+"]");
             }
-
-            player.sendMessage("Countdown: " + countdown);
-            countdown--; // decrement the counter
 
         }
 

@@ -44,7 +44,8 @@ public final class DestroyBlockTool {
 			Block blockTo = player.getWorld().getBlockAt(toBlock.get(Constants.BLOCK_POS_X),
 					toBlock.get(Constants.BLOCK_POS_Y),toBlock.get(Constants.BLOCK_POS_Z));
 
-			int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, clickedBlock);
+			//Destroy block has nothing to click on (no Sign), so use Player's Facing direction. ClickedBlock = NULL
+			int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, null, player.getFacing());
 			
 			//Use for debug
 //			player.sendMessage("DEPTH="+directions[ARRAY_PLACEMENT_POS_DEPTH] + " HEIGHT="+directions[ARRAY_PLACEMENT_POS_HEIGHT] + " WIDTH="+directions[ARRAY_PLACEMENT_POS_WIDTH]);
@@ -59,10 +60,7 @@ public final class DestroyBlockTool {
 				blockFrom.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
 				blockTo.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
 				clickedBlock.setType(Material.AIR);
-//				clickedBlock.breakNaturally();
 
-				//TODO:RG redstone stick gebruiken
-				
 				//Remove the memory after the copy
 				ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION);
 				ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_DESTROY_TO_POSITION);

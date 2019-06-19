@@ -384,7 +384,7 @@ public final class BlockTools {
 	 * @param clickedBlock (wallsign or button)
 	 * @return startX, startY, startZ, depth, height, width, directions ints for xas (-1 or +1) en zas (-1 or +1) and facingDirection
 	 */
-	public static int[] getBlockDirectionsFromTo(List<Integer> fromBlock, List<Integer> toBlock, Block clickedBlock) {
+	public static int[] getBlockDirectionsFromTo(List<Integer> fromBlock, List<Integer> toBlock, Block clickedBlock, BlockFace customBlockFace) {
 		//Check if its BlockFace is facing to the North or to the South. It is importent for placing/copying the blocks
 		int isNorthSouth = Constants.NOT_NORTH_SOUTH;
 		
@@ -412,8 +412,9 @@ public final class BlockTools {
 		
 		//TODO:RG Maybe better check for BlockFace if To block is behind you???
 		//Maybe just a warning that the sign cannot be between both block??
-		
-		BlockFace blockFace = getBlockFaceClickedBlock(clickedBlock);
+
+		//If customBlockFace is null then search the BlockFace of the clickedBlock
+		BlockFace blockFace = (customBlockFace != null ? customBlockFace : getBlockFaceClickedBlock(clickedBlock));
 		if(blockFace == null){
 			//return empty int[]
 			return new int[]{};
@@ -461,18 +462,14 @@ public final class BlockTools {
 		return new int[] { startX, startY, startZ, depth, (height+1), width, xas, zas, isNorthSouth, facingDirection };
 	}
 
-	//Either Sign or Stone Button or else a Lever
+	//Either Sign, WallSign, Stone Button or a Lever
+	//Only used when you need a Blockface after clicking a certain Item
 	public static BlockFace getBlockFaceClickedBlock(Block clickedBlock) {
 		if(clickedBlock.getType() == Material.SPRUCE_SIGN) {
 			return ((org.bukkit.block.data.type.Sign) clickedBlock.getState().getBlockData()).getRotation().getOppositeFace();
 
 		}else if(clickedBlock.getType() == Material.SPRUCE_WALL_SIGN){
 			return ((org.bukkit.block.data.type.WallSign) clickedBlock.getState().getBlockData()).getFacing().getOppositeFace();
-
-			//TODO:RG use org.bukkit.block.data.type.
-		}else if(clickedBlock.getType() == Material.REDSTONE_TORCH ||
-				clickedBlock.getType() == Material.REDSTONE_WALL_TORCH) {
-			return((org.bukkit.material.RedstoneTorch)clickedBlock.getState().getData()).getAttachedFace();
 
 		} else if(clickedBlock.getType() == Material.STONE_BUTTON){
 			return ((org.bukkit.material.Button) clickedBlock.getState().getData()).getAttachedFace();
@@ -482,7 +479,6 @@ public final class BlockTools {
 
 		}
 
-		//Default
 		return null;
 	}
 	
@@ -774,7 +770,7 @@ public final class BlockTools {
 		//TODO:RG FIRST!!!!! get all the stuff to copy
 		//Need to save Directions en inverted -> calculate correct ones for pasting
 		
-		player.sendMessage(block.getState().getData().getClass().getName());
+//		player.sendMessage(block.getState().getData().getClass().getName());
 		
 		switch (DirectionalMaterial.getDirectionMaterial(block.getState().getData().getClass().getName())) {
 		case ORG_BUKKIT_MATERIAL_BANNER:

@@ -183,7 +183,7 @@ public final class BuildingBlocksRecipes implements Enumerations {
 		//Set shape and ingredients
 		recipe.shape("C C", "T T", "C C");
 
-		recipe.setIngredient('C', Material.GUNPOWDER);
+		recipe.setIngredient('C', Material.COMPASS);
 		recipe.setIngredient('T', Material.TNT);
 
 		return recipe;

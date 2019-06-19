@@ -3,6 +3,7 @@ package graver.erowtv.item;
 import graver.erowtv.constants.Constants;
 import graver.erowtv.constants.Enumerations;
 import graver.erowtv.main.ErowTV;
+import graver.erowtv.special.YoutubeSubCounter;
 import graver.erowtv.tools.PasteBlockTool;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -52,32 +53,33 @@ public class BlockEvents implements Listener {
 			if(placedBlock.getType() == Material.REDSTONE_WALL_TORCH ||
 					placedBlock.getType() == Material.REDSTONE_TORCH) {
 
-				SpecialBlockTools.redstoneTorchPlacedByPlayer(player, placedBlock);
-			}
+				new YoutubeSubCounter(player).runTaskTimer(ErowTV.getJavaPluginErowTV(), 20, (20 * 10));
+				//TODO:RG weer aanzetten
+				//SpecialBlockTools.redstoneTorchPlacedByPlayer(player, placedBlock);
+			}else {
+				if (itemInHand != null && itemInHand.getItemMeta() != null && itemInHand.getItemMeta().getDisplayName() != null) {
 
-			if (itemInHand != null && itemInHand.getItemMeta() != null && itemInHand.getItemMeta().getDisplayName() != null) {
+					//TODO:RG for later use with more items
+					switch (Enumerations.CustomItem.getCustomItem(itemInHand.getItemMeta().getDisplayName())) {
+						case PASTE_BLOCK:
+							//If it's not a sign then use the copy action
+							//Start pasting
+							World.Environment environment = player.getWorld().getEnvironment();
+							int playersWorld = (environment == World.Environment.NETHER ? Constants.WORLD_NETHER : environment == World.Environment.NORMAL ? Constants.WORLD_NORMAL : Constants.WORLD_END);
+							List<String> fileNameCopy = (List<String>) ErowTV.readPlayerMemory(player, Constants.MEMORY_PASTE_BLOCK_ACTION);
+							//Has to have a filename else do nothing
+							if (fileNameCopy != null && !fileNameCopy.isEmpty()) {
+								List<Integer> position = Arrays.asList(playersWorld, placedBlock.getX(), placedBlock.getY(), placedBlock.getZ());
+								PasteBlockTool.pasteBlocks(player, placedBlock, null, fileNameCopy.get(0), position);
+							}
 
-				//TODO:RG for later use with more items
-				switch (Enumerations.CustomItem.getCustomItem(itemInHand.getItemMeta().getDisplayName())) {
-					case PASTE_BLOCK:
-						//If it's not a sign then use the copy action
-						//Start pasting
-						World.Environment environment = player.getWorld().getEnvironment();
-						int playersWorld = (environment == World.Environment.NETHER ? Constants.WORLD_NETHER : environment == World.Environment.NORMAL ? Constants.WORLD_NORMAL : Constants.WORLD_END);
-						List<String> fileNameCopy = (List<String>)ErowTV.readPlayerMemory(player, Constants.MEMORY_PASTE_BLOCK_ACTION);
-						//Has to have a filename else do nothing
-						if(fileNameCopy != null && !fileNameCopy.isEmpty()) {
-							List<Integer> position = Arrays.asList(playersWorld, placedBlock.getX(), placedBlock.getY(), placedBlock.getZ());
-							PasteBlockTool.pasteBlocks(player, placedBlock, null, fileNameCopy.get(0), position);
-						}
+							break;
 
-						break;
-
-					case NO_RECIPE:
-						break;
+						case NO_RECIPE:
+							break;
+					}
 				}
 			}
-
 		} catch (Exception ex) {
 			player.sendMessage("[EventException]:[handlePlacedBlock]");
 			ex.printStackTrace();

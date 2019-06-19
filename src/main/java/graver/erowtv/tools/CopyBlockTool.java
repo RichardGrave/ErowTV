@@ -51,7 +51,9 @@ public final class CopyBlockTool {
 			
 			if(fileName != null && !fileName.isEmpty()) {
 				fileName = fileName.replace(' ', '_');
-				int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, clickedBlock);
+
+				//Copy block has a sign to click on for directions, so CustomBlockFace = NULL
+				int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, clickedBlock, null);
 			
 				//For debugging
 				//player.sendMessage("DEPTH="+directions[ARRAY_PLACEMENT_POS_DEPTH] + " HEIGHT="+directions[ARRAY_PLACEMENT_POS_HEIGHT] + " WIDTH="+directions[ARRAY_PLACEMENT_POS_WIDTH]);

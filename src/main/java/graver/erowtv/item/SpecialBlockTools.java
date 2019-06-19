@@ -23,7 +23,7 @@ public class SpecialBlockTools {
      * @param placedBlock
      */
     public static void redstoneTorchPlacedByPlayer(Player player, Block placedBlock) {
-        //We already know its a Button. That was checked before this method was called.
+        //We already know its a redstone torch. That was checked before this method was called.
 
         //Turn the block into a Button
         BlockState blockState = placedBlock.getState();
@@ -43,10 +43,10 @@ public class SpecialBlockTools {
      *
      * @param player
      * @param placedBlock
-     * @param blockBehindButton
+     * @param blockBehindTorch
      */
-    public static void handleRedstoneTorchPlacedByPlayer(Player player, Block placedBlock, Block blockBehindButton) {
-        if(BlockTools.isBlockPositionTheSame(blockBehindButton,(List<Integer>) ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION))) {
+    public static void handleRedstoneTorchPlacedByPlayer(Player player, Block placedBlock, Block blockBehindTorch) {
+        if(BlockTools.isBlockPositionTheSame(blockBehindTorch,(List<Integer>) ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION))) {
             //We also need the DESTROY_TO position
             if(ErowTV.doesPlayerHaveMemory(player, Constants.MEMORY_DESTROY_TO_POSITION)) {
                 //Start destroying
@@ -57,7 +57,7 @@ public class SpecialBlockTools {
                 //If the TO block is missing
                 player.sendMessage("A 'Destroy TO block' is needed");
             }
-        }else if(BlockTools.isBlockPositionTheSame(blockBehindButton,(List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_TO_POSITION))) {
+        }else if(BlockTools.isBlockPositionTheSame(blockBehindTorch,(List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_TO_POSITION))) {
             //We also nee the DESTROY_FROM position
             if(ErowTV.doesPlayerHaveMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION)) {
                 //Start destroying

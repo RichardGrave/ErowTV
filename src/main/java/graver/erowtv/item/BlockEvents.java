@@ -55,7 +55,7 @@ public class BlockEvents implements Listener {
 
 				new YoutubeSubCounter(player, placedBlock).runTaskTimer(ErowTV.getJavaPluginErowTV(), 20, (20 * 10));
 				//TODO:RG weer aanzetten
-				//SpecialBlockTools.redstoneTorchPlacedByPlayer(player, placedBlock);
+//				SpecialBlockTools.redstoneTorchPlacedByPlayer(player, placedBlock);
 			}else {
 				if (itemInHand != null && itemInHand.getItemMeta() != null && itemInHand.getItemMeta().getDisplayName() != null) {
 

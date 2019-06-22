@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ErowTV extends JavaPlugin implements Enumerations {
-	// TODO:RG alles wat maar een String is overzetten naar een constanten/message
-	
-	public static Map<String, List<?>> serverMemory; //TODO:RG Check if this is really needed
+
+	//TODO:RG ServerMemory is going to be a prermanent memory. So write to a file. And load at startup
+	public static Map<String, List<?>> serverMemory;
 	public static Map<String, Map<String, List<?>>> playerMemory;
 	
 	public static String pluginFolder;

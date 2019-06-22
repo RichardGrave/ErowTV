@@ -56,6 +56,7 @@ public class YoutubeSubCounter extends BukkitRunnable{
                     }
                 };
 
+                //From youtube example
                 YouTube youTube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), httpRequestInitializer)
                         .setApplicationName(YOUTUBE_APP_NAME)
                         .build();
@@ -64,15 +65,18 @@ public class YoutubeSubCounter extends BukkitRunnable{
                 search.setKey(YOUTUBE_API_KEY);
                 ChannelListResponse response = search.execute();
 
+                //Go through all the channels that come back and print number of subscribers
                 List<Channel> channels = response.getItems();
                 for (Channel channel : channels) {
                     player.sendMessage("[CheckCounter= "+checkCounter+"][ErowTV Channel subscribers: "+
                             channel.getStatistics().getSubscriberCount().toString() +"]");
 
-                    NumbersTool.buildEntireNumber(player, channel.getStatistics().getSubscriberCount(),
+                    //Create number for how many subscribers we have
+                    NumbersTool.buildEntireNumber(player, channel.getStatistics().getSubscriberCount().toString(),
                             placedBlock, direction);
-                }
 
+                }
+                this.cancel();
                 checkCounter++;
             }catch (Exception ex){
                 player.sendMessage("[Youtube][Exception]["+ex.getMessage()+"]");

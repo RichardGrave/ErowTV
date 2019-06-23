@@ -85,6 +85,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
             }else{
                 //else update the sign text
                 sign.setLine(0, formattedTimeString);
+                sign.update();
             }
 
             //It stops if time is zero or whitespace
@@ -99,6 +100,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
                 }else{
                     //Else set this text to the sign
                     sign.setLine(0, "Time's up");
+                    sign.update();
                 }
             }else{
                 //Build new time string for next number

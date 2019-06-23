@@ -1,7 +1,7 @@
 package graver.erowtv.player;
 
-import graver.erowtv.constants.Constants;
 import graver.erowtv.constants.Enumerations.PlayerDirection;
+import graver.erowtv.constants.ErowTVConstants;
 import org.bukkit.entity.Player;
 
 public final class PlayerTools {
@@ -19,9 +19,9 @@ public final class PlayerTools {
 	 * @return rotation float
 	 */
 	public static float getPlayerRotation(Player player) {
-		float rotation = (player.getLocation().getYaw() - Constants.ROTATION_90_0_F) % Constants.ROTATION_360_0_F;
-		if (rotation < Constants.ROTATION_0_0_F) {
-			rotation += Constants.ROTATION_360_0_F;
+		float rotation = (player.getLocation().getYaw() - ErowTVConstants.ROTATION_90_0_F) % ErowTVConstants.ROTATION_360_0_F;
+		if (rotation < ErowTVConstants.ROTATION_0_0_F) {
+			rotation += ErowTVConstants.ROTATION_360_0_F;
 		}
 		return rotation;
 	}
@@ -37,11 +37,11 @@ public final class PlayerTools {
 	public static boolean isDirectionValid(Player player) {
 		float rotation = getPlayerRotation(player);
 
-		if ((Constants.ROTATION_67_5_F <= rotation && rotation < Constants.ROTATION_112_5_F) || // NORTH
-				(Constants.ROTATION_157_5_F <= rotation && rotation < Constants.ROTATION_202_5_F) || // EAST
-				(Constants.ROTATION_247_5_F <= rotation && rotation < Constants.ROTATION_292_5_F) || // SOUTH
-				(Constants.ROTATION_337_5_F <= rotation && rotation < Constants.ROTATION_360_0_F) || // WEST
-				(Constants.ROTATION_0_0_F <= rotation && rotation < Constants.ROTATION_22_5_F)) { // ALSO WEST
+		if ((ErowTVConstants.ROTATION_67_5_F <= rotation && rotation < ErowTVConstants.ROTATION_112_5_F) || // NORTH
+				(ErowTVConstants.ROTATION_157_5_F <= rotation && rotation < ErowTVConstants.ROTATION_202_5_F) || // EAST
+				(ErowTVConstants.ROTATION_247_5_F <= rotation && rotation < ErowTVConstants.ROTATION_292_5_F) || // SOUTH
+				(ErowTVConstants.ROTATION_337_5_F <= rotation && rotation < ErowTVConstants.ROTATION_360_0_F) || // WEST
+				(ErowTVConstants.ROTATION_0_0_F <= rotation && rotation < ErowTVConstants.ROTATION_22_5_F)) { // ALSO WEST
 			return true;
 		} else {
 			return false;
@@ -74,23 +74,23 @@ public final class PlayerTools {
 	public static PlayerDirection getPlayerDirection(Player player) {
 		float rotation = getPlayerRotation(player);
 
-		if (Constants.ROTATION_0_0_F <= rotation && rotation < Constants.ROTATION_22_5_F) {
+		if (ErowTVConstants.ROTATION_0_0_F <= rotation && rotation < ErowTVConstants.ROTATION_22_5_F) {
 			return PlayerDirection.WEST;
-		} else if (Constants.ROTATION_22_5_F <= rotation && rotation < Constants.ROTATION_67_5_F) {
+		} else if (ErowTVConstants.ROTATION_22_5_F <= rotation && rotation < ErowTVConstants.ROTATION_67_5_F) {
 			return PlayerDirection.NORTHWEST;
-		} else if (Constants.ROTATION_67_5_F <= rotation && rotation < Constants.ROTATION_112_5_F) {
+		} else if (ErowTVConstants.ROTATION_67_5_F <= rotation && rotation < ErowTVConstants.ROTATION_112_5_F) {
 			return PlayerDirection.NORTH;
-		} else if (Constants.ROTATION_112_5_F <= rotation && rotation < Constants.ROTATION_157_5_F) {
+		} else if (ErowTVConstants.ROTATION_112_5_F <= rotation && rotation < ErowTVConstants.ROTATION_157_5_F) {
 			return PlayerDirection.NORTHEAST;
-		} else if (Constants.ROTATION_157_5_F <= rotation && rotation < Constants.ROTATION_202_5_F) {
+		} else if (ErowTVConstants.ROTATION_157_5_F <= rotation && rotation < ErowTVConstants.ROTATION_202_5_F) {
 			return PlayerDirection.EAST;
-		} else if (Constants.ROTATION_202_5_F <= rotation && rotation < Constants.ROTATION_247_5_F) {
+		} else if (ErowTVConstants.ROTATION_202_5_F <= rotation && rotation < ErowTVConstants.ROTATION_247_5_F) {
 			return PlayerDirection.SOUTHEAST;
-		} else if (Constants.ROTATION_247_5_F <= rotation && rotation < Constants.ROTATION_292_5_F) {
+		} else if (ErowTVConstants.ROTATION_247_5_F <= rotation && rotation < ErowTVConstants.ROTATION_292_5_F) {
 			return PlayerDirection.SOUTH;
-		} else if (Constants.ROTATION_292_5_F <= rotation && rotation < Constants.ROTATION_337_5_F) {
+		} else if (ErowTVConstants.ROTATION_292_5_F <= rotation && rotation < ErowTVConstants.ROTATION_337_5_F) {
 			return PlayerDirection.SOUTHWEST;
-		} else if (Constants.ROTATION_337_5_F <= rotation && rotation < Constants.ROTATION_360_0_F) {
+		} else if (ErowTVConstants.ROTATION_337_5_F <= rotation && rotation < ErowTVConstants.ROTATION_360_0_F) {
 			return PlayerDirection.WEST;
 		} else {
 			return PlayerDirection.LOST;
@@ -109,14 +109,14 @@ public final class PlayerTools {
 		float rotation = getPlayerRotation(player);
 
 		//West starts at 0.0, so we need to check between 315.0 and 360.0 + 0.0 and 45.0 to get an angle of 90 degrees
-		if (Constants.SIMPLE_ROTATION_315_F <= rotation && rotation < Constants.SIMPLE_ROTATION_360_F ||
-				Constants.SIMPLE_ROTATION_0_0_F <= rotation && rotation < Constants.SIMPLE_ROTATION_45_F) {
+		if (ErowTVConstants.SIMPLE_ROTATION_315_F <= rotation && rotation < ErowTVConstants.SIMPLE_ROTATION_360_F ||
+				ErowTVConstants.SIMPLE_ROTATION_0_0_F <= rotation && rotation < ErowTVConstants.SIMPLE_ROTATION_45_F) {
 			return PlayerDirection.WEST;
-		} else if (Constants.SIMPLE_ROTATION_45_F <= rotation && rotation < Constants.SIMPLE_ROTATION_135_F) {
+		} else if (ErowTVConstants.SIMPLE_ROTATION_45_F <= rotation && rotation < ErowTVConstants.SIMPLE_ROTATION_135_F) {
 			return PlayerDirection.NORTH;
-		} else if (Constants.SIMPLE_ROTATION_135_F <= rotation && rotation < Constants.SIMPLE_ROTATION_225_F) {
+		} else if (ErowTVConstants.SIMPLE_ROTATION_135_F <= rotation && rotation < ErowTVConstants.SIMPLE_ROTATION_225_F) {
 			return PlayerDirection.EAST;
-		} else if (Constants.SIMPLE_ROTATION_225_F <= rotation && rotation < Constants.SIMPLE_ROTATION_315_F) {
+		} else if (ErowTVConstants.SIMPLE_ROTATION_225_F <= rotation && rotation < ErowTVConstants.SIMPLE_ROTATION_315_F) {
 			return PlayerDirection.SOUTH;
 		} else {
 			return PlayerDirection.LOST;

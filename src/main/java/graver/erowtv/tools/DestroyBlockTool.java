@@ -1,6 +1,6 @@
 package graver.erowtv.tools;
 
-import graver.erowtv.constants.Constants;
+import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
 import graver.erowtv.main.ErowTV;
 import org.bukkit.Material;
@@ -37,12 +37,12 @@ public final class DestroyBlockTool {
 	 */
 	public static void destroyFromToBlocks(Player player, Block clickedBlock, List<Integer> fromBlock, List<Integer> toBlock) {
 		//We need to check if the blocks are in the same world.
-		if(fromBlock.get(Constants.BLOCK_POS_WORLD) == toBlock.get(Constants.BLOCK_POS_WORLD)) {
-			Block blockFrom = player.getWorld().getBlockAt(fromBlock.get(Constants.BLOCK_POS_X),
-					fromBlock.get(Constants.BLOCK_POS_Y),fromBlock.get(Constants.BLOCK_POS_Z));
+		if(fromBlock.get(ErowTVConstants.BLOCK_POS_WORLD) == toBlock.get(ErowTVConstants.BLOCK_POS_WORLD)) {
+			Block blockFrom = player.getWorld().getBlockAt(fromBlock.get(ErowTVConstants.BLOCK_POS_X),
+					fromBlock.get(ErowTVConstants.BLOCK_POS_Y),fromBlock.get(ErowTVConstants.BLOCK_POS_Z));
 			
-			Block blockTo = player.getWorld().getBlockAt(toBlock.get(Constants.BLOCK_POS_X),
-					toBlock.get(Constants.BLOCK_POS_Y),toBlock.get(Constants.BLOCK_POS_Z));
+			Block blockTo = player.getWorld().getBlockAt(toBlock.get(ErowTVConstants.BLOCK_POS_X),
+					toBlock.get(ErowTVConstants.BLOCK_POS_Y),toBlock.get(ErowTVConstants.BLOCK_POS_Z));
 
 			//Destroy block has nothing to click on (no Sign), so use Player's Facing direction. ClickedBlock = NULL
 			int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, null, player.getFacing());
@@ -57,13 +57,13 @@ public final class DestroyBlockTool {
 				destroyBlocksAtAllPositions(player, directions);
 				
 				//Set blocks and the sign to AIR
-				blockFrom.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
-				blockTo.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
+				blockFrom.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
+				blockTo.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
 				clickedBlock.setType(Material.AIR);
 
 				//Remove the memory after the copy
-				ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION);
-				ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_DESTROY_TO_POSITION);
+				ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION);
+				ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION);
 			} else {
 				player.sendMessage("Couldnt find the correct directions to destory blocks FROM and TO");
 			}
@@ -81,7 +81,7 @@ public final class DestroyBlockTool {
 	 */
 	public static void destroyBlocksAtAllPositions(Player player, int[] positions) {	
 //		startX, startY, startZ, depth, (height+1), width, xas, zas, isNorthSouth };
-		boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == Constants.IS_NORTH_SOUTH);
+		boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
 		int startX = positions[ARRAY_PLACEMENT_POS_STARTX];
 		int startY = positions[ARRAY_PLACEMENT_POS_STARTY];
 		int startZ = positions[ARRAY_PLACEMENT_POS_STARTZ];
@@ -112,7 +112,7 @@ public final class DestroyBlockTool {
 					if(block.getType() != Material.AIR) {
 						//Only show explosion with blocks that are not AIR
 						block.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, block.getLocation(), 3);
-						block.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
+						block.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
 					}
 				}
 			}

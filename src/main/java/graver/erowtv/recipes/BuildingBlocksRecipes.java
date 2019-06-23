@@ -122,42 +122,8 @@ public final class BuildingBlocksRecipes implements Enumerations {
 	}
 
 	/**
-	 * Create recipe for a paste sign.
-	 * Right-Click copy a Paste Sign's paste what was saved to a yml with the Copy blocks.
-	 *
-	 * @param key with NamespacedKey
-	 * @return ShapedRecipe
-	 */
-	public static ShapedRecipe createPasteSign(NamespacedKey key) {
-		ItemStack itemStack = new ItemStack(Material.SPRUCE_SIGN, 1);
-
-		//Get meta from item so we can change it
-		ItemMeta meta = itemStack.getItemMeta();
-		meta.setDisplayName(CustomItem.PASTE_SIGN.getCustomItemName());
-		//Add glow to item
-		meta.addEnchant(Enchantment.LUCK, 1, true);
-
-		//Add item lore to overwrite default enchantment text
-		List<String> itemLore = new ArrayList<String>();
-		itemLore.add(CustomItem.PASTE_SIGN.getLore());
-		meta.setLore(itemLore);
-		// Set the meta of the block to the edited meta.
-		itemStack.setItemMeta(meta);
-
-		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
-
-		//Set shape and ingredients
-		recipe.shape("SCS", "C C", "SCS");
-
-		recipe.setIngredient('S', Material.SPRUCE_SIGN);
-		recipe.setIngredient('C', Material.COMPASS);
-
-		return recipe;
-	}
-
-	/**
-	 * Create recipe for a copy FROM block (also needs a copy TO block).
-	 * With copy FROM and TO blocks you can calculate x, y and z to copy the block within.
+	 * Create recipe for a destroy FROM block (also needs a destroy TO block).
+	 * With destroy FROM and TO blocks you can calculate x, y and z to destroy the block within.
 	 *
 	 * @param key with NamespacedKey
 	 * @return ShapedRecipe
@@ -190,8 +156,8 @@ public final class BuildingBlocksRecipes implements Enumerations {
 	}
 
 	/**
-	 * Create recipe for a copy TO block (also needs a copy FROM block).
-	 * With copy FROM and TO blocks you can calculate x, y and z to copy the block within.
+	 * Create recipe for a destroy TO block (also needs a destroy FROM block).
+	 * With destroy FROM and TO blocks you can calculate x, y and z to destroy the block within.
 	 *
 	 * @param key with NamespacedKey
 	 * @return ShapedRecipe

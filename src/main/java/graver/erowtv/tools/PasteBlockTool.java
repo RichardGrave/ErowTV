@@ -1,7 +1,7 @@
 package graver.erowtv.tools;
 
-import graver.erowtv.constants.Constants;
 import graver.erowtv.constants.Enumerations.DirectionalRotation;
+import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
 import graver.erowtv.main.ErowTV;
 import org.bukkit.Material;
@@ -39,8 +39,8 @@ public final class PasteBlockTool {
 	 */
 	public static void pasteBlocks(Player player, Block clickedBlock, Sign sign, String fileName, List<Integer> pasteBlock) {
 		//We need to check if the blocks are in the same world.
-		Block blockTo = player.getWorld().getBlockAt(pasteBlock.get(Constants.BLOCK_POS_X),
-				pasteBlock.get(Constants.BLOCK_POS_Y),pasteBlock.get(Constants.BLOCK_POS_Z));
+		Block blockTo = player.getWorld().getBlockAt(pasteBlock.get(ErowTVConstants.BLOCK_POS_X),
+				pasteBlock.get(ErowTVConstants.BLOCK_POS_Y),pasteBlock.get(ErowTVConstants.BLOCK_POS_Z));
 
 		if(fileName == null || fileName.isEmpty()) {
 			//Get file name if no filename is given
@@ -75,11 +75,11 @@ public final class PasteBlockTool {
 
 					pasteBlocksAtAllPositions(player, fileName, directions, blockFace);
 					//Set blocks and the sign to AIR
-					blockTo.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
+					blockTo.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
 
 		
 					//Remove the memory after the copy
-					ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_PASTE_POSITION);
+					ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_POSITION);
 				} else {
 					player.sendMessage("Couldnt find the correct directions for pasting");
 				}
@@ -100,7 +100,7 @@ public final class PasteBlockTool {
 	@SuppressWarnings("deprecation")
 	public static void pasteBlocksAtAllPositions(Player player, String fileName, int[] positions, BlockFace blockFace) {		
 //		startX, startY, startZ, xas, zas, isNorthSouth };
-		boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == Constants.IS_NORTH_SOUTH);
+		boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
 		int startX = positions[ARRAY_PLACEMENT_POS_STARTX];
 		int startY = positions[ARRAY_PLACEMENT_POS_STARTY];
 		int startZ = positions[ARRAY_PLACEMENT_POS_STARTZ];
@@ -111,12 +111,12 @@ public final class PasteBlockTool {
 		File blockYml = new File(ErowTV.pluginFolder + fileName + ".yml");
 		FileConfiguration blockConfig = YamlConfiguration.loadConfiguration(blockYml);
 		
-		if(!blockConfig.contains(Constants.YML_D_H_W_KEY)) {
+		if(!blockConfig.contains(ErowTVConstants.YML_D_H_W_KEY)) {
 			player.sendMessage("Cant find depth, height and widht in yml file");
 			return;
 		};
 		
-		String[] dhw = blockConfig.get(Constants.YML_D_H_W_KEY).toString().split(Constants.SEP_D_H_W);
+		String[] dhw = blockConfig.get(ErowTVConstants.YML_D_H_W_KEY).toString().split(ErowTVConstants.SEP_D_H_W);
 		if(dhw.length != 4) {
 			player.sendMessage("String doesnt contain depth, height and widht in yml file");
 			return;
@@ -143,14 +143,14 @@ public final class PasteBlockTool {
 					return;
 				};
 				//Use \\ with SEP_BLOCK to use correct split for '$'
-				String[] blockRow = (blockConfig.get(rowNum+"").toString()).split("\\"+Constants.SEP_BLOCK);
+				String[] blockRow = (blockConfig.get(rowNum+"").toString()).split("\\"+ ErowTVConstants.SEP_BLOCK);
 				//Is needed for (iterD * zas) or (iterD * xas) in for loop down below
 				int realDepth = 0;
 								
 				for (int iterD = 0; iterD < blockRow.length; iterD++) {
 					int placeX, placeZ;
 					
-					String[] blockData = blockRow[iterD].split(Constants.SEP_BLOCK_DATA);
+					String[] blockData = blockRow[iterD].split(ErowTVConstants.SEP_BLOCK_DATA);
 					
 					//Split makes first array position empty if there is no %number infront of the separator '&'
 					//If isMulti then get number of blocks as Integer. Else its only 1 block.

@@ -8,11 +8,11 @@ public interface Enumerations {
 	
 	public static enum PlayerDirection {
 		
-		NORTH(Constants.ENUM_PLAYER_DIRECTION_NORTH), NORTHEAST(Constants.ENUM_PLAYER_DIRECTION_NORTHEAST),
-		EAST(Constants.ENUM_PLAYER_DIRECTION_EAST), SOUTHEAST(Constants.ENUM_PLAYER_DIRECTION_SOUTHEAST),
-		SOUTH(Constants.ENUM_PLAYER_DIRECTION_SOUTH), SOUTHWEST(Constants.ENUM_PLAYER_DIRECTION_SOUTHWEST),
-		WEST(Constants.ENUM_PLAYER_DIRECTION_WEST), NORTHWEST(Constants.ENUM_PLAYER_DIRECTION_NORTHWEST),
-		LOST(Constants.ENUM_PLAYER_DIRECTION_LOST);
+		NORTH(ErowTVConstants.ENUM_PLAYER_DIRECTION_NORTH), NORTHEAST(ErowTVConstants.ENUM_PLAYER_DIRECTION_NORTHEAST),
+		EAST(ErowTVConstants.ENUM_PLAYER_DIRECTION_EAST), SOUTHEAST(ErowTVConstants.ENUM_PLAYER_DIRECTION_SOUTHEAST),
+		SOUTH(ErowTVConstants.ENUM_PLAYER_DIRECTION_SOUTH), SOUTHWEST(ErowTVConstants.ENUM_PLAYER_DIRECTION_SOUTHWEST),
+		WEST(ErowTVConstants.ENUM_PLAYER_DIRECTION_WEST), NORTHWEST(ErowTVConstants.ENUM_PLAYER_DIRECTION_NORTHWEST),
+		LOST(ErowTVConstants.ENUM_PLAYER_DIRECTION_LOST);
 
 		private final String direction;
 
@@ -37,6 +37,7 @@ public interface Enumerations {
 		COPY_TO_BLOCK("Copy TO block",  "You also need a Copy FROM block"),
 		PASTE_BLOCK("Paste block", "Paste whatever you want, how often you want."),
 		PASTE_SIGN("Paste sign", "Please SIGN this contract and I will build it"),
+		CLOCK_SIGN("Clock sign", "Time is ticking"),
 		DESTROY_FROM_BLOCK("Destroy FROM block", "You also need a Destroy TO block"),
 		DESTROY_TO_BLOCK("Destroy TO block",  "You also need a Destroy FROM block"),
 		NO_RECIPE("No Recipe", "");
@@ -145,37 +146,37 @@ public interface Enumerations {
 		
 		public static BlockFace getBlockFaceByRotation(int rotation) {
 			switch(rotation) {
-			case Constants.FACING_NORTH:
+			case ErowTVConstants.FACING_NORTH:
 				return BlockFace.NORTH;
-			case Constants.FACING_NORTH_NORTH_EAST:
+			case ErowTVConstants.FACING_NORTH_NORTH_EAST:
 				return BlockFace.NORTH_NORTH_EAST;
-			case Constants.FACING_NORTH_EAST:
+			case ErowTVConstants.FACING_NORTH_EAST:
 				return BlockFace.NORTH_EAST;
-			case Constants.FACING_EAST_NORTH_EAST:
+			case ErowTVConstants.FACING_EAST_NORTH_EAST:
 				return BlockFace.EAST_NORTH_EAST;
-			case Constants.FACING_EAST:
+			case ErowTVConstants.FACING_EAST:
 				return BlockFace.EAST;
-			case Constants.FACING_EAST_SOUTH_EAST:
+			case ErowTVConstants.FACING_EAST_SOUTH_EAST:
 				return BlockFace.EAST_SOUTH_EAST;
-			case Constants.FACING_SOUTH_EAST:
+			case ErowTVConstants.FACING_SOUTH_EAST:
 				return BlockFace.SOUTH_EAST;
-			case Constants.FACING_SOUTH_SOUTH_EAST:
+			case ErowTVConstants.FACING_SOUTH_SOUTH_EAST:
 				return BlockFace.SOUTH_SOUTH_EAST;
-			case Constants.FACING_SOUTH:
+			case ErowTVConstants.FACING_SOUTH:
 				return BlockFace.SOUTH;
-			case Constants.FACING_SOUTH_SOUTH_WEST:
+			case ErowTVConstants.FACING_SOUTH_SOUTH_WEST:
 				return BlockFace.SOUTH_SOUTH_WEST;
-			case Constants.FACING_SOUTH_WEST:
+			case ErowTVConstants.FACING_SOUTH_WEST:
 				return BlockFace.SOUTH_WEST;
-			case Constants.FACING_WEST_SOUTH_WEST:
+			case ErowTVConstants.FACING_WEST_SOUTH_WEST:
 				return BlockFace.WEST_SOUTH_WEST;
-			case Constants.FACING_WEST:
+			case ErowTVConstants.FACING_WEST:
 				return BlockFace.WEST;
-			case Constants.FACING_WEST_NORTH_WEST:
+			case ErowTVConstants.FACING_WEST_NORTH_WEST:
 				return BlockFace.WEST_NORTH_WEST;
-			case Constants.FACING_NORTH_WEST:
+			case ErowTVConstants.FACING_NORTH_WEST:
 				return BlockFace.NORTH_WEST;
-			case Constants.FACING_NORTH_NORTH_WEST:
+			case ErowTVConstants.FACING_NORTH_NORTH_WEST:
 				return BlockFace.NORTH_NORTH_WEST;
 			default:
 				return BlockFace.SELF;	

@@ -1,12 +1,12 @@
 package graver.erowtv.tools;
 
-import graver.erowtv.constants.Enumerations;
-import graver.erowtv.player.PlayerTools;
+import graver.erowtv.constants.ErowTVConstants;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
-public final class NumbersTool {
+public final class NumbersTool implements ErowTVConstants {
 
     private NumbersTool() {
     }
@@ -53,60 +53,35 @@ public final class NumbersTool {
 //
 //	}
 
-//	public static void rgMakeBigNumber(Player player, int number, int x, int y, int z) {
-//		 var isNorthSouth = (direction == rgDirections.NORTH || direction ==
-//		 rgDirections.SOUTH ? true : false)
-//		 var startNum = (number.length - 1)
-//
-//		 for(var i = startNum; i >= 0 ; i--){
-//
-//		 switch (direction) {
-//		 case rgDirections.WEST:
-//		 z = z + numWidth
-//		 break
-//		 case rgDirections.EAST:
-//		 z = z - numWidth
-//		 break
-//		 case rgDirections.NORTH:
-//		 x = x - numWidth;
-//		 break
-//		 case rgDirections.SOUTH:
-//		 x = x + numWidth;
-//		 break
-//		 }
-//
-//		 rgMakeNumber(world, number[i], x, y, z, direction)
-//		 }
-//	}
-//				player.sendMessage("numberPieces[reverseIter]: " + numberPieces[reverseIter]);
 
     /**
      * Build entire number
      *
      * @param player
      * @param bigNumber
-     * @param clickedBlock
-     * @param customDirection
+     * @param block
+     * @param blockFace
      */
-    public static void buildEntireNumber(Player player, String bigNumber, Block clickedBlock, Enumerations.PlayerDirection customDirection) {
-        char[] numberPieces = bigNumber.toCharArray();
-//		player.sendMessage("BigNumber: " + bigNumber.toString());
+    public static void buildEntireNumber(Player player, String bigNumber, Block block, BlockFace blockFace) {
+        if(isDebug) {
+            player.sendMessage("BigNumber: " + bigNumber);
+        }
 
-        Block startingPostionForNumber = clickedBlock;
+        char[] numberPieces = bigNumber.toCharArray();
+        Block startingPostionForNumber = block;
 
         //Has to contain numbers else skip
         if (numberPieces.length > 0) {
             for (int reverseIter = (numberPieces.length - 1); reverseIter >= 0; reverseIter--) {
                 try {
-                    int numWithForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter], startingPostionForNumber, customDirection);
+                    int numWithForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter], startingPostionForNumber, blockFace);
 
                     int yas = startingPostionForNumber.getY();
                     int xas = startingPostionForNumber.getX();
                     int zas = startingPostionForNumber.getZ();
 
-                    // Even with clickedBlock we need to use the player direction OR a customDirection
-                    Enumerations.PlayerDirection direction = (customDirection != Enumerations.PlayerDirection.LOST ? customDirection : PlayerTools.getPlayerDirection(player));
-                    switch (direction) {
+                    //Use blockFace to determine the direction
+                    switch (blockFace) {
                         case NORTH:
                             xas = xas - numWithForNext;
                             break;
@@ -126,7 +101,7 @@ public final class NumbersTool {
                     //Position for next number
                     startingPostionForNumber = player.getWorld().getBlockAt(xas, yas, zas);
                 } catch (Exception ex) {
-                    player.sendMessage("[NumbersTool][buildEntireNumber][Not a number]");
+                    player.sendMessage("[NumbersTool][buildEntireNumber][Cant build char]");
                 }
             }
         }
@@ -138,58 +113,60 @@ public final class NumbersTool {
      *
      * @param player
      * @param number
-     * @param clickedBlock
-     * @param customDirection
+     * @param block
+     * @param blockFace
      */
-    public static int getPatternForNumberAndBuild(Player player, char number, Block clickedBlock, Enumerations.PlayerDirection customDirection) {
+    public static int getPatternForNumberAndBuild(Player player, char number, Block block, BlockFace blockFace) {
         //Yas + 1 to place on top of the block
-        int yas = clickedBlock.getY() + 1;
-        int xas = clickedBlock.getX();
-        int zas = clickedBlock.getZ();
+        int yas = block.getY() + 1;
+        int xas = block.getX();
+        int zas = block.getZ();
 
-        player.sendMessage("Number: " + number);
+        if(isDebug) {
+         player.sendMessage("Number: " + number);
+        }
 
         switch (number) {
             case '0':
-                buildSingleNumber(player, numZero, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numZero, xas, yas, zas, blockFace);
                 return numWidth;
             case '1':
-                buildSingleNumber(player, numOne, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numOne, xas, yas, zas, blockFace);
                 return numWidth;
             case '2':
-                buildSingleNumber(player, numTwo, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numTwo, xas, yas, zas, blockFace);
                 return numWidth;
             case '3':
-                buildSingleNumber(player, numThree, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numThree, xas, yas, zas, blockFace);
                 return numWidth;
             case '4':
-                buildSingleNumber(player, numFour, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numFour, xas, yas, zas, blockFace);
                 return numWidth;
             case '5':
-                buildSingleNumber(player, numFive, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numFive, xas, yas, zas, blockFace);
                 return numWidth;
             case '6':
-                buildSingleNumber(player, numSix, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numSix, xas, yas, zas, blockFace);
                 return numWidth;
             case '7':
-                buildSingleNumber(player, numSeven, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numSeven, xas, yas, zas, blockFace);
                 return numWidth;
             case '8':
-                buildSingleNumber(player, numEight, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numEight, xas, yas, zas, blockFace);
                 return numWidth;
             case '9':
-                buildSingleNumber(player, numNine, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numNine, xas, yas, zas, blockFace);
                 return numWidth;
             case '.':
-                buildSingleNumber(player, dotChar, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, dotChar, xas, yas, zas, blockFace);
                 return dotWidth;
             case ':':
-                buildSingleNumber(player, doubleDotChar, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, doubleDotChar, xas, yas, zas, blockFace);
                 return dotWidth;
 
                 //Does a AIR number, so you'l see nothing
             default:
-                buildSingleNumber(player, numClear, xas, yas, zas, customDirection);
+                buildSingleNumber(player, block, numClear, xas, yas, zas, blockFace);
                 return numWidth;
         }
     }
@@ -198,13 +175,14 @@ public final class NumbersTool {
      * Use the pattern to build a given number on the position
      *
      * @param player
+     * @param block
      * @param numberPattern
      * @param xas
      * @param yas
      * @param zas
-     * @param customDirection
+     * @param blockFace
      */
-    public static void buildSingleNumber(Player player, String[] numberPattern, int xas, int yas, int zas, Enumerations.PlayerDirection customDirection) {
+    public static void buildSingleNumber(Player player, Block block, String[] numberPattern, int xas, int yas, int zas, BlockFace blockFace) {
         int tmpYas = 0;
 
         for (String pattern : numberPattern) {
@@ -212,17 +190,16 @@ public final class NumbersTool {
             int tmpXas = 0;
             int placeY = yas - tmpYas;
 
-            player.sendMessage("Pattern: " + pattern);
+            if(isDebug) {
+                player.sendMessage("Pattern: " + pattern);
+            }
 
             for (int iter = 0; iter < pattern.length(); iter++) {
                 int placeZ = zas;
                 int placeX = xas;
                 int isNorthSouth = 0;
 
-                // Even with clickedBlock we need to use the player direction OR a customDirection
-                Enumerations.PlayerDirection direction = (customDirection != Enumerations.PlayerDirection.LOST ? customDirection : PlayerTools.getPlayerDirection(player));
-
-                switch (direction) {
+                switch (blockFace) {
                     case NORTH:
                         placeX = xas + tmpXas;
                         isNorthSouth = 1;
@@ -237,26 +214,17 @@ public final class NumbersTool {
                     case WEST:
                         placeZ = zas - tmpZas;
                         break;
-                    case NORTHEAST:
-                        break;
-                    case NORTHWEST:
-                        break;
-                    case SOUTHEAST:
-                        break;
-                    case SOUTHWEST:
-                        break;
-                    case LOST:
-                        break;
                     default:
                         break;
                 }
 
-                Block block = player.getWorld().getBlockAt(placeX, placeY, placeZ);
+                Block blockAt = player.getWorld().getBlockAt(placeX, placeY, placeZ);
 
                 if (pattern.charAt(iter) == 'x') {
-                    block.setType(Material.WHITE_WOOL, false);
+                    Material material = block.getBlockData().getMaterial();
+                    blockAt.setType(material, false);
                 } else {
-                    block.setType(Material.AIR, false);
+                    blockAt.setType(Material.AIR, false);
                 }
 
                 tmpZas = tmpZas + (isNorthSouth == 1 ? 0 : 1);

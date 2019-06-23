@@ -7,10 +7,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.Channel;
 import com.google.api.services.youtube.model.ChannelListResponse;
-import graver.erowtv.constants.Enumerations;
-import graver.erowtv.player.PlayerTools;
 import graver.erowtv.tools.NumbersTool;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -36,13 +35,13 @@ public class YoutubeSubCounter extends BukkitRunnable{
 
         private Player player;
         private Block placedBlock;
-        private Enumerations.PlayerDirection direction;
+        private BlockFace blockFace;
         private int checkCounter = 0;
 
-        public YoutubeSubCounter(Player player, Block placedBlock) {
+        public YoutubeSubCounter(Player player, Block placedBlock, BlockFace blockFace) {
             this.player = player;
             this.placedBlock = placedBlock;
-            this.direction = PlayerTools.getPlayerDirection(player);
+            this.blockFace = blockFace;
         }
 
         //TODO:RG Kleur van blokken laten bepalen aan de hand van aantal subscribers
@@ -73,8 +72,7 @@ public class YoutubeSubCounter extends BukkitRunnable{
 
                     //Create number for how many subscribers we have
                     NumbersTool.buildEntireNumber(player, channel.getStatistics().getSubscriberCount().toString(),
-                            placedBlock, direction);
-
+                            placedBlock, blockFace);
                 }
                 this.cancel();
                 checkCounter++;

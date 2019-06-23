@@ -1,6 +1,6 @@
 package graver.erowtv.tools;
 
-import graver.erowtv.constants.Constants;
+import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
 import graver.erowtv.main.ErowTV;
 import org.bukkit.Material;
@@ -38,12 +38,12 @@ public final class CopyBlockTool {
 	 */
 	public static void copyFromAndToBlocks(Player player, Block clickedBlock, Sign wallSign, List<Integer> fromBlock, List<Integer> toBlock) {
 		//We need to check if the blocks are in the same world.
-		if(fromBlock.get(Constants.BLOCK_POS_WORLD) == toBlock.get(Constants.BLOCK_POS_WORLD)) {
-			Block blockFrom = player.getWorld().getBlockAt(fromBlock.get(Constants.BLOCK_POS_X),
-					fromBlock.get(Constants.BLOCK_POS_Y),fromBlock.get(Constants.BLOCK_POS_Z));
+		if(fromBlock.get(ErowTVConstants.BLOCK_POS_WORLD) == toBlock.get(ErowTVConstants.BLOCK_POS_WORLD)) {
+			Block blockFrom = player.getWorld().getBlockAt(fromBlock.get(ErowTVConstants.BLOCK_POS_X),
+					fromBlock.get(ErowTVConstants.BLOCK_POS_Y),fromBlock.get(ErowTVConstants.BLOCK_POS_Z));
 			
-			Block blockTo = player.getWorld().getBlockAt(toBlock.get(Constants.BLOCK_POS_X),
-					toBlock.get(Constants.BLOCK_POS_Y),toBlock.get(Constants.BLOCK_POS_Z));
+			Block blockTo = player.getWorld().getBlockAt(toBlock.get(ErowTVConstants.BLOCK_POS_X),
+					toBlock.get(ErowTVConstants.BLOCK_POS_Y),toBlock.get(ErowTVConstants.BLOCK_POS_Z));
 
 //			org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)wallSign.getData();
 			
@@ -63,13 +63,13 @@ public final class CopyBlockTool {
 					copyBlocksAtAllPositions(player, fileName, directions);
 			
 					//Set blocks and the sign to AIR
-					blockFrom.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
-					blockTo.setType(Material.AIR, Constants.DO_NOT_APPLY_PHYSICS);
+					blockFrom.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
+					blockTo.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
 					wallSign.getBlock().setType(Material.AIR);
 		
 					//Remove the memory after the copy
-					ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_COPY_FROM_POSITION);
-					ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_COPY_TO_POSITION);
+					ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_COPY_FROM_POSITION);
+					ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_COPY_TO_POSITION);
 				} else {
 					player.sendMessage("Couldnt find the correct directions to copy from and to");
 				}
@@ -90,7 +90,7 @@ public final class CopyBlockTool {
 	@SuppressWarnings("deprecation")
 	public static void copyBlocksAtAllPositions(Player player, String fileName, int[] positions) {		
 //		startX, startY, startZ, depth, (height+1), width, xas, zas, isNorthSouth };
-		boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == Constants.IS_NORTH_SOUTH);
+		boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
 		int startX = positions[ARRAY_PLACEMENT_POS_STARTX];
 		int startY = positions[ARRAY_PLACEMENT_POS_STARTY];
 		int startZ = positions[ARRAY_PLACEMENT_POS_STARTZ];
@@ -108,8 +108,8 @@ public final class CopyBlockTool {
 		int rowNum = 0;
 		
 		//first save depth, height and width
-		blockRowData.put(Constants.YML_D_H_W_KEY, depth + Constants.SEP_D_H_W + height +
-						 Constants.SEP_D_H_W + width + Constants.SEP_D_H_W + facingDirection);
+		blockRowData.put(ErowTVConstants.YML_D_H_W_KEY, depth + ErowTVConstants.SEP_D_H_W + height +
+						 ErowTVConstants.SEP_D_H_W + width + ErowTVConstants.SEP_D_H_W + facingDirection);
 		
 		//Copy all the blocks that are found
 		for (int iterH = 0; iterH < height; iterH++) {
@@ -141,8 +141,8 @@ public final class CopyBlockTool {
 					String[] directionalData = BlockTools.getDataForBlockType(player, block);
 					
 					//Deprecated but needed
-					String blockData = block.getBlockData().getMaterial() + Constants.SEP_BLOCK_DATA + block.getState().getData().getData()
-							+ Constants.SEP_BLOCK_DATA + (directionalData.length > 0 ? directionalData[0] : "") + Constants.SEP_BLOCK;
+					String blockData = block.getBlockData().getMaterial() + ErowTVConstants.SEP_BLOCK_DATA + block.getState().getData().getData()
+							+ ErowTVConstants.SEP_BLOCK_DATA + (directionalData.length > 0 ? directionalData[0] : "") + ErowTVConstants.SEP_BLOCK;
 					
 					if(!tmpBlockData.isEmpty()) {
 						//Check if blocks are the same, if so then counter++ and go to the next block
@@ -151,12 +151,12 @@ public final class CopyBlockTool {
 						}else {
 							//save correct number of blocks
 							if(blockCounter > 1) {
-								rowData += Constants.SEP_ROW_BLOCK_COUNT + blockCounter + Constants.SEP_BLOCK_DATA + tmpBlockData;
+								rowData += ErowTVConstants.SEP_ROW_BLOCK_COUNT + blockCounter + ErowTVConstants.SEP_BLOCK_DATA + tmpBlockData;
 								//keep track of how many blocks have been saved. Needs to be the same as depth
 								totalCounter += blockCounter;
 							}else {
 								//There is only one block, no counter needed
-								rowData += Constants.SEP_BLOCK_DATA + tmpBlockData;
+								rowData += ErowTVConstants.SEP_BLOCK_DATA + tmpBlockData;
 								totalCounter++;
 							}
 							//Next block
@@ -172,9 +172,9 @@ public final class CopyBlockTool {
 				}
 				int diffTotalCounterDepth = depth - totalCounter;
 				if(diffTotalCounterDepth > 1) {
-					rowData += Constants.SEP_ROW_BLOCK_COUNT + blockCounter + Constants.SEP_BLOCK_DATA + tmpBlockData;
+					rowData += ErowTVConstants.SEP_ROW_BLOCK_COUNT + blockCounter + ErowTVConstants.SEP_BLOCK_DATA + tmpBlockData;
 				}else {
-					rowData += Constants.SEP_BLOCK_DATA + tmpBlockData;
+					rowData += ErowTVConstants.SEP_BLOCK_DATA + tmpBlockData;
 				}
 				
 				//store rowNum (as key) with rowData

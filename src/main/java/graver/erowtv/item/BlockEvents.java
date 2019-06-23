@@ -1,9 +1,8 @@
 package graver.erowtv.item;
 
-import graver.erowtv.constants.Constants;
 import graver.erowtv.constants.Enumerations;
+import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
-import graver.erowtv.special.YoutubeSubCounter;
 import graver.erowtv.tools.PasteBlockTool;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -53,9 +52,9 @@ public class BlockEvents implements Listener {
 			if(placedBlock.getType() == Material.REDSTONE_WALL_TORCH ||
 					placedBlock.getType() == Material.REDSTONE_TORCH) {
 
-				new YoutubeSubCounter(player, placedBlock).runTaskTimer(ErowTV.getJavaPluginErowTV(), 20, (20 * 10));
-				//TODO:RG weer aanzetten
-//				SpecialBlockTools.redstoneTorchPlacedByPlayer(player, placedBlock);
+//				new YoutubeSubCounter(player, placedBlock).runTaskTimer(ErowTV.getJavaPluginErowTV(), 20, (20 * 10));
+				//TODO:YoutubeCounter verplaatsen naar TOOL_SIGN afhandeling
+				SpecialBlockTools.redstoneTorchPlacedByPlayer(player, placedBlock);
 			}else {
 				if (itemInHand != null && itemInHand.getItemMeta() != null && itemInHand.getItemMeta().getDisplayName() != null) {
 
@@ -65,8 +64,8 @@ public class BlockEvents implements Listener {
 							//If it's not a sign then use the copy action
 							//Start pasting
 							World.Environment environment = player.getWorld().getEnvironment();
-							int playersWorld = (environment == World.Environment.NETHER ? Constants.WORLD_NETHER : environment == World.Environment.NORMAL ? Constants.WORLD_NORMAL : Constants.WORLD_END);
-							List<String> fileNameCopy = (List<String>) ErowTV.readPlayerMemory(player, Constants.MEMORY_PASTE_BLOCK_ACTION);
+							int playersWorld = (environment == World.Environment.NETHER ? ErowTVConstants.WORLD_NETHER : environment == World.Environment.NORMAL ? ErowTVConstants.WORLD_NORMAL : ErowTVConstants.WORLD_END);
+							List<String> fileNameCopy = (List<String>) ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_BLOCK_ACTION);
 							//Has to have a filename else do nothing
 							if (fileNameCopy != null && !fileNameCopy.isEmpty()) {
 								List<Integer> position = Arrays.asList(playersWorld, placedBlock.getX(), placedBlock.getY(), placedBlock.getZ());

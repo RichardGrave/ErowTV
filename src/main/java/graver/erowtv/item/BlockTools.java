@@ -1,9 +1,9 @@
 package graver.erowtv.item;
 
-import graver.erowtv.constants.Constants;
 import graver.erowtv.constants.Enumerations.CustomItem;
 import graver.erowtv.constants.Enumerations.DirectionalMaterial;
 import graver.erowtv.constants.Enumerations.DirectionalRotation;
+import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.player.PlayerTools;
 import org.bukkit.Material;
@@ -51,7 +51,7 @@ public final class BlockTools {
 	public static void placeBlockByPlayerPosition(Player player, Block clickedBlock, Material material, boolean applyPhysics, int depth, int width, int height) {
 		int[] positions = getPlacementPositionByPlayer(player, clickedBlock, (material == Material.AIR));
 
-		boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == Constants.IS_NORTH_SOUTH);
+		boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
 		int startX = positions[ARRAY_PLACEMENT_POS_STARTX];
 		int startY = positions[ARRAY_PLACEMENT_POS_STARTY];
 		int startZ = positions[ARRAY_PLACEMENT_POS_STARTZ];
@@ -116,21 +116,26 @@ public final class BlockTools {
 		if (player != null) {
 			switch (CustomItem.getCustomItem(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())) {
 			case COPY_FROM_BLOCK:
-				thereCanBeOnlyOne(player, block, Constants.MEMORY_COPY_FROM_POSITION);
+				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_COPY_FROM_POSITION);
 				break;
 			case COPY_TO_BLOCK:
-				thereCanBeOnlyOne(player, block, Constants.MEMORY_COPY_TO_POSITION);
+				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_COPY_TO_POSITION);
 				break;
 			case DESTROY_FROM_BLOCK:
-				thereCanBeOnlyOne(player, block, Constants.MEMORY_DESTROY_FROM_POSITION);
+				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION);
 				break;
 			case DESTROY_TO_BLOCK:
-				thereCanBeOnlyOne(player, block, Constants.MEMORY_DESTROY_TO_POSITION);
+				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_DESTROY_TO_POSITION);
 				break;
 			case PASTE_SIGN:
 				//This is a sign, make it editable(false).
 				((Sign)block.getState()).setEditable(false);
-				thereCanBeOnlyOne(player, block, Constants.MEMORY_PASTE_POSITION);
+				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_PASTE_POSITION);
+				break;
+			case CLOCK_SIGN:
+				//This is a sign, make it editable(false).
+				((Sign)block.getState()).setEditable(false);
+				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_CLOCK_POSITION);
 				break;
 			case NO_RECIPE:
 				// TODO:RG if not found then check clickEvent from CraftBukkit
@@ -148,29 +153,33 @@ public final class BlockTools {
 	 */
 	public static void blockBreak(Player player, Block block) {
 		//Check if the broken block is COPY_FROM, if so then remove it from the memory
-		if(ErowTV.doesPlayerHaveMemory(player, Constants.MEMORY_COPY_FROM_POSITION) && 
-			isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_COPY_FROM_POSITION))){
-			ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_COPY_FROM_POSITION);
+		if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_COPY_FROM_POSITION) &&
+			isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_COPY_FROM_POSITION))){
+			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_COPY_FROM_POSITION);
 	
 		//Check if the broken block is COPY_TO, if so then remove it from the memory
-		}else if(ErowTV.doesPlayerHaveMemory(player, Constants.MEMORY_COPY_TO_POSITION) &&
-			isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_COPY_TO_POSITION))){
-			ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_COPY_TO_POSITION);
+		}else if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_COPY_TO_POSITION) &&
+			isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_COPY_TO_POSITION))){
+			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_COPY_TO_POSITION);
 			
 		//Check if the broken block is DESTROY_FROM, if so then remove it from the memory
-		}else if(ErowTV.doesPlayerHaveMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION) &&
-				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION))){
-				ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION);
+		}else if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION) &&
+				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION))){
+				ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION);
 				
 		//Check if the broken block is DESTROY_TO, if so then remove it from the memory
-		}else if(ErowTV.doesPlayerHaveMemory(player, Constants.MEMORY_DESTROY_TO_POSITION) &&
-				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_TO_POSITION))){
-			ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_DESTROY_TO_POSITION);
+		}else if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION) &&
+				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION))){
+			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION);
 			
 		//Check if the broken block is PASTE, if so then remove it from the memory
-		}else if(ErowTV.doesPlayerHaveMemory(player, Constants.MEMORY_PASTE_POSITION) &&
-				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_PASTE_POSITION))){
-			ErowTV.removeMemoryFromPlayerMemory(player, Constants.MEMORY_PASTE_POSITION);
+		}else if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_PASTE_POSITION) &&
+				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_POSITION))){
+			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_POSITION);
+		}
+		else if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_CLOCK_POSITION) &&
+				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_CLOCK_POSITION))){
+			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_CLOCK_POSITION);
 		}
 	}
 	
@@ -182,7 +191,7 @@ public final class BlockTools {
 	 * @return array startX, startY, startZ, xas(+1 or -1), zas(+1 or -1) and if isNorthSouth direction 
 	 */
 	public static int[] getPlacementPositionByPlayer(Player player, Block clickedBlock, boolean setAir) {
-		int isNorthSouth = Constants.NOT_NORTH_SOUTH;
+		int isNorthSouth = ErowTVConstants.NOT_NORTH_SOUTH;
 		int zas = 1;
 		int xas = 1;
 		
@@ -200,7 +209,7 @@ public final class BlockTools {
 		case NORTH:
 			zas = zas * -1;
 			startZ = clickedBlock != null ? startZ : startZ - 1;
-			isNorthSouth = Constants.IS_NORTH_SOUTH;
+			isNorthSouth = ErowTVConstants.IS_NORTH_SOUTH;
 			break;
 		case EAST:
 			startX = clickedBlock != null ? startX : startX + 1;
@@ -208,7 +217,7 @@ public final class BlockTools {
 		case SOUTH:
 			xas = xas * -1;
 			startZ = clickedBlock != null ? startZ : startZ + 1;
-			isNorthSouth = Constants.IS_NORTH_SOUTH;
+			isNorthSouth = ErowTVConstants.IS_NORTH_SOUTH;
 			break;
 		case WEST:
 			zas = zas * -1;
@@ -232,20 +241,20 @@ public final class BlockTools {
 	public static void thereCanBeOnlyOne(Player player, Block block, String memoryName) {
 		//Get world player is in. It is needed to store the position of the block
 		Environment environment = player.getWorld().getEnvironment();
-		int playersWorld = (environment == Environment.NETHER ? Constants.WORLD_NETHER : environment == Environment.NORMAL ? Constants.WORLD_NORMAL : Constants.WORLD_END); 
+		int playersWorld = (environment == Environment.NETHER ? ErowTVConstants.WORLD_NETHER : environment == Environment.NORMAL ? ErowTVConstants.WORLD_NORMAL : ErowTVConstants.WORLD_END);
 			
 		//Read players memory to get the position
 		List<Integer> position = (List<Integer>)ErowTV.readPlayerMemory(player, memoryName);
 
 		//Only if there is a memory present (meaning there already exits a block)
-		if(position != null && position.size() == Constants.POSITION_SIZE) {
+		if(position != null && position.size() == ErowTVConstants.POSITION_SIZE) {
 			//Check if the world the player is in is the same as the memory's position world
 			//To prevent removing a block in the wrong world that is needed
 			//And if the position isnt the same. If you remove the block by hand and replace it on this position
 			//it will immediately be replaced with AIR
-			if(position.get(Constants.BLOCK_POS_WORLD) == playersWorld && !isBlockPositionTheSame(block, position)) {
-				Block worldBlock = player.getWorld().getBlockAt(position.get(Constants.BLOCK_POS_X), position.get(Constants.BLOCK_POS_Y), position.get(Constants.BLOCK_POS_Z));
-				worldBlock.setType(Material.AIR, Constants.APPLY_PHYSICS);
+			if(position.get(ErowTVConstants.BLOCK_POS_WORLD) == playersWorld && !isBlockPositionTheSame(block, position)) {
+				Block worldBlock = player.getWorld().getBlockAt(position.get(ErowTVConstants.BLOCK_POS_X), position.get(ErowTVConstants.BLOCK_POS_Y), position.get(ErowTVConstants.BLOCK_POS_Z));
+				worldBlock.setType(Material.AIR, ErowTVConstants.APPLY_PHYSICS);
 			}
 			//Old one needs to go
 			ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
@@ -266,15 +275,15 @@ public final class BlockTools {
 	 */
 	public static boolean isBlockPositionTheSame(Block block, List<Integer> position) {
 		//If null, then position can never be the same
-		if (position != null && position.size() == Constants.POSITION_SIZE) {
+		if (position != null && position.size() == ErowTVConstants.POSITION_SIZE) {
 			// Get blocks environment (NETHER, NORMAL or END)
 			Environment environment = block.getWorld().getEnvironment();
-			int blocksWorld = (environment == Environment.NETHER ? Constants.WORLD_NETHER : environment == Environment.NORMAL ?
-					Constants.WORLD_NORMAL : Constants.WORLD_END);
+			int blocksWorld = (environment == Environment.NETHER ? ErowTVConstants.WORLD_NETHER : environment == Environment.NORMAL ?
+					ErowTVConstants.WORLD_NORMAL : ErowTVConstants.WORLD_END);
 
 			// Check if position is the same
-			if (blocksWorld == position.get(Constants.BLOCK_POS_WORLD) && block.getX() == position.get(Constants.BLOCK_POS_X) && 
-					block.getY() == position.get(Constants.BLOCK_POS_Y) && block.getZ() == position.get(Constants.BLOCK_POS_Z)) {
+			if (blocksWorld == position.get(ErowTVConstants.BLOCK_POS_WORLD) && block.getX() == position.get(ErowTVConstants.BLOCK_POS_X) &&
+					block.getY() == position.get(ErowTVConstants.BLOCK_POS_Y) && block.getZ() == position.get(ErowTVConstants.BLOCK_POS_Z)) {
 				return true;
 			}
 		}
@@ -284,16 +293,16 @@ public final class BlockTools {
 	
 	public static boolean doesBlockExist(Player player, List <Integer> position) {
 		//If null, then position can never be the same
-		if (position != null && position.size() == Constants.POSITION_SIZE) {
+		if (position != null && position.size() == ErowTVConstants.POSITION_SIZE) {
 			// Get players environment (NETHER, NORMAL or END)
 			Environment environment = player.getWorld().getEnvironment();
-			int playerWorld = (environment == Environment.NETHER ? Constants.WORLD_NETHER : environment == Environment.NORMAL ?
-					Constants.WORLD_NORMAL : Constants.WORLD_END);
+			int playerWorld = (environment == Environment.NETHER ? ErowTVConstants.WORLD_NETHER : environment == Environment.NORMAL ?
+					ErowTVConstants.WORLD_NORMAL : ErowTVConstants.WORLD_END);
 			
 			//If the world is the same, check the position
-			if (playerWorld == position.get(Constants.BLOCK_POS_WORLD)){
-				Block block = player.getWorld().getBlockAt(position.get(Constants.BLOCK_POS_X), position.get(Constants.BLOCK_POS_Y), 
-						position.get(Constants.BLOCK_POS_Z));
+			if (playerWorld == position.get(ErowTVConstants.BLOCK_POS_WORLD)){
+				Block block = player.getWorld().getBlockAt(position.get(ErowTVConstants.BLOCK_POS_X), position.get(ErowTVConstants.BLOCK_POS_Y),
+						position.get(ErowTVConstants.BLOCK_POS_Z));
 				
 				return (block.getType() != Material.AIR);
 			}
@@ -315,11 +324,11 @@ public final class BlockTools {
 	 */
 	public static int[] getBlockDirections(List<Integer> block, Block clickedBlock, BlockFace customBlockFace) {
 		//Check if its BlockFace is facing to the North or to the South. It is importent for placing/copying the blocks
-		int isNorthSouth = Constants.NOT_NORTH_SOUTH;
+		int isNorthSouth = ErowTVConstants.NOT_NORTH_SOUTH;
 		
-		int startX = block.get(Constants.BLOCK_POS_X);
-		int startY = block.get(Constants.BLOCK_POS_Y);
-		int startZ = block.get(Constants.BLOCK_POS_Z);
+		int startX = block.get(ErowTVConstants.BLOCK_POS_X);
+		int startY = block.get(ErowTVConstants.BLOCK_POS_Y);
+		int startZ = block.get(ErowTVConstants.BLOCK_POS_Z);
 		
 		int zas = 1;
 		int xas = 1;
@@ -341,7 +350,7 @@ public final class BlockTools {
 		case NORTH:
 			zas = zas * -1;
 			startZ = startZ - 1;
-			isNorthSouth = Constants.IS_NORTH_SOUTH;
+			isNorthSouth = ErowTVConstants.IS_NORTH_SOUTH;
 			facingDirection = DirectionalRotation.NORTH.getRotationValue();
 			break;
 		case EAST:
@@ -351,7 +360,7 @@ public final class BlockTools {
 		case SOUTH:
 			xas = xas * -1;
 			startZ = startZ + 1;
-			isNorthSouth = Constants.IS_NORTH_SOUTH;
+			isNorthSouth = ErowTVConstants.IS_NORTH_SOUTH;
 			facingDirection = DirectionalRotation.SOUTH.getRotationValue();
 			break;
 		case WEST:
@@ -386,23 +395,23 @@ public final class BlockTools {
 	 */
 	public static int[] getBlockDirectionsFromTo(List<Integer> fromBlock, List<Integer> toBlock, Block clickedBlock, BlockFace customBlockFace) {
 		//Check if its BlockFace is facing to the North or to the South. It is importent for placing/copying the blocks
-		int isNorthSouth = Constants.NOT_NORTH_SOUTH;
+		int isNorthSouth = ErowTVConstants.NOT_NORTH_SOUTH;
 		
 		//Height is always Yas
-		int height = getDistanceBetween(fromBlock.get(Constants.BLOCK_POS_Y), toBlock.get(Constants.BLOCK_POS_Y));
+		int height = getDistanceBetween(fromBlock.get(ErowTVConstants.BLOCK_POS_Y), toBlock.get(ErowTVConstants.BLOCK_POS_Y));
 		//get these in switch
 		int depth = 0;
 		int width = 0;
-		int startX = fromBlock.get(Constants.BLOCK_POS_X);
-		int startY = fromBlock.get(Constants.BLOCK_POS_Y);
-		int startZ = fromBlock.get(Constants.BLOCK_POS_Z);
+		int startX = fromBlock.get(ErowTVConstants.BLOCK_POS_X);
+		int startY = fromBlock.get(ErowTVConstants.BLOCK_POS_Y);
+		int startZ = fromBlock.get(ErowTVConstants.BLOCK_POS_Z);
 		
-		int fromBlockZ = fromBlock.get(Constants.BLOCK_POS_Z);
-		int toBlockZ = toBlock.get(Constants.BLOCK_POS_Z);
+		int fromBlockZ = fromBlock.get(ErowTVConstants.BLOCK_POS_Z);
+		int toBlockZ = toBlock.get(ErowTVConstants.BLOCK_POS_Z);
 		boolean fromBlockZGreater = (fromBlockZ > toBlockZ ? true : false);
 		
-		int fromBlockX = fromBlock.get(Constants.BLOCK_POS_X);
-		int toBlockX = toBlock.get(Constants.BLOCK_POS_X);
+		int fromBlockX = fromBlock.get(ErowTVConstants.BLOCK_POS_X);
+		int toBlockX = toBlock.get(ErowTVConstants.BLOCK_POS_X);
 		boolean fromBlockXGreater = (fromBlockX > toBlockX ? true : false);
 
 		int zas = (fromBlockZGreater ? -1 : 1) ;
@@ -427,7 +436,7 @@ public final class BlockTools {
 			depth = getDistanceBetween((fromBlockZGreater ? fromBlockZ - 1 : fromBlockZ + 1), toBlockZ);
 			width = getDistanceBetween(fromBlockX, (fromBlockXGreater ? toBlockX - 1 : toBlockX + 1));
 			startZ = (fromBlockZGreater ? startZ - 1 : startZ + 1);
-			isNorthSouth = Constants.IS_NORTH_SOUTH;
+			isNorthSouth = ErowTVConstants.IS_NORTH_SOUTH;
 			facingDirection = DirectionalRotation.NORTH.getRotationValue();
 			break;
 		case EAST:
@@ -442,7 +451,7 @@ public final class BlockTools {
 			depth = getDistanceBetween((fromBlockZGreater ? fromBlockZ - 1 : fromBlockZ + 1), toBlockZ);
 			width = getDistanceBetween(fromBlockX, (fromBlockXGreater ? toBlockX - 1 : toBlockX + 1));
 			startZ = (fromBlockZGreater ? startZ - 1 : startZ + 1);
-			isNorthSouth = Constants.IS_NORTH_SOUTH;
+			isNorthSouth = ErowTVConstants.IS_NORTH_SOUTH;
 			facingDirection = DirectionalRotation.SOUTH.getRotationValue();
 			break;
 		case WEST:
@@ -539,19 +548,19 @@ public final class BlockTools {
 	public static int getRotationDifference(Player player, int wasFacing, int blockFacing) {
 		//Get new blockface direction
 		switch(wasFacing) {
-		case Constants.FACING_NORTH:
+		case ErowTVConstants.FACING_NORTH:
 			return (blockFacing == DirectionalRotation.EAST.getRotationValue() ? 1 :
 					blockFacing == DirectionalRotation.SOUTH.getRotationValue() ? 2 :
 					blockFacing == DirectionalRotation.WEST.getRotationValue() ? 3 : 0 );
-		case Constants.FACING_EAST:
+		case ErowTVConstants.FACING_EAST:
 			return (blockFacing == DirectionalRotation.NORTH.getRotationValue() ? 3 :
 					blockFacing == DirectionalRotation.SOUTH.getRotationValue() ? 1 :
 					blockFacing == DirectionalRotation.WEST.getRotationValue() ? 2 : 0 );
-		case Constants.FACING_SOUTH:
+		case ErowTVConstants.FACING_SOUTH:
 			return (blockFacing == DirectionalRotation.EAST.getRotationValue() ? 3 :
 					blockFacing == DirectionalRotation.NORTH.getRotationValue() ? 2 :
 					blockFacing == DirectionalRotation.WEST.getRotationValue() ? 1 : 0 );
-		case Constants.FACING_WEST:
+		case ErowTVConstants.FACING_WEST:
 			return (blockFacing == DirectionalRotation.EAST.getRotationValue() ? 2 :
 					blockFacing == DirectionalRotation.SOUTH.getRotationValue() ? 3 :
 					blockFacing == DirectionalRotation.NORTH.getRotationValue() ? 1 : 0 );

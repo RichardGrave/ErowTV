@@ -1,10 +1,10 @@
 package graver.erowtv.constants;
 
-public final class Constants {
+public interface ErowTVConstants {
 
-	// Dont instantiate or subclass the class
-	private Constants() {}
-	
+	//Set isDebug on true if player messages with info is needed
+	public final static boolean isDebug = false;
+
 	//Various Strings
 	public final static String ENCHANTMENT_EROWTV = "ErowTV's Magic";
 
@@ -91,6 +91,7 @@ public final class Constants {
 	//Memory names
 	public static final String MEMORY_PASTE_BLOCK_ACTION = "PASTE_BLOCK_ACTION";
 	public static final String MEMORY_PASTE_POSITION = "PASTE_POSITION";
+	public static final String MEMORY_CLOCK_POSITION = "CLOCK_POSITION";
 	
 	public static final String MEMORY_COPY_TO_POSITION = "COPY_TO_POSITION";
 	public static final String MEMORY_COPY_FROM_POSITION = "COPY_FROM_POSITION";
@@ -107,4 +108,19 @@ public final class Constants {
 
 	public final static String SEP_ROW_BLOCK_COUNT = "%";
 
+	//20 game ticks is 1 seconde
+	public final static int TIME_SECOND = 20;
+	public final static int TIME_10_SECONDS = 200;
+	public final static int TIME_20_SECONDS = 400;
+	public final static int TIME_30_SECONDS = 600;
+	public final static int TIME_40_SECONDS = 800;
+	public final static int TIME_50_SECONDS = 1000;
+
+	public final static int TIME_1_MINUTE = 1200;
+	public final static int TIME_5_MINUTES = 6000;
+	public final static int TIME_10_MINUTES = 12000;
+	public final static int TIME_15_MINUTES = 18000;
+	public final static int TIME_20_MINUTES = 24000;
+
+	public final static int TIME_1_HOUR = 72000;
 }

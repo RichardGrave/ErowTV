@@ -48,6 +48,12 @@ public class PlayerEvents implements Listener {
 			}else if(event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.SPRUCE_SIGN) {
 				SignTools.leftClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
 
+			}else if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.SPRUCE_WALL_SIGN) {
+					SignTools.rightClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
+
+			}else if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.SPRUCE_SIGN) {
+					SignTools.rightClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
+
 			//Handle button clicks
 			//!! Doesn't do anything yet
 			}else if(event.getAction() == Action.RIGHT_CLICK_BLOCK &&

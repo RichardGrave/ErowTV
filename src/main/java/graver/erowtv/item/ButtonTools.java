@@ -67,24 +67,24 @@ public final class ButtonTools {
 	 * @param blockBehindButton
 	 */
 	public static void handleLeverClicked(Player player, Block clickedBlock, Block blockBehindButton) {
-//		if(BlockTools.isBlockPositionTheSame(blockBehindButton,(List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION))) {
+//		if(BlockTools.isBlockPositionTheSame(blockBehindButton,(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION))) {
 //			//We also need the DESTROY_TO position
-//			if(ErowTV.doesPlayerHaveMemory(player, Constants.MEMORY_DESTROY_TO_POSITION)) {
+//			if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION)) {
 //				//Start destroying
 //				DestroyBlockTool.destroyFromToBlocks(player, clickedBlock,
-//						(List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION),
-//						(List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_TO_POSITION));
+//						(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION),
+//						(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION));
 //			}else {
 //				//If the TO block is missing
 //				player.sendMessage("A 'Destroy TO block' is needed");
 //			}
-//		}else if(BlockTools.isBlockPositionTheSame(blockBehindButton,(List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_TO_POSITION))) {
+//		}else if(BlockTools.isBlockPositionTheSame(blockBehindButton,(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION))) {
 //			//We also nee the DESTROY_FROM position
-//			if(ErowTV.doesPlayerHaveMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION)) {
+//			if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION)) {
 //				//Start destroying
 //				DestroyBlockTool.destroyFromToBlocks(player, clickedBlock,
-//						(List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_FROM_POSITION),
-//						(List<Integer>)ErowTV.readPlayerMemory(player, Constants.MEMORY_DESTROY_TO_POSITION));
+//						(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION),
+//						(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION));
 //			}else {
 //				//If the FROM block is missing
 //				player.sendMessage("A 'Destroy FROM block' is needed");

@@ -47,6 +47,7 @@ public class CountDownTimer extends BukkitRunnable {
                 player.sendMessage("TimeSplit = 2");
                 timeFormat = "mm:ss";
                 formattedTimeString += timeSplit[0].length() == 1 ? "0" + timeSplit[0] : timeSplit[0];
+                formattedTimeString += ":";
                 formattedTimeString += timeSplit[1].length() == 1 ? "0" + timeSplit[1] : timeSplit[1];
 
                 cleanUpString = "     ";
@@ -54,7 +55,9 @@ public class CountDownTimer extends BukkitRunnable {
                 player.sendMessage("TimeSplit = 3");
                 //timeFormat stays default
                 formattedTimeString += timeSplit[0].length() == 1 ? "0" + timeSplit[0] : timeSplit[0];
+                formattedTimeString += ":";
                 formattedTimeString += timeSplit[1].length() == 1 ? "0" + timeSplit[1] : timeSplit[1];
+                formattedTimeString += ":";
                 formattedTimeString += timeSplit[2].length() == 1 ? "0" + timeSplit[2] : timeSplit[2];
 
                 cleanUpString = "        ";
@@ -89,7 +92,7 @@ public class CountDownTimer extends BukkitRunnable {
                 this.cancel();
                 //Remove the memory after the timer ends
                 ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_CLOCK_POSITION);
-                buildTimeString(cleanUpString);
+                NumbersTool.buildEntireNumber(player, cleanUpString, blockToUse, blockFace);
             }
         } catch (Exception ex) {
             player.sendMessage("[CountDownTimer-run][Exception][" + ex.getMessage() + "]");

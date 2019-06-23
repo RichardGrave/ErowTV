@@ -69,12 +69,13 @@ public final class NumbersTool implements ErowTVConstants {
 
         char[] numberPieces = bigNumber.toCharArray();
         Block startingPostionForNumber = block;
+        Material material = block.getBlockData().getMaterial();
 
         //Has to contain numbers else skip
         if (numberPieces.length > 0) {
             for (int reverseIter = (numberPieces.length - 1); reverseIter >= 0; reverseIter--) {
                 try {
-                    int numWithForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter], startingPostionForNumber, blockFace);
+                    int numWithForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter], startingPostionForNumber, blockFace, material);
 
                     int yas = startingPostionForNumber.getY();
                     int xas = startingPostionForNumber.getX();
@@ -116,7 +117,7 @@ public final class NumbersTool implements ErowTVConstants {
      * @param block
      * @param blockFace
      */
-    public static int getPatternForNumberAndBuild(Player player, char number, Block block, BlockFace blockFace) {
+    public static int getPatternForNumberAndBuild(Player player, char number, Block block, BlockFace blockFace, Material material) {
         //Yas + 1 to place on top of the block
         int yas = block.getY() + 1;
         int xas = block.getX();
@@ -128,45 +129,45 @@ public final class NumbersTool implements ErowTVConstants {
 
         switch (number) {
             case '0':
-                buildSingleNumber(player, block, numZero, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numZero, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '1':
-                buildSingleNumber(player, block, numOne, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numOne, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '2':
-                buildSingleNumber(player, block, numTwo, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numTwo, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '3':
-                buildSingleNumber(player, block, numThree, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numThree, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '4':
-                buildSingleNumber(player, block, numFour, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numFour, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '5':
-                buildSingleNumber(player, block, numFive, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numFive, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '6':
-                buildSingleNumber(player, block, numSix, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numSix, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '7':
-                buildSingleNumber(player, block, numSeven, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numSeven, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '8':
-                buildSingleNumber(player, block, numEight, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numEight, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '9':
-                buildSingleNumber(player, block, numNine, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numNine, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '.':
-                buildSingleNumber(player, block, dotChar, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, dotChar, xas, yas, zas, blockFace, material);
                 return dotWidth;
             case ':':
-                buildSingleNumber(player, block, doubleDotChar, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, doubleDotChar, xas, yas, zas, blockFace, material);
                 return dotWidth;
 
                 //Does a AIR number, so you'l see nothing
             default:
-                buildSingleNumber(player, block, numClear, xas, yas, zas, blockFace);
+                buildSingleNumber(player, block, numClear, xas, yas, zas, blockFace, material);
                 return numWidth;
         }
     }
@@ -182,7 +183,7 @@ public final class NumbersTool implements ErowTVConstants {
      * @param zas
      * @param blockFace
      */
-    public static void buildSingleNumber(Player player, Block block, String[] numberPattern, int xas, int yas, int zas, BlockFace blockFace) {
+    public static void buildSingleNumber(Player player, Block block, String[] numberPattern, int xas, int yas, int zas, BlockFace blockFace, Material material) {
         int tmpYas = 0;
 
         for (String pattern : numberPattern) {
@@ -221,7 +222,6 @@ public final class NumbersTool implements ErowTVConstants {
                 Block blockAt = player.getWorld().getBlockAt(placeX, placeY, placeZ);
 
                 if (pattern.charAt(iter) == 'x') {
-                    Material material = block.getBlockData().getMaterial();
                     blockAt.setType(material, false);
                 } else {
                     blockAt.setType(Material.AIR, false);

@@ -123,4 +123,12 @@ public interface ErowTVConstants {
 	public final static int TIME_20_MINUTES = 24000;
 
 	public final static int TIME_1_HOUR = 72000;
+
+	//Timeformats
+	public final static String TIME_FORMAT_HH_MM_SS = "HH:mm:ss";
+	public final static String TIME_FORMAT_H_MM_SS = "H:mm:ss";
+	public final static String TIME_FORMAT_MM_SS = "mm:ss";
+	public final static String TIME_FORMAT_M_SS = "m:ss";
+	public final static String TIME_FORMAT_SS = "ss";
+	public final static String TIME_FORMAT_S = "s";
 }

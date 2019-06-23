@@ -37,7 +37,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getFacing().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 		
-		handleWallSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace);
+		handleWallSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace, true);
 	}
 
 	/**
@@ -59,7 +59,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getRotation().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 
-		handleWallSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace);
+		handleWallSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace, false);
 	}
 
 
@@ -82,7 +82,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getRotation().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 
-		handleWallSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace);
+		handleWallSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace, false);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getFacing().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 
-		handleWallSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace);
+		handleWallSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace, true);
 	}
 
 
@@ -118,7 +118,7 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 * @param blockFace
 	 */
-	public static void handleWallSignClicked(Player player, Block clickedBlock, Sign sign, Block blockBehindSign, BlockFace blockFace) {
+	public static void handleWallSignClicked(Player player, Block clickedBlock, Sign sign, Block blockBehindSign, BlockFace blockFace, boolean isWallSign) {
 		if(BlockTools.isBlockPositionTheSame(blockBehindSign,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION))) {
 			//We also need the COPY_TO position
 			if(ErowTV.doesPlayerHaveMemory(player, MEMORY_COPY_TO_POSITION)) {
@@ -148,7 +148,7 @@ public final class SignTools implements ErowTVConstants {
 		}else if(BlockTools.isBlockPositionTheSame(clickedBlock,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_CLOCK_POSITION))) {
 			//Start timer
 
-			new CountDownTimer(player,blockFace, blockBehindSign, sign.getLine(0)).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+			new CountDownTimer(player,blockFace, blockBehindSign, sign, isWallSign).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
 		}
 	}
 }

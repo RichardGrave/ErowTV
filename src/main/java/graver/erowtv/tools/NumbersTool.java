@@ -68,44 +68,57 @@ public final class NumbersTool implements ErowTVConstants {
         }
 
         char[] numberPieces = bigNumber.toCharArray();
-        Block startingPostionForNumber = block;
         Material material = block.getBlockData().getMaterial();
+
+        //TODO:RG nog checken voor correct width?
+
+        //Check first char for width and -1 because of the starting AIR block
+        String firstNum = bigNumber.substring(bigNumber.length());
+        int firstWidth = (firstNum.equalsIgnoreCase(":") || firstNum.equalsIgnoreCase(".") ?
+                dotWidth : numWidth) - 1;
+
+        //Calculate correct starting point
+        Block startingBlockPostionForNumber = calculateCorrectStartingPosition(player, block, blockFace, firstWidth);
 
         //Has to contain numbers else skip
         if (numberPieces.length > 0) {
             for (int reverseIter = (numberPieces.length - 1); reverseIter >= 0; reverseIter--) {
                 try {
-                    int numWithForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter], startingPostionForNumber, blockFace, material);
+                    int numWithForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter], startingBlockPostionForNumber, blockFace, material);
 
-                    int yas = startingPostionForNumber.getY();
-                    int xas = startingPostionForNumber.getX();
-                    int zas = startingPostionForNumber.getZ();
-
-                    //Use blockFace to determine the direction
-                    switch (blockFace) {
-                        case NORTH:
-                            xas = xas - numWithForNext;
-                            break;
-                        case EAST:
-                            zas = zas - numWithForNext;
-                            break;
-                        case SOUTH:
-                            xas = xas + numWithForNext;
-                            break;
-                        case WEST:
-                            zas = zas + numWithForNext;
-                            break;
-                        default:
-                            break;
-                    }
-
-                    //Position for next number
-                    startingPostionForNumber = player.getWorld().getBlockAt(xas, yas, zas);
+                    startingBlockPostionForNumber = calculateCorrectStartingPosition(player, startingBlockPostionForNumber, blockFace, numWithForNext);
                 } catch (Exception ex) {
                     player.sendMessage("[NumbersTool][buildEntireNumber][Cant build char]");
                 }
             }
         }
+    }
+
+    public static Block calculateCorrectStartingPosition(Player player, Block startingBlockPostionForNumber, BlockFace blockFace, int numWithForNext){
+        int yas = startingBlockPostionForNumber.getY();
+        int xas = startingBlockPostionForNumber.getX();
+        int zas = startingBlockPostionForNumber.getZ();
+
+        //Use blockFace to determine the direction
+        switch (blockFace) {
+            case NORTH:
+                xas = xas - numWithForNext;
+                break;
+            case EAST:
+                zas = zas - numWithForNext;
+                break;
+            case SOUTH:
+                xas = xas + numWithForNext;
+                break;
+            case WEST:
+                zas = zas + numWithForNext;
+                break;
+            default:
+                break;
+        }
+
+        //Position for next number
+        return player.getWorld().getBlockAt(xas, yas, zas);
     }
 
 

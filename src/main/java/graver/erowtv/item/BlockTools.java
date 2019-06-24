@@ -130,13 +130,19 @@ public final class BlockTools {
 			case PASTE_SIGN:
 				//This is a sign, make it editable(false).
 				((Sign)block.getState()).setEditable(false);
-				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_PASTE_POSITION);
+				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_PASTE_SIGN_POSITION);
 				break;
 			case CLOCK_SIGN:
 				//This is a sign, make it editable(false).
 				((Sign)block.getState()).setEditable(false);
-				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_CLOCK_POSITION);
+				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_CLOCK_SIGN_POSITION);
 				break;
+				case TOOL_SIGN:
+				//This is a sign, make it editable(false).
+				((Sign)block.getState()).setEditable(false);
+				thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_TOOL_SIGN_POSITION);
+				break;
+
 			case NO_RECIPE:
 				// TODO:RG if not found then check clickEvent from CraftBukkit
 				break;
@@ -173,13 +179,17 @@ public final class BlockTools {
 			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION);
 			
 		//Check if the broken block is PASTE, if so then remove it from the memory
-		}else if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_PASTE_POSITION) &&
-				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_POSITION))){
-			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_POSITION);
-		}
-		else if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_CLOCK_POSITION) &&
-				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_CLOCK_POSITION))){
-			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_CLOCK_POSITION);
+		}else if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_PASTE_SIGN_POSITION) &&
+				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_SIGN_POSITION))){
+			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_SIGN_POSITION);
+
+		}else if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_CLOCK_SIGN_POSITION) &&
+				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_CLOCK_SIGN_POSITION))){
+			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_CLOCK_SIGN_POSITION);
+
+		}else if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_TOOL_SIGN_POSITION) &&
+				isBlockPositionTheSame(block, (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_TOOL_SIGN_POSITION))){
+			ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_TOOL_SIGN_POSITION);
 		}
 	}
 	

@@ -38,6 +38,7 @@ public interface Enumerations {
 		PASTE_BLOCK("Paste block", "Paste whatever you want, how often you want."),
 		PASTE_SIGN("Paste sign", "Please SIGN this contract and I will build it"),
 		CLOCK_SIGN("Clock sign", "Time is ticking"),
+		TOOL_SIGN("Tool sign", "The right tool for the job"),
 		DESTROY_FROM_BLOCK("Destroy FROM block", "You also need a Destroy TO block"),
 		DESTROY_TO_BLOCK("Destroy TO block",  "You also need a Destroy FROM block"),
 		NO_RECIPE("No Recipe", "");

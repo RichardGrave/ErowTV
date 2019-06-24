@@ -92,7 +92,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
             if (formattedTimeString.equalsIgnoreCase(END_TIME_SECOND) || formattedTimeString.equalsIgnoreCase(" ")) {
                 this.cancel();
                 //Remove the memory after the timer ends
-                ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_CLOCK_POSITION);
+                ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_CLOCK_SIGN_POSITION);
 
                 if(isWallSign) {
                     //Clean up last number

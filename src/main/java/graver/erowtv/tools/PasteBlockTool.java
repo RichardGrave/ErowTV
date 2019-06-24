@@ -79,7 +79,7 @@ public final class PasteBlockTool {
 
 		
 					//Remove the memory after the copy
-					ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_POSITION);
+					ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_SIGN_POSITION);
 				} else {
 					player.sendMessage("Couldnt find the correct directions for pasting");
 				}

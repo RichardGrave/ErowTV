@@ -3,6 +3,7 @@ package graver.erowtv.item;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.special.CountDownTimer;
+import graver.erowtv.special.YoutubeSubCounter;
 import graver.erowtv.tools.CopyBlockTool;
 import graver.erowtv.tools.PasteBlockTool;
 import org.bukkit.block.Block;
@@ -141,14 +142,19 @@ public final class SignTools implements ErowTVConstants {
 			}
 
 			//Here we check clickedBlock, not blockBehindSign. So the sign itself.
-		}else if(BlockTools.isBlockPositionTheSame(clickedBlock,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_PASTE_POSITION))) {
+		}else if(BlockTools.isBlockPositionTheSame(clickedBlock,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_PASTE_SIGN_POSITION))) {
 			//Start pasting
-			PasteBlockTool.pasteBlocks(player, clickedBlock, sign, null, (List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_PASTE_POSITION));
+			PasteBlockTool.pasteBlocks(player, clickedBlock, sign, null, (List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_PASTE_SIGN_POSITION));
 
-		}else if(BlockTools.isBlockPositionTheSame(clickedBlock,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_CLOCK_POSITION))) {
+		}else if(BlockTools.isBlockPositionTheSame(clickedBlock,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_CLOCK_SIGN_POSITION))) {
 			//Start timer
-
 			new CountDownTimer(player,blockFace, blockBehindSign, sign, isWallSign).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+
+		}else if(BlockTools.isBlockPositionTheSame(clickedBlock,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_TOOL_SIGN_POSITION))) {
+			//Get the right tool to create
+			player.sendMessage("TOOL_SIGN");
+			new YoutubeSubCounter(player, blockBehindSign, blockFace, sign, isWallSign).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
 		}
+
 	}
 }

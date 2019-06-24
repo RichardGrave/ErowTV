@@ -90,8 +90,9 @@ public interface ErowTVConstants {
 	
 	//Memory names
 	public static final String MEMORY_PASTE_BLOCK_ACTION = "PASTE_BLOCK_ACTION";
-	public static final String MEMORY_PASTE_POSITION = "PASTE_POSITION";
-	public static final String MEMORY_CLOCK_POSITION = "CLOCK_POSITION";
+	public static final String MEMORY_PASTE_SIGN_POSITION = "PASTE_SIGN_POSITION";
+	public static final String MEMORY_CLOCK_SIGN_POSITION = "CLOCK_SIGN_POSITION";
+	public static final String MEMORY_TOOL_SIGN_POSITION = "TOOL_SIGN_POSITION";
 	
 	public static final String MEMORY_COPY_TO_POSITION = "COPY_TO_POSITION";
 	public static final String MEMORY_COPY_FROM_POSITION = "COPY_FROM_POSITION";

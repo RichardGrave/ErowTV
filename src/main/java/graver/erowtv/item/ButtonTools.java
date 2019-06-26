@@ -21,7 +21,7 @@ public final class ButtonTools {
 	 * @param player
 	 * @param clickedBlock
 	 */
-	public static void buttonClickedByPlayer(Player player, Block clickedBlock) {
+	public static void buttonRightClickedByPlayer(Player player, Block clickedBlock) {
 		//We already know its a Button. That was checked before this method was called.
 		
 		//Turn the block into a Button
@@ -43,7 +43,7 @@ public final class ButtonTools {
 	 * @param player
 	 * @param clickedBlock
 	 */
-	public static void leverClickedByPlayer(Player player, Block clickedBlock) {
+	public static void leverRightClickedByPlayer(Player player, Block clickedBlock) {
 		//We already know its a Button. That was checked before this method was called.
 
 		//Turn the block into a Button
@@ -69,7 +69,7 @@ public final class ButtonTools {
 	public static void handleLeverClicked(Player player, Block clickedBlock, Block blockBehindButton) {
 //		if(BlockTools.isBlockPositionTheSame(blockBehindButton,(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION))) {
 //			//We also need the DESTROY_TO position
-//			if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION)) {
+//			if(ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION)) {
 //				//Start destroying
 //				DestroyBlockTool.destroyFromToBlocks(player, clickedBlock,
 //						(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION),
@@ -80,7 +80,7 @@ public final class ButtonTools {
 //			}
 //		}else if(BlockTools.isBlockPositionTheSame(blockBehindButton,(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION))) {
 //			//We also nee the DESTROY_FROM position
-//			if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION)) {
+//			if(ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION)) {
 //				//Start destroying
 //				DestroyBlockTool.destroyFromToBlocks(player, clickedBlock,
 //						(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION),

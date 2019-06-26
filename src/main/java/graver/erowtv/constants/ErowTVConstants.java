@@ -90,8 +90,8 @@ public interface ErowTVConstants {
 	
 	//Memory names
 	public static final String MEMORY_PASTE_BLOCK_ACTION = "PASTE_BLOCK_ACTION";
-	public static final String MEMORY_PASTE_SIGN_POSITION = "PASTE_SIGN_POSITION";
-	public static final String MEMORY_CLOCK_SIGN_POSITION = "CLOCK_SIGN_POSITION";
+//	public static final String MEMORY_PASTE_SIGN_POSITION = "PASTE_SIGN_POSITION";
+//	public static final String MEMORY_CLOCK_SIGN_POSITION = "CLOCK_SIGN_POSITION";
 	public static final String MEMORY_TOOL_SIGN_POSITION = "TOOL_SIGN_POSITION";
 	
 	public static final String MEMORY_COPY_TO_POSITION = "COPY_TO_POSITION";
@@ -99,6 +99,8 @@ public interface ErowTVConstants {
 	
 	public static final String MEMORY_DESTROY_TO_POSITION = "DESTROY_TO_POSITION";
 	public static final String MEMORY_DESTROY_FROM_POSITION = "DESTROY_FROM_POSITION";
+
+	public static final String MEMORY_SIGN_NAME_SEPERATOR = "#";
 	
 	//Yml save
 	//Always save depth, height and width with a copy
@@ -132,4 +134,9 @@ public interface ErowTVConstants {
 	public final static String TIME_FORMAT_M_SS = "m:ss";
 	public final static String TIME_FORMAT_SS = "ss";
 	public final static String TIME_FORMAT_S = "s";
+
+	//ToolSing tools (Use lowercase)
+	public final static String TOOL_COUNTDOWN_TIMER = "timer";
+	public final static String TOOL_YOUTUBE_SUBS = "youtube";
+	public final static String TOOL_PASTE = "paste";
 }

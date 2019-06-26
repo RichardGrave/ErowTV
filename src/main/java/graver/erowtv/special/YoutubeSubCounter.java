@@ -43,28 +43,25 @@ public class YoutubeSubCounter extends BukkitRunnable{
         private String youtubeChannel = "";
         private boolean isWallSign = false;
         private YouTube youTube;
+        private String memoryName;
 
         //TODO:RG laten stoppen als de sign weg is. Niet zo moeilijk
         //Geef positie van sign mee, zodat bij stuk gaan het this.cancel() aanroept
 
-        public YoutubeSubCounter(Player player, Block blockToUse, BlockFace blockFace, Sign sign, boolean isWallSign) {
+        public YoutubeSubCounter(Player player, Block blockToUse, BlockFace blockFace, Sign sign, boolean isWallSign, String memoryName) {
             this.player = player;
             this.blockToUse = blockToUse;
             this.blockFace = blockFace;
             this.sign = sign;
             this.youtubeChannel = sign.getLine(1);
             this.isWallSign = isWallSign;
+            this.memoryName = memoryName; //TODO:RG iets mee doen? kunnen laten eindigen?
 
             initializeConnection();
         }
 
         //Initialize once
         private void initializeConnection(){
-            //If empty then default our own Channel
-            if(this.youtubeChannel.isEmpty()){
-                this.youtubeChannel = YOUTUBE_CHANNEL_EROWTV;
-            }
-
             HttpRequestInitializer httpRequestInitializer = new HttpRequestInitializer() {
                 public void initialize(HttpRequest request) throws IOException {
                 }
@@ -85,8 +82,15 @@ public class YoutubeSubCounter extends BukkitRunnable{
                 String numberOfSubscribers = "";
 
                 YouTube.Channels.List search = youTube.channels().list(YOUTUBE_STATISTICS);
-                //search.setId(youtubeChannel);
-                search.setForUsername(youtubeChannel);
+
+                //Just for our own channel :)
+                if(youtubeChannel.isEmpty()) {
+                    //If youtubeChannel empty then default our own Channel
+                    search.setId(YOUTUBE_CHANNEL_ID);
+                }else {
+                    search.setForUsername(youtubeChannel);
+                }
+
                 search.setKey(YOUTUBE_API_KEY);
                 ChannelListResponse response = search.execute();
 

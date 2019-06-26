@@ -6,11 +6,13 @@ import graver.erowtv.special.CountDownTimer;
 import graver.erowtv.special.YoutubeSubCounter;
 import graver.erowtv.tools.CopyBlockTool;
 import graver.erowtv.tools.PasteBlockTool;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.List;
 
 public final class SignTools implements ErowTVConstants {
@@ -120,9 +122,12 @@ public final class SignTools implements ErowTVConstants {
 	 * @param blockFace
 	 */
 	public static void handleWallSignClicked(Player player, Block clickedBlock, Sign sign, Block blockBehindSign, BlockFace blockFace, boolean isWallSign) {
+		player.sendMessage("handleWallSignClicked");
+		String uniqueMemory;
+
 		if(BlockTools.isBlockPositionTheSame(blockBehindSign,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION))) {
 			//We also need the COPY_TO position
-			if(ErowTV.doesPlayerHaveMemory(player, MEMORY_COPY_TO_POSITION)) {
+			if(ErowTV.doesPlayerHaveSpecificMemory(player, MEMORY_COPY_TO_POSITION)) {
 				//Start the copy
 				CopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
 						(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION),
@@ -132,7 +137,7 @@ public final class SignTools implements ErowTVConstants {
 			}
 		}else if(BlockTools.isBlockPositionTheSame(blockBehindSign,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION))) {
 			//We also need the COPY_FROM position
-			if(ErowTV.doesPlayerHaveMemory(player, MEMORY_COPY_FROM_POSITION)) {
+			if(ErowTV.doesPlayerHaveSpecificMemory(player, MEMORY_COPY_FROM_POSITION)) {
 				//Start the copy
 				CopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
 						(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION),
@@ -141,20 +146,77 @@ public final class SignTools implements ErowTVConstants {
 				player.sendMessage("A 'Copy from block' is needed");
 			}
 
-			//Here we check clickedBlock, not blockBehindSign. So the sign itself.
-		}else if(BlockTools.isBlockPositionTheSame(clickedBlock,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_PASTE_SIGN_POSITION))) {
-			//Start pasting
-			PasteBlockTool.pasteBlocks(player, clickedBlock, sign, null, (List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_PASTE_SIGN_POSITION));
+			//Create memoryNameForSign and clicked block if it returns, then its a TOOL_SIGN
+		}else if(ErowTV.doesPlayerHaveSpecificMemory(player, uniqueMemory = createMemoryName(player, clickedBlock, MEMORY_TOOL_SIGN_POSITION))) {
+			player.sendMessage("doesPlayerHaveSpecificMemory");
 
-		}else if(BlockTools.isBlockPositionTheSame(clickedBlock,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_CLOCK_SIGN_POSITION))) {
-			//Start timer
-			new CountDownTimer(player,blockFace, blockBehindSign, sign, isWallSign).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+			List<Integer> signPosition = (List<Integer>)ErowTV.readPlayerMemory(player, uniqueMemory);
+			Sign toolSign = (Sign) player.getWorld().getBlockAt(signPosition.get(ErowTVConstants.BLOCK_POS_X),
+					signPosition.get(ErowTVConstants.BLOCK_POS_Y), signPosition.get(ErowTVConstants.BLOCK_POS_Z)).getState();
 
-		}else if(BlockTools.isBlockPositionTheSame(clickedBlock,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_TOOL_SIGN_POSITION))) {
-			//Get the right tool to create
-			player.sendMessage("TOOL_SIGN");
-			new YoutubeSubCounter(player, blockBehindSign, blockFace, sign, isWallSign).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+			if(toolSign != null) {
+				if(isDebug) {
+					player.sendMessage("TOOL_SIGN = " + toolSign.getLine(0).toLowerCase());
+				}
+
+				//Read first line
+				switch(toolSign.getLine(0).toLowerCase()){
+					case TOOL_COUNTDOWN_TIMER:
+						new CountDownTimer(player, blockFace, blockBehindSign, toolSign, isWallSign, uniqueMemory).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+						break;
+					case TOOL_YOUTUBE_SUBS:
+						new YoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, uniqueMemory).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+						break;
+					case TOOL_PASTE:
+						PasteBlockTool.pasteBlocks(player, clickedBlock, sign, null, signPosition, uniqueMemory);
+						break;
+				}
+
+			}
 		}
 
 	}
+
+	/**
+	 * Multiple signs can be placed, but they all need a unique name.
+	 *
+	 * @param player
+	 * @param block
+	 * @param signName
+	 */
+	public static String createMemoryName(Player player, Block block, String signName) {
+		//Get world player is in. It is needed to store the position of the block
+		World.Environment environment = player.getWorld().getEnvironment();
+		int playersWorld = (environment == World.Environment.NETHER ? ErowTVConstants.WORLD_NETHER : environment == World.Environment.NORMAL ? ErowTVConstants.WORLD_NORMAL : ErowTVConstants.WORLD_END);
+
+		//The unique memory name
+		return signName+
+				MEMORY_SIGN_NAME_SEPERATOR+
+				playersWorld+
+				MEMORY_SIGN_NAME_SEPERATOR+
+				block.getX()+
+				MEMORY_SIGN_NAME_SEPERATOR+
+				block.getY()+
+				MEMORY_SIGN_NAME_SEPERATOR+
+				block.getZ();
+	}
+
+	/**
+	 * Multiple signs can be placed with a unique memory name
+	 *
+	 * @param player
+	 * @param block
+	 * @param memoryName
+	 */
+	public static void thereCanBeMore(Player player, Block block, String memoryName) {
+		//Get world player is in. It is needed to store the position of the block
+		World.Environment environment = player.getWorld().getEnvironment();
+		int playersWorld = (environment == World.Environment.NETHER ? ErowTVConstants.WORLD_NETHER : environment == World.Environment.NORMAL ? ErowTVConstants.WORLD_NORMAL : ErowTVConstants.WORLD_END);
+
+		//Store it in players memory
+		List<Integer> toPosition = Arrays.asList(playersWorld, block.getX(), block.getY(), block.getZ());
+		ErowTV.storePlayerMemory(player, memoryName, toPosition);
+	}
+
+
 }

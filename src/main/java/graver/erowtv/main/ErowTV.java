@@ -83,8 +83,8 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 		getServer().addRecipe(BuildingBlocksRecipes.createDestroyToBlock(new NamespacedKey(this, CustomItem.DESTROY_TO_BLOCK.getKey())));
 		getServer().addRecipe(BuildingBlocksRecipes.createPasteBlock(new NamespacedKey(this, CustomItem.PASTE_BLOCK.getKey())));
 
-		getServer().addRecipe(ToolsRecipes.createPasteSign(new NamespacedKey(this, CustomItem.PASTE_SIGN.getKey())));
-		getServer().addRecipe(ToolsRecipes.createTimerSign(new NamespacedKey(this, CustomItem.CLOCK_SIGN.getKey())));
+//		getServer().addRecipe(ToolsRecipes.createPasteSign(new NamespacedKey(this, CustomItem.PASTE_SIGN.getKey())));
+//		getServer().addRecipe(ToolsRecipes.createTimerSign(new NamespacedKey(this, CustomItem.CLOCK_SIGN.getKey())));
 		getServer().addRecipe(ToolsRecipes.createToolSign(new NamespacedKey(this, CustomItem.TOOL_SIGN.getKey())));
 
 
@@ -172,7 +172,7 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	 * @param memoryName
 	 * @return a list with the stored values for the player with a specific memoryName
 	 */
-	public static boolean doesPlayerHaveMemory(Player player, String memoryName){
+	public static boolean doesPlayerHaveSpecificMemory(Player player, String memoryName){
 		if(!playerMemory.containsKey(player.getUniqueId().toString())) {
 			return false;
 		}

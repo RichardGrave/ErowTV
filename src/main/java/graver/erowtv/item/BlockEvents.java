@@ -67,7 +67,7 @@ public class BlockEvents implements Listener {
 							//Has to have a filename else do nothing
 							if (fileNameCopy != null && !fileNameCopy.isEmpty()) {
 								List<Integer> position = Arrays.asList(playersWorld, placedBlock.getX(), placedBlock.getY(), placedBlock.getZ());
-								PasteBlockTool.pasteBlocks(player, placedBlock, null, fileNameCopy.get(0), position);
+								PasteBlockTool.pasteBlocks(player, placedBlock, null, fileNameCopy.get(0), position, ErowTVConstants.MEMORY_PASTE_BLOCK_ACTION);
 							}
 
 							break;

@@ -17,73 +17,73 @@ public final class ToolsRecipes {
 	private ToolsRecipes() {
 	}
 
-	/**
-	 * Create recipe for a paste sign.
-	 * Right-Click a Paste Sign's and paste what was saved to a yml with the Copy blocks.
-	 *
-	 * @param key with NamespacedKey
-	 * @return ShapedRecipe
-	 */
-	public static ShapedRecipe createPasteSign(NamespacedKey key) {
-		ItemStack itemStack = new ItemStack(Material.SPRUCE_SIGN, 1);
+//	/**
+//	 * Create recipe for a paste sign.
+//	 * Right-Click a Paste Sign's and paste what was saved to a yml with the Copy blocks.
+//	 *
+//	 * @param key with NamespacedKey
+//	 * @return ShapedRecipe
+//	 */
+//	public static ShapedRecipe createPasteSign(NamespacedKey key) {
+//		ItemStack itemStack = new ItemStack(Material.SPRUCE_SIGN, 1);
+//
+//		//Get meta from item so we can change it
+//		ItemMeta meta = itemStack.getItemMeta();
+//		meta.setDisplayName(Enumerations.CustomItem.PASTE_SIGN.getCustomItemName());
+//		//Add glow to item
+//		meta.addEnchant(Enchantment.LUCK, 1, true);
+//
+//		//Add item lore to overwrite default enchantment text
+//		List<String> itemLore = new ArrayList<String>();
+//		itemLore.add(Enumerations.CustomItem.PASTE_SIGN.getLore());
+//		meta.setLore(itemLore);
+//		// Set the meta of the block to the edited meta.
+//		itemStack.setItemMeta(meta);
+//
+//		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
+//
+//		//Set shape and ingredients
+//		recipe.shape("SCS", "C C", "SCS");
+//
+//		recipe.setIngredient('S', Material.SPRUCE_SIGN);
+//		recipe.setIngredient('C', Material.COMPASS);
+//
+//		return recipe;
+//	}
 
-		//Get meta from item so we can change it
-		ItemMeta meta = itemStack.getItemMeta();
-		meta.setDisplayName(Enumerations.CustomItem.PASTE_SIGN.getCustomItemName());
-		//Add glow to item
-		meta.addEnchant(Enchantment.LUCK, 1, true);
-
-		//Add item lore to overwrite default enchantment text
-		List<String> itemLore = new ArrayList<String>();
-		itemLore.add(Enumerations.CustomItem.PASTE_SIGN.getLore());
-		meta.setLore(itemLore);
-		// Set the meta of the block to the edited meta.
-		itemStack.setItemMeta(meta);
-
-		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
-
-		//Set shape and ingredients
-		recipe.shape("SCS", "C C", "SCS");
-
-		recipe.setIngredient('S', Material.SPRUCE_SIGN);
-		recipe.setIngredient('C', Material.COMPASS);
-
-		return recipe;
-	}
-
-	/**
-	 * Create recipe for a timer sign.
-	 * Right-Click to start a timer with time from sign texts.
-	 *
-	 * @param key with NamespacedKey
-	 * @return ShapedRecipe
-	 */
-	public static ShapedRecipe createTimerSign(NamespacedKey key) {
-		ItemStack itemStack = new ItemStack(Material.SPRUCE_SIGN, 1);
-
-		//Get meta from item so we can change it
-		ItemMeta meta = itemStack.getItemMeta();
-		meta.setDisplayName(Enumerations.CustomItem.CLOCK_SIGN.getCustomItemName());
-		//Add glow to item
-		meta.addEnchant(Enchantment.LUCK, 1, true);
-
-		//Add item lore to overwrite default enchantment text
-		List<String> itemLore = new ArrayList<String>();
-		itemLore.add(Enumerations.CustomItem.CLOCK_SIGN.getLore());
-		meta.setLore(itemLore);
-		// Set the meta of the block to the edited meta.
-		itemStack.setItemMeta(meta);
-
-		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
-
-		//Set shape and ingredients
-		recipe.shape("SCS", "C C", "SCS");
-
-		recipe.setIngredient('S', Material.SPRUCE_SIGN);
-		recipe.setIngredient('C', Material.CLOCK);
-
-		return recipe;
-	}
+//	/**
+//	 * Create recipe for a timer sign.
+//	 * Right-Click to start a timer with time from sign texts.
+//	 *
+//	 * @param key with NamespacedKey
+//	 * @return ShapedRecipe
+//	 */
+//	public static ShapedRecipe createTimerSign(NamespacedKey key) {
+//		ItemStack itemStack = new ItemStack(Material.SPRUCE_SIGN, 1);
+//
+//		//Get meta from item so we can change it
+//		ItemMeta meta = itemStack.getItemMeta();
+//		meta.setDisplayName(Enumerations.CustomItem.CLOCK_SIGN.getCustomItemName());
+//		//Add glow to item
+//		meta.addEnchant(Enchantment.LUCK, 1, true);
+//
+//		//Add item lore to overwrite default enchantment text
+//		List<String> itemLore = new ArrayList<String>();
+//		itemLore.add(Enumerations.CustomItem.CLOCK_SIGN.getLore());
+//		meta.setLore(itemLore);
+//		// Set the meta of the block to the edited meta.
+//		itemStack.setItemMeta(meta);
+//
+//		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
+//
+//		//Set shape and ingredients
+//		recipe.shape("SCS", "C C", "SCS");
+//
+//		recipe.setIngredient('S', Material.SPRUCE_SIGN);
+//		recipe.setIngredient('C', Material.CLOCK);
+//
+//		return recipe;
+//	}
 
 	/**
 	 * Create recipe for a tool sign.

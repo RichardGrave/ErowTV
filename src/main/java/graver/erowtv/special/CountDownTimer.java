@@ -27,14 +27,17 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
     private String formattedTimeString = "";
     private String timeFormat;
     private boolean isWallSign;
+    private String memoryName;
 
-    public CountDownTimer(Player player, BlockFace blockFace, Block blockToUse, Sign sign, boolean isWallSign) {
+    public CountDownTimer(Player player, BlockFace blockFace, Block blockToUse, Sign sign, boolean isWallSign, String memoryName) {
         this.player = player;
         this.blockToUse = blockToUse;
         this.blockFace = blockFace;
         this.sign = sign;
         this.isWallSign = isWallSign;
-        setTime(sign.getLine(0));
+        this.memoryName = memoryName;
+
+        setTime(sign.getLine(1));
     }
 
     private void setTime(String time) {
@@ -85,6 +88,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
             }else{
                 //else update the sign text
                 sign.setLine(0, formattedTimeString);
+                sign.setLine(1, "");
                 sign.update();
             }
 
@@ -92,7 +96,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
             if (formattedTimeString.equalsIgnoreCase(END_TIME_SECOND) || formattedTimeString.equalsIgnoreCase(" ")) {
                 this.cancel();
                 //Remove the memory after the timer ends
-                ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_CLOCK_SIGN_POSITION);
+                ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
 
                 if(isWallSign) {
                     //Clean up last number
@@ -100,6 +104,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
                 }else{
                     //Else set this text to the sign
                     sign.setLine(0, "Time's up");
+                    sign.setLine(1, "");
                     sign.update();
                 }
             }else{

@@ -37,7 +37,7 @@ public final class PasteBlockTool {
 	 * @param fileName if this is not empty then dont use the sign but this filename to paste from
 	 * @param pasteBlock
 	 */
-	public static void pasteBlocks(Player player, Block clickedBlock, Sign sign, String fileName, List<Integer> pasteBlock) {
+	public static void pasteBlocks(Player player, Block clickedBlock, Sign sign, String fileName, List<Integer> pasteBlock, String memoryName) {
 		//We need to check if the blocks are in the same world.
 		Block blockTo = player.getWorld().getBlockAt(pasteBlock.get(ErowTVConstants.BLOCK_POS_X),
 				pasteBlock.get(ErowTVConstants.BLOCK_POS_Y),pasteBlock.get(ErowTVConstants.BLOCK_POS_Z));
@@ -79,7 +79,7 @@ public final class PasteBlockTool {
 
 		
 					//Remove the memory after the copy
-					ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_PASTE_SIGN_POSITION);
+					ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
 				} else {
 					player.sendMessage("Couldnt find the correct directions for pasting");
 				}

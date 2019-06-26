@@ -48,7 +48,7 @@ public class SpecialBlockTools {
     public static void handleRedstoneTorchPlacedByPlayer(Player player, Block placedBlock, Block blockBehindTorch) {
         if(BlockTools.isBlockPositionTheSame(blockBehindTorch,(List<Integer>) ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION))) {
             //We also need the DESTROY_TO position
-            if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION)) {
+            if(ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION)) {
                 //Start destroying
                 DestroyBlockTool.destroyFromToBlocks(player, placedBlock,
                         (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION),
@@ -59,7 +59,7 @@ public class SpecialBlockTools {
             }
         }else if(BlockTools.isBlockPositionTheSame(blockBehindTorch,(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION))) {
             //We also nee the DESTROY_FROM position
-            if(ErowTV.doesPlayerHaveMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION)) {
+            if(ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION)) {
                 //Start destroying
                 DestroyBlockTool.destroyFromToBlocks(player, placedBlock,
                         (List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION),

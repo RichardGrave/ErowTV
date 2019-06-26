@@ -108,7 +108,7 @@ public class YoutubeSubCounter extends BukkitRunnable{
                     NumbersTool.buildEntireNumber(player, numberOfSubscribers, blockToUse, blockFace);
                 }else{
                     //Else set this text to the sign
-                    sign.setLine(0, youtubeChannel);
+                    sign.setLine(0, (youtubeChannel.isEmpty() ? YOUTUBE_CHANNEL_EROWTV : youtubeChannel));
                     sign.setLine(1, numberOfSubscribers);
                     sign.update();
                 }

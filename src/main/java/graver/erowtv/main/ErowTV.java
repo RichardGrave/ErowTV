@@ -14,16 +14,15 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants {
 
 	//TODO:RG ServerMemory is going to be a prermanent memory. So write to a file. And load at startup
 	public static Map<String, List<?>> serverMemory;
 	public static Map<String, Map<String, List<?>>> playerMemory;
-	
+	public static Collection<NamespacedKey> namespacedKeysRecipes = new ArrayList<NamespacedKey>();
+
 	public static String pluginFolder;
 
 	//Reference to this plugin.
@@ -83,14 +82,20 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 		getServer().addRecipe(BuildingBlocksRecipes.createDestroyToBlock(new NamespacedKey(this, CustomItem.DESTROY_TO_BLOCK.getKey())));
 		getServer().addRecipe(BuildingBlocksRecipes.createPasteBlock(new NamespacedKey(this, CustomItem.PASTE_BLOCK.getKey())));
 
-//		getServer().addRecipe(ToolsRecipes.createPasteSign(new NamespacedKey(this, CustomItem.PASTE_SIGN.getKey())));
-//		getServer().addRecipe(ToolsRecipes.createTimerSign(new NamespacedKey(this, CustomItem.CLOCK_SIGN.getKey())));
 		getServer().addRecipe(ToolsRecipes.createToolSign(new NamespacedKey(this, CustomItem.TOOL_SIGN.getKey())));
 
 
 		getLogger().info(Messages.EROWTV_RECIPE_REGISTRATION_COMPLETE);
 	}
-	
+
+	public static void addnamespacedKeyRecipe(NamespacedKey namespacedKeyRecipe){
+		namespacedKeysRecipes.add(namespacedKeyRecipe);
+	}
+
+	public static Collection<NamespacedKey> getAllNamespacedKeysRecipes(){
+		return namespacedKeysRecipes;
+	}
+
 	/**
 	 * Add a player to ErowTV memory
 	 * 

@@ -1,6 +1,7 @@
 package graver.erowtv.recipes;
 
 import graver.erowtv.constants.Enumerations.CustomItem;
+import graver.erowtv.main.ErowTV;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -25,6 +26,8 @@ public final class MiscellaneousRecipes {
 	 * @return ShapedRecipe
 	 */
 	public static ShapedRecipe createTwoByTwo(NamespacedKey key) {
+		//Add key to recipebook
+		ErowTV.addnamespacedKeyRecipe(key);
 		ItemStack itemStack = new ItemStack(Material.STICK, 1);
 		
 		//Get meta from item so we can change it

@@ -116,8 +116,5 @@ public class YoutubeSubCounter extends BukkitRunnable{
             }catch (Exception ex){
                 player.sendMessage("[Youtube][Exception]["+ex.getMessage()+"]");
             }
-
         }
-
-
 }

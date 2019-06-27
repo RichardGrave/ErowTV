@@ -33,7 +33,7 @@ public final class ItemTools {
 			// When item is not found, then NO_RECIPE could handle Bukkit items
 			switch (CustomItem.getCustomItem(itemStack.getItemMeta().getDisplayName())) {
 				case TWO_BY_TWO:
-					BlockTools.placeBlockByPlayerPosition(player, clickedBlock, null, ErowTVConstants.APPLY_PHYSICS, 2, 2, 2);
+					BlockTools.placeBlockByPlayerPosition(player, clickedBlock, clickedBlock.getBlockData().getMaterial(), ErowTVConstants.APPLY_PHYSICS, 2, 2, 2);
 				break;
 
 				case PASTE_BLOCK:

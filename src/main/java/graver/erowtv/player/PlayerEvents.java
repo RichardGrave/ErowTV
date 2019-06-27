@@ -23,6 +23,7 @@ public class PlayerEvents implements Listener {
         try {
             ErowTV.addPlayerToMemory(event.getPlayer());
             event.setJoinMessage(MessageFormat.format(Messages.PLAYER_LOGIN_WELCOME_MESSAGE, event.getPlayer().getName()));
+            event.getPlayer().discoverRecipes(ErowTV.getAllNamespacedKeysRecipes());
         } catch (Exception ex) {
             event.getPlayer().sendMessage("[EventException]:[onPlayerJoin]");
             ex.printStackTrace();
@@ -84,7 +85,7 @@ public class PlayerEvents implements Listener {
      * @param event
      */
     private void playerRightClickEvent(PlayerInteractEvent event) {
-        event.getPlayer().sendMessage("playerLeftClickEvent");
+        event.getPlayer().sendMessage("playerRightClickEvent");
         switch (event.getClickedBlock().getType()) {
             case SPRUCE_WALL_SIGN:
                 event.getPlayer().sendMessage("SPRUCE_WALL_SIGN");

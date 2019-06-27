@@ -62,9 +62,6 @@ public final class BlockTools {
         int xas = positions[ARRAY_PLACEMENT_POS_XAS];
         int zas = positions[ARRAY_PLACEMENT_POS_ZAS];
 
-        int typeId = clickedBlock.getType().getId();
-        byte blockData = clickedBlock.getState().getData().getData();
-
         //Place blocks forward, to the right and up
         for (int iterH = 0; iterH < height; iterH++) {
             for (int iterW = 0; iterW < width; iterW++) {
@@ -84,12 +81,6 @@ public final class BlockTools {
                     Block block = player.getWorld().getBlockAt(placeX, (startY + iterH), placeZ);
                     if (material != null) {
                         block.setType(material, applyPhysics);
-                    } else {
-                        //Deprecated but needed
-                        //TODO:RG dit moet nog
-//						block.setTypeId(typeId);
-//						block.setData(blockData);
-//						block.getState().update(true);
                     }
                 }
             }

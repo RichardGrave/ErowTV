@@ -3,6 +3,7 @@ package graver.erowtv.recipes;
 
 //import graver.erowtv.constants.Enumerations;
 import graver.erowtv.constants.Enumerations;
+import graver.erowtv.main.ErowTV;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -27,6 +28,8 @@ public final class BuildingBlocksRecipes implements Enumerations {
 	 * @return ShapedRecipe
 	 */
 	public static ShapedRecipe createCopyFromBlock(NamespacedKey key) {
+		//Add key to recipebook
+		ErowTV.addnamespacedKeyRecipe(key);
 		ItemStack itemStack = new ItemStack(Material.EMERALD_BLOCK, 1);
 		
 		//Get meta from item so we can change it
@@ -61,6 +64,8 @@ public final class BuildingBlocksRecipes implements Enumerations {
 	 * @return ShapedRecipe
 	 */
 	public static ShapedRecipe createCopyToBlock(NamespacedKey key) {
+		//Add key to recipebook
+		ErowTV.addnamespacedKeyRecipe(key);
 		ItemStack itemStack = new ItemStack(Material.EMERALD_BLOCK, 1);
 
 		//Get meta from item so we can change it
@@ -95,6 +100,8 @@ public final class BuildingBlocksRecipes implements Enumerations {
 	 * @return ShapedRecipe
 	 */
 	public static ShapedRecipe createPasteBlock(NamespacedKey key) {
+		//Add key to recipebook
+		ErowTV.addnamespacedKeyRecipe(key);
 		ItemStack itemStack = new ItemStack(Material.DIAMOND_BLOCK, 1);
 
 		//Get meta from item so we can change it
@@ -129,6 +136,8 @@ public final class BuildingBlocksRecipes implements Enumerations {
 	 * @return ShapedRecipe
 	 */
 	public static ShapedRecipe createDestroyFromBlock(NamespacedKey key) {
+		//Add key to recipebook
+		ErowTV.addnamespacedKeyRecipe(key);
 		ItemStack itemStack = new ItemStack(Material.TNT, 1);
 
 		//Get meta from item so we can change it
@@ -163,6 +172,8 @@ public final class BuildingBlocksRecipes implements Enumerations {
 	 * @return ShapedRecipe
 	 */
 	public static ShapedRecipe createDestroyToBlock(NamespacedKey key) {
+		//Add key to recipebook
+		ErowTV.addnamespacedKeyRecipe(key);
 		ItemStack itemStack = new ItemStack(Material.TNT, 1);
 
 		//Get meta from item so we can change it

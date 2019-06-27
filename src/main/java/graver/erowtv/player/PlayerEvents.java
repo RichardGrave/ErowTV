@@ -1,5 +1,6 @@
 package graver.erowtv.player;
 
+import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.constants.Messages;
 import graver.erowtv.item.ButtonTools;
 import graver.erowtv.item.ItemTools;
@@ -14,7 +15,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import java.text.MessageFormat;
 
-public class PlayerEvents implements Listener {
+public class PlayerEvents implements Listener, ErowTVConstants {
 
     //TODO:RG onPlayerLeave -> to clear the memory
 
@@ -37,9 +38,8 @@ public class PlayerEvents implements Listener {
      */
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-//		event.getPlayer().sendMessage(EmeraldValley.pluginFolder);
         try {
-            //Are there more then 2 actions? Or only left-click and right-click?
+            //Check which click is used and handle the event
             if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
                 playerLeftClickEvent(event);
 
@@ -59,23 +59,31 @@ public class PlayerEvents implements Listener {
      * @param event
      */
     private void playerLeftClickEvent(PlayerInteractEvent event) {
-        event.getPlayer().sendMessage("playerLeftClickEvent");
-        switch (event.getClickedBlock().getType()) {
-            case SPRUCE_WALL_SIGN:
-                SignTools.leftClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
-                break;
-            case SPRUCE_SIGN:
-                SignTools.leftClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
-                break;
-            case ACACIA_BUTTON:
-                break;
-            case STONE_BUTTON:
-                break;
-            default:
-                if (event.getHand() == EquipmentSlot.HAND) {
-                    // Check which hand is used. Event is fired twice -> for Main Hand and Off Hand
-                    ItemTools.leftClickItemUse(event.getPlayer(), event.getItem(), event.getClickedBlock());
-                }
+        if(isDebug) {
+            event.getPlayer().sendMessage("playerLeftClickEvent");
+        }
+        boolean specialItemUseHand = false;
+        if (event.getHand() == EquipmentSlot.HAND) {
+            // Check which hand is used. Event is fired twice -> for Main Hand and Off Hand
+            specialItemUseHand = ItemTools.leftClickItemUse(event.getPlayer(), event.getItem(), event.getClickedBlock());
+        }
+
+        if(!specialItemUseHand) {
+            //Do event by clicked block material
+            switch (event.getClickedBlock().getType()) {
+                case SPRUCE_WALL_SIGN:
+                    SignTools.leftClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
+                    break;
+                case SPRUCE_SIGN:
+                    SignTools.leftClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
+                    break;
+                case ACACIA_BUTTON:
+                    break;
+                case STONE_BUTTON:
+                    break;
+                default:
+                    //nothing, yet
+            }
         }
     }
 
@@ -85,30 +93,37 @@ public class PlayerEvents implements Listener {
      * @param event
      */
     private void playerRightClickEvent(PlayerInteractEvent event) {
-        event.getPlayer().sendMessage("playerRightClickEvent");
-        switch (event.getClickedBlock().getType()) {
-            case SPRUCE_WALL_SIGN:
-                event.getPlayer().sendMessage("SPRUCE_WALL_SIGN");
-                SignTools.rightClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
-                break;
-            case SPRUCE_SIGN:
-                event.getPlayer().sendMessage("SPRUCE_SIGN");
-                SignTools.rightClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
-                break;
-            case ACACIA_BUTTON:
-                ButtonTools.buttonRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
-                break;
-            case STONE_BUTTON:
-                ButtonTools.buttonRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
-                break;
-            case LEVER:
-                ButtonTools.leverRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
-                break;
-            default:
-                if (event.getHand() == EquipmentSlot.HAND) {
-                    // Check which hand is used. Event is fired twice -> for Main Hand and Off Hand
-                    ItemTools.rightClickItemUse(event.getPlayer(), event.getItem(), event.getClickedBlock());
-                }
+        if(isDebug) {
+            event.getPlayer().sendMessage("playerRightClickEvent");
+        }
+        boolean specialItemUseHand = false;
+        if (event.getHand() == EquipmentSlot.HAND) {
+            // Check which hand is used. Event is fired twice -> for Main Hand and Off Hand
+            specialItemUseHand = ItemTools.rightClickItemUse(event.getPlayer(), event.getItem(), event.getClickedBlock());
+        }
+        if(!specialItemUseHand) {
+            //Do event by clicked block material
+            switch (event.getClickedBlock().getType()) {
+                case SPRUCE_WALL_SIGN:
+                    event.getPlayer().sendMessage("SPRUCE_WALL_SIGN");
+                    SignTools.rightClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
+                    break;
+                case SPRUCE_SIGN:
+                    event.getPlayer().sendMessage("SPRUCE_SIGN");
+                    SignTools.rightClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
+                    break;
+                case ACACIA_BUTTON:
+                    ButtonTools.buttonRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
+                    break;
+                case STONE_BUTTON:
+                    ButtonTools.buttonRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
+                    break;
+                case LEVER:
+                    ButtonTools.leverRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
+                    break;
+                default:
+                    //nothing, yet
+            }
         }
     }
 }

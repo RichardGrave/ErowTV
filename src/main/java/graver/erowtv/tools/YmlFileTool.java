@@ -1,5 +1,6 @@
 package graver.erowtv.tools;
 
+import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-public final class YmlFileTool {
+public final class YmlFileTool implements ErowTVConstants {
 
 	private YmlFileTool() {
 	}
@@ -19,20 +20,20 @@ public final class YmlFileTool {
 	 * Use this to save specific data (like for copying blocks) to a file with given name.
 	 * 
 	 * 
-	 * @param fileName
+	 * @param fileName with correct dir Example: /copy_blocks/tree
 	 * @param player used for sending a message
 	 * @param values
 	 * @return true if succeded, false if something went wrong
 	 */
 	public static boolean saveToYmlFile(String fileName, Player player, LinkedHashMap<String, String> values) {
 		try {
-			player.sendMessage("Path: "+ErowTV.pluginFolder);
-			File blockYml = new File(ErowTV.pluginFolder + fileName + ".yml");
+			player.sendMessage("Path: "+ErowTV.fileSaveFolder);
+			File blockYml = new File(ErowTV.fileSaveFolder + fileName + FILE_EXTENSION_YML);
 			if (blockYml.exists()) {
 				// Never save to a existing file, just in case the data would be appended to te
 				// rest of the existing data.
 				if(!blockYml.delete()) {
-					player.sendMessage("File already exists and could not be deletedÍ");
+					player.sendMessage("File already exists and could not be deleted");
 					return false;
 				}
 			}
@@ -63,9 +64,18 @@ public final class YmlFileTool {
 		return true;
 	}
 	
-	public static boolean doesFileExist(String fileName) {
-		File blockYml = new File(ErowTV.pluginFolder + fileName + ".yml");
-		return blockYml.exists();
+	public static File doesFileExist(String fileName) {
+		//Add .yml if filename doesn't have it.
+		if(!fileName.endsWith(FILE_EXTENSION_YML)){
+			fileName = fileName + FILE_EXTENSION_YML;
+		}
+		File blockYml = new File(ErowTV.fileSaveFolder + fileName);
+		//Only returns if found
+		if(blockYml.exists()) {
+			return blockYml;
+		}else{
+			return null;
+		}
 	}
 
 }

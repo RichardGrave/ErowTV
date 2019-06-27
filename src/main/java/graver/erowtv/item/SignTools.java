@@ -40,7 +40,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getFacing().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 		
-		handleWallSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace, true);
+		handleSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace, true);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getRotation().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 
-		handleWallSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace, false);
+		handleSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace, false);
 	}
 
 
@@ -85,7 +85,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getRotation().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 
-		handleWallSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace, false);
+		handleSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace, false);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getFacing().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 
-		handleWallSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace, true);
+		handleSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace, true);
 	}
 
 
@@ -121,10 +121,14 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 * @param blockFace
 	 */
-	public static void handleWallSignClicked(Player player, Block clickedBlock, Sign sign, Block blockBehindSign, BlockFace blockFace, boolean isWallSign) {
-		player.sendMessage("handleWallSignClicked");
+	private static void handleSignClicked(Player player, Block clickedBlock, Sign sign, Block blockBehindSign, BlockFace blockFace, boolean isWallSign) {
+		if(isDebug) {
+			player.sendMessage("handleWallSignClicked");
+		}
+		//Used for signs
 		String uniqueMemory;
 
+		//Check if block behind the sign is the same sign as COPY_FROM
 		if(BlockTools.isBlockPositionTheSame(blockBehindSign,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION))) {
 			//We also need the COPY_TO position
 			if(ErowTV.doesPlayerHaveSpecificMemory(player, MEMORY_COPY_TO_POSITION)) {
@@ -135,6 +139,8 @@ public final class SignTools implements ErowTVConstants {
 			}else {
 				player.sendMessage("A 'Copy to block' is needed");
 			}
+
+		//Check if block behind the sign is the same sign as COPY_TO
 		}else if(BlockTools.isBlockPositionTheSame(blockBehindSign,(List<Integer>)ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION))) {
 			//We also need the COPY_FROM position
 			if(ErowTV.doesPlayerHaveSpecificMemory(player, MEMORY_COPY_FROM_POSITION)) {
@@ -146,39 +152,45 @@ public final class SignTools implements ErowTVConstants {
 				player.sendMessage("A 'Copy from block' is needed");
 			}
 
-			//Create memoryNameForSign and clicked block if it returns, then its a TOOL_SIGN
+		//Create memoryNameForSign and clicked block if it returns, then its a TOOL_SIGN
 		}else if(ErowTV.doesPlayerHaveSpecificMemory(player, uniqueMemory = createMemoryName(player, clickedBlock, MEMORY_TOOL_SIGN_POSITION))) {
-			player.sendMessage("doesPlayerHaveSpecificMemory");
-
-			List<Integer> signPosition = (List<Integer>)ErowTV.readPlayerMemory(player, uniqueMemory);
-			Sign toolSign = (Sign) player.getWorld().getBlockAt(signPosition.get(ErowTVConstants.BLOCK_POS_X),
-					signPosition.get(ErowTVConstants.BLOCK_POS_Y), signPosition.get(ErowTVConstants.BLOCK_POS_Z)).getState();
-
-			if(toolSign != null) {
-				if(isDebug) {
-					player.sendMessage("TOOL_SIGN = " + toolSign.getLine(0).toLowerCase());
-				}
-
-				//Read first line
-				switch(toolSign.getLine(0).toLowerCase()){
-					case TOOL_COUNTDOWN_TIMER:
-						new CountDownTimer(player, blockFace, blockBehindSign, toolSign, isWallSign, uniqueMemory).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
-						break;
-					case TOOL_YOUTUBE_SUBS:
-						new YoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, uniqueMemory).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
-						break;
-					case TOOL_PASTE:
-						PasteBlockTool.pasteBlocks(player, clickedBlock, sign, null, signPosition, uniqueMemory);
-						break;
-				}
-
-			}
+			handleToolSignAction(player, clickedBlock, sign, blockBehindSign, blockFace, isWallSign, uniqueMemory);
 		}
 
 	}
 
+	private static void handleToolSignAction(Player player, Block clickedBlock, Sign sign, Block blockBehindSign, BlockFace blockFace,
+									  boolean isWallSign, String uniqueMemory){
+
+		//Get sign world and coordinates
+		List<Integer> signPosition = (List<Integer>)ErowTV.readPlayerMemory(player, uniqueMemory);
+		//With that, create a sign Object.
+		Sign toolSign = (Sign) player.getWorld().getBlockAt(signPosition.get(ErowTVConstants.BLOCK_POS_X),
+				signPosition.get(ErowTVConstants.BLOCK_POS_Y), signPosition.get(ErowTVConstants.BLOCK_POS_Z)).getState();
+
+		if(isDebug) {
+			player.sendMessage("TOOL_SIGN = " + toolSign.getLine(TOOL_SIGN_ACTION).toLowerCase());
+		}
+
+		if(toolSign != null) {
+			//Read first line
+			switch (toolSign.getLine(TOOL_SIGN_ACTION).toLowerCase()) {
+				case TOOL_COUNTDOWN_TIMER:
+					new CountDownTimer(player, blockFace, blockBehindSign, toolSign, isWallSign, uniqueMemory).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+					break;
+				case TOOL_YOUTUBE_SUBS:
+					new YoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, uniqueMemory).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+					break;
+				case TOOL_PASTE:
+					PasteBlockTool.pasteBlocks(player, clickedBlock, toolSign, null, signPosition, uniqueMemory);
+					break;
+			}
+		}
+	}
+
 	/**
 	 * Multiple signs can be placed, but they all need a unique name.
+	 * So this creates a the unique name from the signName, the world and coordinates
 	 *
 	 * @param player
 	 * @param block

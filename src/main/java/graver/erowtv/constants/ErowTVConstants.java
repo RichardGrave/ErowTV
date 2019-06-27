@@ -8,6 +8,21 @@ public interface ErowTVConstants {
 	//Various Strings
 	public final static String ENCHANTMENT_EROWTV = "ErowTV's Magic";
 
+	//File saving
+	public final static String FILE_EXTENSION_YML = ".yml";
+	public final static String DIR_FILE_SAVE = "/saved_files/";
+	public final static String DIR_COPY_BLOCKS = "/copy_blocks/";
+	public final static String DIR_GENERAL = "/general/";
+
+	//Sign TextLine
+	public final static int TOOL_SIGN_ACTION = 0;
+	public final static int TOOL_SIGN_PARAMETER_1 = 1;
+	public final static int TOOL_SIGN_PARAMETER_2 = 2;
+	public final static int TOOL_SIGN_PARAMETER_3 = 3;
+
+	public final static int PASTE_BLOCK_FILE_NAME = 0;
+	public final static int COPY_BLOCK_SIGN_FILE_NAME = 0;
+
 	//Various ints
 	public final static int MEMORY_NO_LIST_SIZE = -1;
 

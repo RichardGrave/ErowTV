@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public final class CopyBlockTool {
+public final class CopyBlockTool implements ErowTVConstants {
 
 	private static int ARRAY_PLACEMENT_POS_STARTX = 0;
 	private static int ARRAY_PLACEMENT_POS_STARTY = 1;
@@ -47,10 +47,10 @@ public final class CopyBlockTool {
 
 //			org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)wallSign.getData();
 			
-			String fileName = wallSign.getLine(0).trim();
+			String fileName = wallSign.getLine(COPY_BLOCK_SIGN_FILE_NAME).trim();
 			
 			if(fileName != null && !fileName.isEmpty()) {
-				fileName = fileName.replace(' ', '_');
+				fileName = DIR_COPY_BLOCKS + fileName.replace(' ', '_');
 
 				//Copy block has a sign to click on for directions, so CustomBlockFace = NULL
 				int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, clickedBlock, null);

@@ -5,7 +5,10 @@ import org.bukkit.block.BlockFace;
 public interface Enumerations {
 
 //	private Enumerations(){}
-	
+
+	/**
+	 * Enum used for determining checking the players direction.
+	 */
 	public static enum PlayerDirection {
 		
 		NORTH(ErowTVConstants.ENUM_PLAYER_DIRECTION_NORTH), NORTHEAST(ErowTVConstants.ENUM_PLAYER_DIRECTION_NORTHEAST),
@@ -29,15 +32,12 @@ public interface Enumerations {
 	/**
 	 * Use CustomRecipe final String in the Recipe as its DisplayName
 	 * Use getCustomRecipe() to get the index for switch statements
-	 *
 	 */
 	public static enum CustomItem {
 		TWO_BY_TWO("Two by Two", "I command you to multiply"),
 		COPY_FROM_BLOCK("Copy FROM block", "You also need a Copy TO block"),
 		COPY_TO_BLOCK("Copy TO block",  "You also need a Copy FROM block"),
 		PASTE_BLOCK("Paste block", "Paste whatever you want, how often you want."),
-//		PASTE_SIGN("Paste sign", "Please SIGN this contract and I will build it"),
-//		CLOCK_SIGN("Clock sign", "Time is ticking"),
 		TOOL_SIGN("Tool sign", "The right tool for the job"),
 		DESTROY_FROM_BLOCK("Destroy FROM block", "You also need a Destroy TO block"),
 		DESTROY_TO_BLOCK("Destroy TO block",  "You also need a Destroy FROM block"),
@@ -60,20 +60,23 @@ public interface Enumerations {
 		}
 		
 		public String getKey() {
-			//Needed for NamespacedKey
+			//Needed for NamespacedKey. Dont remove.
 			return this.customItem.replaceAll(" ", "_");
 		}
 		
 	    public static CustomItem getCustomItem(String recipeName){
 	        try {
-	        		//First Uppercase and then replace the whitespace with underscore for recipe names with whitespaces
+	        	//First Uppercase and then replace the whitespace with underscore for recipe names with whitespaces
 	            return valueOf(recipeName.toUpperCase().replace(' ', '_'));
 	        } catch (Exception ex) {
 	            return NO_RECIPE;
 	        }
 	    } 
 	}
-		
+
+	/**
+	 * All the material that can have a direction.
+	 */
 	public static enum DirectionalMaterial {
 		ORG_BUKKIT_MATERIAL_BANNER,
 		ORG_BUKKIT_MATERIAL_BED,
@@ -108,14 +111,17 @@ public interface Enumerations {
 				
 	    public static DirectionalMaterial getDirectionMaterial(String material){
 	        try {
-        			//First Uppercase and then replace the dots with underscore for material names with dots
+	        	//First Uppercase and then replace the dots with underscore for material names with dots
 	            return valueOf(material.toUpperCase().replace('.', '_'));
 	        } catch (Exception ex) {
 	            return NO_ITEM;
 	        }
 	    } 
 	}
-	
+
+	/**
+	 * Needed to find out the direction for blocks.
+	 */
 	public static enum DirectionalRotation {
 		NORTH(1),
 		NORTH_NORTH_EAST(2),

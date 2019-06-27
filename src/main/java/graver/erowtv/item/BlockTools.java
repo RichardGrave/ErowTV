@@ -8,13 +8,11 @@ import graver.erowtv.main.ErowTV;
 import graver.erowtv.player.PlayerTools;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
-import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Furnace;
 import org.bukkit.block.Skull;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Stairs;
 
@@ -87,17 +85,6 @@ public final class BlockTools {
         }
     }
 
-    public static void placeBlockByItem(World world, Material material, boolean applyPhysics) {
-        // Block block = world.getBlockAt(xas, yas, zas);
-        // block.setType(material, applyPhysics);
-        // Location location = block.getLocation();
-    }
-
-    public static int[] getPlacementPostionByItem(Item item) {
-        // TODO:RG moet nog iets teruggeven
-        return new int[]{};
-    }
-
     /**
      * Handle block BlockEvents
      * If there can only be one, also check 'blockBreak' method
@@ -141,7 +128,7 @@ public final class BlockTools {
 
     /**
      * If a block breaks that is in the players memory then it should be removed from the memory.
-     * So it doenst mess up other actions
+     * So it doens't mess up other actions
      *
      * @param player
      * @param block

@@ -16,7 +16,7 @@ import org.bukkit.material.Directional;
 import java.io.File;
 import java.util.List;
 
-public final class PasteBlockTool {
+public final class PasteBlockTool implements ErowTVConstants {
 
 	private static int ARRAY_PLACEMENT_POS_STARTX = 0;
 	private static int ARRAY_PLACEMENT_POS_STARTY = 1;
@@ -42,17 +42,20 @@ public final class PasteBlockTool {
 		Block blockTo = player.getWorld().getBlockAt(pasteBlock.get(ErowTVConstants.BLOCK_POS_X),
 				pasteBlock.get(ErowTVConstants.BLOCK_POS_Y),pasteBlock.get(ErowTVConstants.BLOCK_POS_Z));
 
+		//Add DIR_COPY_BLOCKS for TOOL_SIGN
 		if(fileName == null || fileName.isEmpty()) {
 			//Get file name if no filename is given
-			fileName = sign.getLine(0).trim();
+			//This only happens with TOOL_SIGN
+			fileName = DIR_COPY_BLOCKS + sign.getLine(TOOL_SIGN_PARAMETER_1);
 		}
 
 		if(fileName != null && !fileName.isEmpty()) {
 			//No whitespaces
 			fileName = fileName.replace(' ', '_');
-			
+
+			File copyFile;
 			//Check if file with name exists
-			if(YmlFileTool.doesFileExist(fileName)) {
+			if((copyFile = YmlFileTool.doesFileExist(fileName)) != null) {
 
 				//Get directions for pasting
 				//If a sign is clicked then CustomBlockFace is NULL else it's the players facing direction
@@ -73,13 +76,16 @@ public final class PasteBlockTool {
 						blockFace = player.getFacing();
 					}
 
-					pasteBlocksAtAllPositions(player, fileName, directions, blockFace);
+					pasteBlocksAtAllPositions(player, copyFile, directions, blockFace);
 					//Set blocks and the sign to AIR
 					blockTo.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
 
 		
 					//Remove the memory after the copy
-					ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
+					//Only for TOOL_SIGN paste action. NOT for PASTE BLOCK
+					if(!memoryName.equalsIgnoreCase(MEMORY_PASTE_BLOCK_ACTION)) {
+						ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
+					}
 				} else {
 					player.sendMessage("Couldnt find the correct directions for pasting");
 				}
@@ -98,7 +104,7 @@ public final class PasteBlockTool {
 	 * @param positions
 	 */
 	@SuppressWarnings("deprecation")
-	public static void pasteBlocksAtAllPositions(Player player, String fileName, int[] positions, BlockFace blockFace) {		
+	public static void pasteBlocksAtAllPositions(Player player, File copyFile, int[] positions, BlockFace blockFace) {
 //		startX, startY, startZ, xas, zas, isNorthSouth };
 		boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
 		int startX = positions[ARRAY_PLACEMENT_POS_STARTX];
@@ -107,9 +113,8 @@ public final class PasteBlockTool {
 		int xas = positions[ARRAY_PLACEMENT_POS_XAS];
 		int zas = positions[ARRAY_PLACEMENT_POS_ZAS];
 		int facingDirection = positions[ARRAY_CURRENT_FACING_DIRECTION];
-		
-		File blockYml = new File(ErowTV.pluginFolder + fileName + ".yml");
-		FileConfiguration blockConfig = YamlConfiguration.loadConfiguration(blockYml);
+
+		FileConfiguration blockConfig = YamlConfiguration.loadConfiguration(copyFile);
 		
 		if(!blockConfig.contains(ErowTVConstants.YML_D_H_W_KEY)) {
 			player.sendMessage("Cant find depth, height and widht in yml file");

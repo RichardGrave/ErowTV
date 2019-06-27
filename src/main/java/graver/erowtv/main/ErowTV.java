@@ -23,19 +23,26 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	public static Map<String, Map<String, List<?>>> playerMemory;
 	public static Collection<NamespacedKey> namespacedKeysRecipes = new ArrayList<NamespacedKey>();
 
-	public static String pluginFolder;
+	public static String fileSaveFolder;
 
 	//Reference to this plugin.
 	//For use with BukkitRunnable's that need the plugin to start.
 	public static JavaPlugin javaPluginErowTV;
-	
+
+	/**
+	 * Starting point of the plugin
+	 */
 	@Override
 	public void onEnable() {
 		try {
 			this.javaPluginErowTV = this;
 			playerMemory = new HashMap<String, Map<String,List<?>>>();
 			serverMemory = new HashMap<String, List<?>>();
-			pluginFolder = getDataFolder().getParentFile().getAbsolutePath() + "/copy_blocks/";
+
+			//!! Make sure that you have a 'saved_files' folder inside the Spigot 'plugins' folder
+			//Just in case the file system doesn't create the needed folder
+			fileSaveFolder = getDataFolder().getParentFile().getAbsolutePath() + DIR_FILE_SAVE;
+
 			// register Events, Commands and Recipes
 			registerEvents();
 			registerCommands();
@@ -56,15 +63,19 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 		getLogger().info(Messages.EROWTV_MEMORY_CLEARED);
 	}
 
-	// Register all events
+	/**
+	 * Register all the events
+	 */
 	public void registerEvents() {
 		getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
 		getServer().getPluginManager().registerEvents(new BlockEvents(), this);
-
 		getLogger().info(Messages.EROWTV_EVENT_REGISTRATION_COMPLETE);
 	}
 
-	// Register all the commands
+
+	/**
+	 * Register all the commands
+	 */
 	public void registerCommands() {
 		getCommand(ErowTVConstants.TEST).setExecutor(new TestCommand());
 		getCommand(ErowTVConstants.PLAYER_DIRECTION).setExecutor(new PlayerCommands());
@@ -72,7 +83,9 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 		getLogger().info(Messages.EROWTV_COMMAND_REGISTRATION_COMPLETE);
 	}
 
-	// Register all the commands
+	/**
+	 * Register all the recipes
+	 */
 	public void registerRecipes() {
 		//Each NamespacedKey needs the have a different key name, so use the CustomRecipe.RECIPE.getKey()
 		getServer().addRecipe(MiscellaneousRecipes.createTwoByTwo(new NamespacedKey(this, CustomItem.TWO_BY_TWO.getKey())));
@@ -140,10 +153,12 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	 * @param memoryValues a List with values (Integer or String or whatever)
 	 */
 	public static void storePlayerMemory(Player player, String memoryName, List<?> memoryValues) {
+		//First check if the PLAYER is IN the memory
 		if(!playerMemory.containsKey(player.getUniqueId().toString())) {
 			//If by any chance the Player hasnt got a playerMemory, make a new one.
 			addPlayerToMemory(player);
 		}
+		//Write the memory for the player
 		playerMemory.get(player.getUniqueId().toString()).put(memoryName, memoryValues);
 	}
 	
@@ -158,15 +173,18 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 		if(isDebug) {
 			player.sendMessage("ReadMemory");
 		}
+		//First check if the PLAYER is IN the memory
 		if(!playerMemory.containsKey(player.getUniqueId().toString())) {
 			if(isDebug) {
 				player.sendMessage("NoPlayerInMemory");
 			}
 
-			//If by any chance the Player hasnt got a playerMemory, make a new one.
+			//If by any chance the Player hasn't got a playerMemory, make a new one.
 			addPlayerToMemory(player);
+			//Just let it continue
 		}
-		
+
+		//Fetch the memory and return it
 		return playerMemory.get(player.getUniqueId().toString()).get(memoryName);
 	}
 	
@@ -178,10 +196,12 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	 * @return a list with the stored values for the player with a specific memoryName
 	 */
 	public static boolean doesPlayerHaveSpecificMemory(Player player, String memoryName){
+		//First check if the PLAYER is IN the memory
 		if(!playerMemory.containsKey(player.getUniqueId().toString())) {
 			return false;
 		}
-		
+
+		//Now check if the player HAS the memory
 		return playerMemory.get(player.getUniqueId().toString()).containsKey(memoryName);
 	}
 

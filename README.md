@@ -20,7 +20,7 @@ And I will refactor bits of code to better structured code whenever I have the t
 - Two by Two block: that creates 8 blocks using clicked block material or left-click creating 8 blocks of AIR.
 - Paste block: Right-click sign with filename (saved with Copy blocks) and every where you'll right click in the world it will paste all the blocks from the file.
 - Special sign:
-  - Youtube Subscribers Counter: creates a subscribers count on a sign or with blocks. This uses a Google API-key (generated on [Google Developers](https://developers.google.com) that everybody can genereate en use for themselfs)
+  - Youtube Subscribers Counter: creates a subscribers count on a sign or with blocks. This uses a Google API-key (generated on [Google Developers](https://developers.google.com) that everybody can generate and use for themselfs)
 You can give a channel name (or ID) and how many seconds it has to wait before getting the number of subscribers again.
   - Countdown Timer: creates a time on a sign or with blocks to begin from with the countdown. Use hours, minutes and seconds.
   - Paste: can paste everything from a file that was created with the Copy blocks.

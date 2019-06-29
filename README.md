@@ -26,7 +26,9 @@ You can give a channel name (or ID) and how many seconds it has to wait before g
   - Paste: can paste everything from a file that was created with the Copy blocks.
 - Recipes: are put into recipe crafting book
   
- YouTube video: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA) 
+ YouTube video: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)
+ A few features have already changed/add sinds the video.
+ Maybe a new video in the near future.
   
 ## Memory system:
 I have created a simple memory system that saves the coordinates of each **special block** (from the features in the text above) for the player that places them. Only that player can do interactions with the blocks/signs to activate them.

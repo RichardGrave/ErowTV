@@ -1,4 +1,4 @@
-#[ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
+# [ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
 ## A Minecraft plugin for a [SpigotMC](https://www.spigotmc.org) server.
 
 This is **NOT** a mod for clientside single player Minecraft.
@@ -14,7 +14,7 @@ You can give a channel name (or ID) and how many seconds it has to wait before g
   - Countdown Timer: creates a time on a sign or with blocks to begin from with the countdown. Use hours, minutes and seconds.
   - Paste: can paste everything from a file that was created with the Copy blocks.
   
- [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA) 
+ YouTube video: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA) 
   
 ## Memory system:
 I have created a simple memory system that saves the coordinates of each **special block** (the features above) for the player that places them. Only that player can do interactions with the blocks/signs to activate them.
@@ -29,6 +29,6 @@ They each get a unique memory name so the server always knows where the signs wi
 - Extra commands usable in the chat
 - More tools to use (dont know what they will be, yet)
 - More YouTube videos of this plugin on our channel
-[channel ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
+[ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
 
 

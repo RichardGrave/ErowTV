@@ -9,10 +9,9 @@ This may not be the best code.
 It has been refactored a lot during the time that it exists (even before I put it on GitHub). Some API methods/classes of SpigotMC have become deprecated and replaced with new ones. I still have to update some of it in my code.
 So i didnt want to spend much time on restructuring the code. Just enough to keep it readable/understandable.
 
-I try not to be to messy with my code.
-I do use JavaDoc and comments.
+I try not to be to messy with my code.\
+I do use JavaDoc and comments.\
 And I will refactor bits of code to better structured code whenever I have the time or when I need it for new features.
-
 
 ## Features it has:
 - Copy blocks: a Copy FROM and Copy TO block that can copy everything between them and saves it to a file with a given name(from a sign). At the moment this works for all the blocks, but some blocks with special data will have a wrong direction when placed. Stairs for example. They can be upside down and those kind of things.
@@ -26,9 +25,9 @@ You can give a channel name (or ID) and how many seconds it has to wait before g
   - Paste: can paste everything from a file that was created with the Copy blocks.
 - Recipes: are put into recipe crafting book
   
- YouTube video: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)
- A few features have already changed/add sinds the video.
- Maybe a new video in the near future.
+ YouTube video: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)\
+ A few features have already changed sinds the video.\
+ Maybe a new video in the near future.\
   
 ## Memory system:
 I have created a simple memory system that saves the coordinates of each **special block** (from the features in the text above) for the player that places them. Only that player can do interactions with the blocks/signs to activate them.
@@ -37,7 +36,7 @@ This is needed for the copy/destroy blocks so you can check if there already exi
 If we dont do that then we could for example place multiple Copy FROM blocks (or TO blocks) and then the server doesn't know where to calculate FROM en TO. So it would mess things up pretty bad.
 It will also remove blocks from memory if they break.
 
-It will remember multiple special signs for a player, because a sign only needs itself.
+It will remember multiple special signs for a player, because a sign only needs itself.  
 They each get a unique memory name so the server always knows where the signs with their actions are.
 
 ## What I want to make in the future:

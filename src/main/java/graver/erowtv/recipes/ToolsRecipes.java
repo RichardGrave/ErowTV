@@ -100,13 +100,13 @@ public final class ToolsRecipes {
 
 		//Get meta from item so we can change it
 		ItemMeta meta = itemStack.getItemMeta();
-		meta.setDisplayName(Enumerations.CustomItem.TOOL_SIGN.getCustomItemName());
+		meta.setDisplayName(Enumerations.CustomItem.SPECIAL_SIGN.getCustomItemName());
 		//Add glow to item
 		meta.addEnchant(Enchantment.LUCK, 1, true);
 
 		//Add item lore to overwrite default enchantment text
 		List<String> itemLore = new ArrayList<String>();
-		itemLore.add(Enumerations.CustomItem.TOOL_SIGN.getLore());
+		itemLore.add(Enumerations.CustomItem.SPECIAL_SIGN.getLore());
 		meta.setLore(itemLore);
 		// Set the meta of the block to the edited meta.
 		itemStack.setItemMeta(meta);

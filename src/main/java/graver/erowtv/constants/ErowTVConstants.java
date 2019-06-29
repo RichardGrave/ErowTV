@@ -3,7 +3,7 @@ package graver.erowtv.constants;
 public interface ErowTVConstants {
 
 	//Set isDebug on true if player messages with info is needed
-	public final static boolean isDebug = false;
+	public final static boolean isDebug = true;
 
 	//Various Strings
 	public final static String ENCHANTMENT_EROWTV = "ErowTV's Magic";
@@ -15,10 +15,10 @@ public interface ErowTVConstants {
 	public final static String DIR_GENERAL = "/general/";
 
 	//Sign TextLine
-	public final static int TOOL_SIGN_ACTION = 0;
-	public final static int TOOL_SIGN_PARAMETER_1 = 1;
-	public final static int TOOL_SIGN_PARAMETER_2 = 2;
-	public final static int TOOL_SIGN_PARAMETER_3 = 3;
+	public final static int SPECIAL_SIGN_ACTION = 0;
+	public final static int SPECIAL_SIGN_PARAMETER_1 = 1;
+	public final static int SPECIAL_SIGN_PARAMETER_2 = 2;
+	public final static int SPECIAL_SIGN_PARAMETER_3 = 3;
 
 	public final static int PASTE_BLOCK_FILE_NAME = 0;
 	public final static int COPY_BLOCK_SIGN_FILE_NAME = 0;
@@ -107,7 +107,7 @@ public interface ErowTVConstants {
 	public static final String MEMORY_PASTE_BLOCK_ACTION = "PASTE_BLOCK_ACTION";
 //	public static final String MEMORY_PASTE_SIGN_POSITION = "PASTE_SIGN_POSITION";
 //	public static final String MEMORY_CLOCK_SIGN_POSITION = "CLOCK_SIGN_POSITION";
-	public static final String MEMORY_TOOL_SIGN_POSITION = "TOOL_SIGN_POSITION";
+	public static final String MEMORY_SPECIAL_SIGN_POSITION = "SPECIAL_SIGN_POSITION";
 	
 	public static final String MEMORY_COPY_TO_POSITION = "COPY_TO_POSITION";
 	public static final String MEMORY_COPY_FROM_POSITION = "COPY_FROM_POSITION";
@@ -128,6 +128,7 @@ public interface ErowTVConstants {
 
 	//20 game ticks is 1 seconde
 	public final static int TIME_SECOND = 20;
+	public final static int TIME_5_SECONDS = 100;
 	public final static int TIME_10_SECONDS = 200;
 	public final static int TIME_20_SECONDS = 400;
 	public final static int TIME_30_SECONDS = 600;
@@ -150,8 +151,8 @@ public interface ErowTVConstants {
 	public final static String TIME_FORMAT_SS = "ss";
 	public final static String TIME_FORMAT_S = "s";
 
-	//ToolSing tools (Use lowercase)
-	public final static String TOOL_COUNTDOWN_TIMER = "timer";
-	public final static String TOOL_YOUTUBE_SUBS = "youtube";
-	public final static String TOOL_PASTE = "paste";
+	//SpecialSign tools (Use lowercase)
+	public final static String SPECIAL_COUNTDOWN_TIMER = "timer";
+	public final static String SPECIAL_YOUTUBE_SUBS = "youtube";
+	public final static String SPECIAL_PASTE = "paste";
 }

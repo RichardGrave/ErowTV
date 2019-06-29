@@ -95,7 +95,7 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 		getServer().addRecipe(BuildingBlocksRecipes.createDestroyToBlock(new NamespacedKey(this, CustomItem.DESTROY_TO_BLOCK.getKey())));
 		getServer().addRecipe(BuildingBlocksRecipes.createPasteBlock(new NamespacedKey(this, CustomItem.PASTE_BLOCK.getKey())));
 
-		getServer().addRecipe(ToolsRecipes.createToolSign(new NamespacedKey(this, CustomItem.TOOL_SIGN.getKey())));
+		getServer().addRecipe(ToolsRecipes.createToolSign(new NamespacedKey(this, CustomItem.SPECIAL_SIGN.getKey())));
 
 
 		getLogger().info(Messages.EROWTV_RECIPE_REGISTRATION_COMPLETE);

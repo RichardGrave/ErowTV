@@ -37,7 +37,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
         this.isWallSign = isWallSign;
         this.memoryName = memoryName;
 
-        setTime(sign.getLine(TOOL_SIGN_PARAMETER_1));
+        setTime(sign.getLine(SPECIAL_SIGN_PARAMETER_1));
     }
 
     private void setTime(String time) {

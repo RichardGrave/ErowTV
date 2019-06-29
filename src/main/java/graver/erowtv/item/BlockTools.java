@@ -110,11 +110,11 @@ public final class BlockTools {
                 case DESTROY_TO_BLOCK:
                     thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_DESTROY_TO_POSITION);
                     break;
-                case TOOL_SIGN:
-                    player.sendMessage("TOOL_SIGN PLACED");
+                case SPECIAL_SIGN:
+                    player.sendMessage("SPECIAL_SIGN PLACED");
                     //This is a sign, make it editable(false).
 //                    ((Sign) block.getState()).setEditable(false); TODO:RG is Editable false needed?
-                    String memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_TOOL_SIGN_POSITION);
+                    String memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION);
                     player.sendMessage("MEMORY="+memoryName);
                     SignTools.thereCanBeMore(player, block, memoryName);
                     break;
@@ -154,8 +154,9 @@ public final class BlockTools {
                 isBlockPositionTheSame(block, (List<Integer>) ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION))) {
             ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION);
 
-        } else if (ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_TOOL_SIGN_POSITION)){
-            String memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_TOOL_SIGN_POSITION);
+            //TODO:RG dit klopt niet,moet anders. Moet een unieke sign memory zijn.
+        } else if (ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION)){
+            String memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION);
             ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
         }
     }

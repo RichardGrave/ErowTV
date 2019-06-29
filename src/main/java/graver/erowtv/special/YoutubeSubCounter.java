@@ -8,6 +8,7 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.Channel;
 import com.google.api.services.youtube.model.ChannelListResponse;
 import graver.erowtv.constants.ErowTVConstants;
+import graver.erowtv.main.ErowTV;
 import graver.erowtv.tools.NumbersTool;
 import graver.erowtv.tools.YmlFileTool;
 import org.bukkit.block.Block;
@@ -20,6 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants {
@@ -55,17 +57,15 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
     private Sign sign;
 
     private boolean isWallSign = false;
-    private boolean stopAll = false;
     private String youtubeChannel = "";
     private String memoryName;
 
     //API-KEY is necessary
-    private String YOUTUBE_API_KEY;
-
+    private String youtubeApiKey;
     //You will need one. Channel ID or Channel name
     //!!!Google has rules for when you can use a channel name!!!
-    private String YOUTUBE_CHANNEL_ID;
-    private String YOUTUBE_CHANNEL_NAME;
+    private String youtubeChannelId;
+    private String youtubeChannelName;
 
     //TODO:RG laten stoppen als de sign weg is. Niet zo moeilijk
     //Geef positie van sign mee, zodat bij stuk gaan het this.cancel() aanroept
@@ -75,7 +75,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
         this.blockToUse = blockToUse;
         this.blockFace = blockFace;
         this.sign = sign;
-        this.youtubeChannel = sign.getLine(TOOL_SIGN_PARAMETER_1);
+        this.youtubeChannel = sign.getLine(SPECIAL_SIGN_PARAMETER_1);
         this.isWallSign = isWallSign;
         this.memoryName = memoryName; //TODO:RG iets mee doen? kunnen laten eindigen?
 
@@ -90,22 +90,17 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
             //file will be 'plugins/saved_files/general/api_key_and_channel.yml'
             FileConfiguration blockConfig = YamlConfiguration.loadConfiguration(youtube_file);
 
-            if (!blockConfig.contains(YML_API_KEY)) {
-                YOUTUBE_API_KEY = blockConfig.get(YML_API_KEY).toString();
-            } else {
-                if(isDebug){
-                    player.sendMessage("Cancelling");
-                }
-                //If there is no api key then quit
-                this.cancel();
+            if (blockConfig.contains(YML_API_KEY)) {
+                youtubeApiKey = blockConfig.get(YML_API_KEY).toString();
             }
-            //Only if there is not YoutubeChannel on the Sign.
+
+            //Only if there is not a YoutubeChannel on the Sign.
             if (youtubeChannel.isEmpty()) {
-                if (!blockConfig.contains(YML_CHANNEL_ID)) {
-                    YOUTUBE_CHANNEL_ID = blockConfig.get(YML_CHANNEL_ID).toString();
+                if (blockConfig.contains(YML_CHANNEL_ID)) {
+                    youtubeChannelId = blockConfig.get(YML_CHANNEL_ID).toString();
                 }
-                if (!blockConfig.contains(YML_API_KEY)) {
-                    YOUTUBE_CHANNEL_NAME = blockConfig.get(YML_CHANNEL_NAME).toString();
+                if (blockConfig.contains(YML_API_KEY)) {
+                    youtubeChannelName = blockConfig.get(YML_CHANNEL_NAME).toString();
                 }
             }
         }
@@ -130,6 +125,9 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
     @Override
     public void run() {
         try {
+            if(youtubeApiKey.isEmpty()){
+                this.cancel();
+            }
             if(isDebug) {
                 player.sendMessage("Running");
             }
@@ -139,17 +137,16 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
             setYoutubeSearchParameters(search);
 
             numberOfSubscribers = getChannelsResponse(search);
-            //Should is be placed with block or just text on a sign
-            if (isWallSign) {
-                //Create number for how many subscribers we have
-                NumbersTool.buildEntireNumber(player, numberOfSubscribers, blockToUse, blockFace);
-            } else {
-                //Else set this text to the sign
-                sign.setLine(0, (youtubeChannel.isEmpty() ? YOUTUBE_CHANNEL_NAME : youtubeChannel));
-                sign.setLine(1, numberOfSubscribers);
-                sign.update();
-            }
-            if(numberOfSubscribers.isEmpty()){
+
+            updateNumbersOrSign(numberOfSubscribers);
+
+            //If there are no subscribers or the memory for the specialsign is gone, then cancel.
+            if(numberOfSubscribers.isEmpty() ||
+                    !ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION)){
+                if(isDebug) {
+                    player.sendMessage("Cancel YoutubeSubCounter");
+                }
+
                 //Something is wrong, so stop
                 this.cancel();
             }
@@ -158,21 +155,34 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
         }
     }
 
+    private void updateNumbersOrSign(String numberOfSubscribers){
+        //Should is be placed with block or just text on a sign
+        if (isWallSign) {
+            //Create number for how many subscribers we have
+            NumbersTool.buildEntireNumber(player, numberOfSubscribers, blockToUse, blockFace);
+        } else {
+            //Else set this text to the sign
+            sign.setLine(0, (youtubeChannel.isEmpty() ? youtubeChannelName : youtubeChannel));
+            sign.setLine(1, numberOfSubscribers);
+            sign.update();
+        }
+    }
+
     private void setYoutubeSearchParameters(YouTube.Channels.List search) {
         //If the sign row is empty
         if (youtubeChannel.isEmpty()) {
             //If youtubeChannel empty then default channel name or channel id
-            if (!YOUTUBE_CHANNEL_NAME.isEmpty()) {
+            if (!youtubeChannelName.isEmpty()) {
                 //Only available if you comply with the Google rules
-                search.setForUsername(YOUTUBE_CHANNEL_NAME);
+                search.setForUsername(youtubeChannelName);
             } else {
-                search.setId(YOUTUBE_CHANNEL_ID);
+                search.setId(youtubeChannelId);
             }
         } else {
             search.setForUsername(youtubeChannel);
         }
 
-        search.setKey(YOUTUBE_API_KEY);
+        search.setKey(youtubeApiKey);
     }
 
     private String getChannelsResponse(YouTube.Channels.List search) {
@@ -184,8 +194,9 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
             List<Channel> channels = response.getItems();
             for (Channel channel : channels) {
 
-                //Set returned data
-                numberOfSubscribers = channel.getStatistics().getSubscriberCount().toString();
+                //Set returned data with number separators
+                numberOfSubscribers = NumberFormat.getIntegerInstance().
+                        format(channel.getStatistics().getSubscriberCount().intValue());
             }
 
             return numberOfSubscribers;

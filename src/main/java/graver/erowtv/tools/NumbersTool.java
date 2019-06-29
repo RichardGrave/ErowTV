@@ -84,9 +84,9 @@ public final class NumbersTool implements ErowTVConstants {
         if (numberPieces.length > 0) {
             for (int reverseIter = (numberPieces.length - 1); reverseIter >= 0; reverseIter--) {
                 try {
-                    int numWithForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter], startingBlockPostionForNumber, blockFace, material);
+                    int numWidthForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter], startingBlockPostionForNumber, blockFace, material);
 
-                    startingBlockPostionForNumber = calculateCorrectStartingPosition(player, startingBlockPostionForNumber, blockFace, numWithForNext);
+                    startingBlockPostionForNumber = calculateCorrectStartingPosition(player, startingBlockPostionForNumber, blockFace, numWidthForNext);
                 } catch (Exception ex) {
                     player.sendMessage("[NumbersTool][buildEntireNumber][Cant build char]");
                 }
@@ -94,7 +94,7 @@ public final class NumbersTool implements ErowTVConstants {
         }
     }
 
-    public static Block calculateCorrectStartingPosition(Player player, Block startingBlockPostionForNumber, BlockFace blockFace, int numWithForNext){
+    public static Block calculateCorrectStartingPosition(Player player, Block startingBlockPostionForNumber, BlockFace blockFace, int numWidthForNext){
         int yas = startingBlockPostionForNumber.getY();
         int xas = startingBlockPostionForNumber.getX();
         int zas = startingBlockPostionForNumber.getZ();
@@ -102,16 +102,16 @@ public final class NumbersTool implements ErowTVConstants {
         //Use blockFace to determine the direction
         switch (blockFace) {
             case NORTH:
-                xas = xas - numWithForNext;
+                xas = xas - numWidthForNext;
                 break;
             case EAST:
-                zas = zas - numWithForNext;
+                zas = zas - numWidthForNext;
                 break;
             case SOUTH:
-                xas = xas + numWithForNext;
+                xas = xas + numWidthForNext;
                 break;
             case WEST:
-                zas = zas + numWithForNext;
+                zas = zas + numWidthForNext;
                 break;
             default:
                 break;
@@ -172,6 +172,9 @@ public final class NumbersTool implements ErowTVConstants {
                 buildSingleNumber(player, block, numNine, xas, yas, zas, blockFace, material);
                 return numWidth;
             case '.':
+                buildSingleNumber(player, block, dotChar, xas, yas, zas, blockFace, material);
+                return dotWidth;
+            case ',':
                 buildSingleNumber(player, block, dotChar, xas, yas, zas, blockFace, material);
                 return dotWidth;
             case ':':

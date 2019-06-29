@@ -42,11 +42,11 @@ public final class PasteBlockTool implements ErowTVConstants {
 		Block blockTo = player.getWorld().getBlockAt(pasteBlock.get(ErowTVConstants.BLOCK_POS_X),
 				pasteBlock.get(ErowTVConstants.BLOCK_POS_Y),pasteBlock.get(ErowTVConstants.BLOCK_POS_Z));
 
-		//Add DIR_COPY_BLOCKS for TOOL_SIGN
+		//Add DIR_COPY_BLOCKS for SPECIAL_SIGN
 		if(fileName == null || fileName.isEmpty()) {
 			//Get file name if no filename is given
-			//This only happens with TOOL_SIGN
-			fileName = DIR_COPY_BLOCKS + sign.getLine(TOOL_SIGN_PARAMETER_1);
+			//This only happens with SPECIAL_SIGN
+			fileName = DIR_COPY_BLOCKS + sign.getLine(SPECIAL_SIGN_PARAMETER_1);
 		}
 
 		if(fileName != null && !fileName.isEmpty()) {
@@ -82,7 +82,7 @@ public final class PasteBlockTool implements ErowTVConstants {
 
 		
 					//Remove the memory after the copy
-					//Only for TOOL_SIGN paste action. NOT for PASTE BLOCK
+					//Only for SPECIAL_SIGN paste action. NOT for PASTE BLOCK
 					if(!memoryName.equalsIgnoreCase(MEMORY_PASTE_BLOCK_ACTION)) {
 						ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
 					}

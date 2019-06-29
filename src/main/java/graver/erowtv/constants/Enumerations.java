@@ -38,7 +38,7 @@ public interface Enumerations {
 		COPY_FROM_BLOCK("Copy FROM block", "You also need a Copy TO block"),
 		COPY_TO_BLOCK("Copy TO block",  "You also need a Copy FROM block"),
 		PASTE_BLOCK("Paste block", "Paste whatever you want, how often you want."),
-		TOOL_SIGN("Tool sign", "The right tool for the job"),
+		SPECIAL_SIGN("Special sign", "The right tool for the job"),
 		DESTROY_FROM_BLOCK("Destroy FROM block", "You also need a Destroy TO block"),
 		DESTROY_TO_BLOCK("Destroy TO block",  "You also need a Destroy FROM block"),
 		NO_RECIPE("No Recipe", "");

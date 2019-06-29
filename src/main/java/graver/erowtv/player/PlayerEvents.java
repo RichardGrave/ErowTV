@@ -102,14 +102,15 @@ public class PlayerEvents implements Listener, ErowTVConstants {
             specialItemUseHand = ItemTools.rightClickItemUse(event.getPlayer(), event.getItem(), event.getClickedBlock());
         }
         if(!specialItemUseHand) {
+            if(isDebug){
+                event.getPlayer().sendMessage(event.getClickedBlock().getType().toString());
+            }
             //Do event by clicked block material
             switch (event.getClickedBlock().getType()) {
                 case SPRUCE_WALL_SIGN:
-                    event.getPlayer().sendMessage("SPRUCE_WALL_SIGN");
                     SignTools.rightClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
                     break;
                 case SPRUCE_SIGN:
-                    event.getPlayer().sendMessage("SPRUCE_SIGN");
                     SignTools.rightClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
                     break;
                 case ACACIA_BUTTON:

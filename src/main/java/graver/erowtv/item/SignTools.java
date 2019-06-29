@@ -3,7 +3,7 @@ package graver.erowtv.item;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.special.CountDownTimer;
-import graver.erowtv.special.YoutubeSubCounter;
+import graver.erowtv.special.SpecialHandler;
 import graver.erowtv.tools.CopyBlockTool;
 import graver.erowtv.tools.PasteBlockTool;
 import org.bukkit.World;
@@ -29,6 +29,9 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 */
 	public static void leftClickWallSignByPlayer(Player player, Block clickedBlock) {
+		if(isDebug) {
+			player.sendMessage("leftClickWallSignByPlayer");
+		}
 		//We already know its a wall sign. That was checked before this method was called.
 		
 		//Turn the block into a Sign
@@ -51,6 +54,9 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 */
 	public static void leftClickSignByPlayer(Player player, Block clickedBlock) {
+		if(isDebug) {
+			player.sendMessage("leftClickSignByPlayer");
+		}
 		//We already know its a sign. That was checked before this method was called.
 
 		//Turn the block into a Sign
@@ -74,6 +80,9 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 */
 	public static void rightClickSignByPlayer(Player player, Block clickedBlock) {
+		if(isDebug) {
+			player.sendMessage("rightClickSignByPlayer");
+		}
 		//We already know its a sign. That was checked before this method was called.
 
 		//Turn the block into a Sign
@@ -96,6 +105,9 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 */
 	public static void rightClickWallSignByPlayer(Player player, Block clickedBlock) {
+		if(isDebug) {
+			player.sendMessage("rightClickWallSignByPlayer");
+		}
 		//We already know its a wall sign. That was checked before this method was called.
 
 		//Turn the block into a Sign
@@ -152,8 +164,8 @@ public final class SignTools implements ErowTVConstants {
 				player.sendMessage("A 'Copy from block' is needed");
 			}
 
-		//Create memoryNameForSign and clicked block if it returns, then its a TOOL_SIGN
-		}else if(ErowTV.doesPlayerHaveSpecificMemory(player, uniqueMemory = createMemoryName(player, clickedBlock, MEMORY_TOOL_SIGN_POSITION))) {
+		//Create memoryNameForSign and clicked block if it returns, then its a SPECIAL_SIGN
+		}else if(ErowTV.doesPlayerHaveSpecificMemory(player, uniqueMemory = createMemoryName(player, clickedBlock, MEMORY_SPECIAL_SIGN_POSITION))) {
 			handleToolSignAction(player, clickedBlock, sign, blockBehindSign, blockFace, isWallSign, uniqueMemory);
 		}
 
@@ -161,7 +173,6 @@ public final class SignTools implements ErowTVConstants {
 
 	private static void handleToolSignAction(Player player, Block clickedBlock, Sign sign, Block blockBehindSign, BlockFace blockFace,
 									  boolean isWallSign, String uniqueMemory){
-
 		//Get sign world and coordinates
 		List<Integer> signPosition = (List<Integer>)ErowTV.readPlayerMemory(player, uniqueMemory);
 		//With that, create a sign Object.
@@ -169,24 +180,27 @@ public final class SignTools implements ErowTVConstants {
 				signPosition.get(ErowTVConstants.BLOCK_POS_Y), signPosition.get(ErowTVConstants.BLOCK_POS_Z)).getState();
 
 		if(isDebug) {
-			player.sendMessage("TOOL_SIGN = " + toolSign.getLine(TOOL_SIGN_ACTION).toLowerCase());
+			player.sendMessage("SPECIAL_SIGN = " + toolSign.getLine(SPECIAL_SIGN_ACTION).toLowerCase());
 		}
 
 		if(toolSign != null) {
 			//Read first line
-			switch (toolSign.getLine(TOOL_SIGN_ACTION).toLowerCase()) {
-				case TOOL_COUNTDOWN_TIMER:
-					new CountDownTimer(player, blockFace, blockBehindSign, toolSign, isWallSign, uniqueMemory).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+			switch (toolSign.getLine(SPECIAL_SIGN_ACTION).toLowerCase()) {
+				case SPECIAL_COUNTDOWN_TIMER:
+					new CountDownTimer(player, blockFace, blockBehindSign, toolSign, isWallSign, uniqueMemory).
+							runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
 					break;
-				case TOOL_YOUTUBE_SUBS:
-					new YoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, uniqueMemory).runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+				case SPECIAL_YOUTUBE_SUBS:
+					new SpecialHandler().handleYoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, uniqueMemory);
 					break;
-				case TOOL_PASTE:
+				case SPECIAL_PASTE:
 					PasteBlockTool.pasteBlocks(player, clickedBlock, toolSign, null, signPosition, uniqueMemory);
 					break;
 			}
 		}
 	}
+
+
 
 	/**
 	 * Multiple signs can be placed, but they all need a unique name.
@@ -199,7 +213,9 @@ public final class SignTools implements ErowTVConstants {
 	public static String createMemoryName(Player player, Block block, String signName) {
 		//Get world player is in. It is needed to store the position of the block
 		World.Environment environment = player.getWorld().getEnvironment();
-		int playersWorld = (environment == World.Environment.NETHER ? ErowTVConstants.WORLD_NETHER : environment == World.Environment.NORMAL ? ErowTVConstants.WORLD_NORMAL : ErowTVConstants.WORLD_END);
+		int playersWorld = (environment == World.Environment.NETHER ? ErowTVConstants.WORLD_NETHER :
+							environment == World.Environment.NORMAL ? ErowTVConstants.WORLD_NORMAL :
+									ErowTVConstants.WORLD_END);
 
 		//The unique memory name
 		return signName+

@@ -1,7 +1,13 @@
 # [ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
 ## A Minecraft plugin for a [SpigotMC](https://www.spigotmc.org) server.
 
+## Disclaimer:
 This is **NOT** a mod for clientside single player Minecraft.
+
+## Also:
+This may not be the best code.
+It has been refactored a lot during the time that it exists(even before I put it on GitHub). Some API methods/Objects of SpigotMC have become deprecated and replaced with new ones. I still have to update it in my code.
+
 
 ## Features it has:
 - Copy blocks: a Copy FROM and Copy TO block that can copy everything between them and saves it to a file with a given name(from a sign).

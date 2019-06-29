@@ -43,7 +43,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getFacing().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 		
-		handleSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace, true);
+		handleSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace, true, true);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getRotation().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 
-		handleSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace, false);
+		handleSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace, false, true);
 	}
 
 
@@ -94,7 +94,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getRotation().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 
-		handleSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace, false);
+		handleSignClicked(player, clickedBlock, sign, blockBehindSign, blockFace, false, false);
 	}
 
 	/**
@@ -119,7 +119,7 @@ public final class SignTools implements ErowTVConstants {
 		BlockFace blockFace = dataSign.getFacing().getOppositeFace();
 		Block blockBehindSign = clickedBlock.getRelative(blockFace);
 
-		handleSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace, true);
+		handleSignClicked(player, clickedBlock, wallSign, blockBehindSign, blockFace, true, false);
 	}
 
 
@@ -133,7 +133,8 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 * @param blockFace
 	 */
-	private static void handleSignClicked(Player player, Block clickedBlock, Sign sign, Block blockBehindSign, BlockFace blockFace, boolean isWallSign) {
+	private static void handleSignClicked(Player player, Block clickedBlock, Sign sign, Block blockBehindSign,
+										  BlockFace blockFace, boolean isWallSign, boolean isLeftClick) {
 		if(isDebug) {
 			player.sendMessage("handleWallSignClicked");
 		}
@@ -166,13 +167,13 @@ public final class SignTools implements ErowTVConstants {
 
 		//Create memoryNameForSign and clicked block if it returns, then its a SPECIAL_SIGN
 		}else if(ErowTV.doesPlayerHaveSpecificMemory(player, uniqueMemory = createMemoryName(player, clickedBlock, MEMORY_SPECIAL_SIGN_POSITION))) {
-			handleToolSignAction(player, clickedBlock, sign, blockBehindSign, blockFace, isWallSign, uniqueMemory);
+			handleToolSignAction(player, clickedBlock, sign, blockBehindSign, blockFace, isWallSign, isLeftClick, uniqueMemory);
 		}
 
 	}
 
 	private static void handleToolSignAction(Player player, Block clickedBlock, Sign sign, Block blockBehindSign, BlockFace blockFace,
-									  boolean isWallSign, String uniqueMemory){
+									  boolean isWallSign, boolean isLeftClick, String uniqueMemory){
 		//Get sign world and coordinates
 		List<Integer> signPosition = (List<Integer>)ErowTV.readPlayerMemory(player, uniqueMemory);
 		//With that, create a sign Object.
@@ -187,11 +188,15 @@ public final class SignTools implements ErowTVConstants {
 			//Read first line
 			switch (toolSign.getLine(SPECIAL_SIGN_ACTION).toLowerCase()) {
 				case SPECIAL_COUNTDOWN_TIMER:
-					new CountDownTimer(player, blockFace, blockBehindSign, toolSign, isWallSign, uniqueMemory).
-							runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
-					break;
+					if(!isLeftClick) {
+						new CountDownTimer(player, blockFace, blockBehindSign, toolSign, isWallSign, uniqueMemory).
+								runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+						break;
+					}
 				case SPECIAL_YOUTUBE_SUBS:
-					new SpecialHandler().handleYoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, uniqueMemory);
+					if(!isLeftClick) {
+						new SpecialHandler().handleYoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, uniqueMemory);
+					}
 					break;
 				case SPECIAL_PASTE:
 					PasteBlockTool.pasteBlocks(player, clickedBlock, toolSign, null, signPosition, uniqueMemory);
@@ -199,8 +204,6 @@ public final class SignTools implements ErowTVConstants {
 			}
 		}
 	}
-
-
 
 	/**
 	 * Multiple signs can be placed, but they all need a unique name.

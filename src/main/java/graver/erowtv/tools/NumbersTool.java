@@ -1,74 +1,70 @@
 package graver.erowtv.tools;
 
 import graver.erowtv.constants.ErowTVConstants;
+import graver.erowtv.item.BlockTools;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public final class NumbersTool implements ErowTVConstants {
 
-    private NumbersTool() {
-    }
-
-    private static int numHeight = 5;
-    private static int numWidth = 5;
+    private int numHeight = 5;
+    private int numWidth = 5;
     //Needs to be 2 because every other char has already got a starting AIR block.
     //Else you will get one AIR block on one side to many
-    private static int dotWidth = 2;
+    private int dotWidth = 2;
 
     // First of every String is 0 (AIR) so numbers can be place next to each other
     // with space between them
-    private static String[] numZero = new String[]{"0xxxx", "0x00x", "0x00x", "0x00x", "0xxxx"};
-    private static String[] numOne = new String[]{"00xxx", "000x0", "000x0", "00xx0", "000x0"};
-    private static String[] numTwo = new String[]{"0xxxx", "0x000", "0xxxx", "0000x", "0xxxx"};
-    private static String[] numThree = new String[]{"0xxxx", "0000x", "00xxx", "0000x", "0xxxx"};
-    private static String[] numFour = new String[]{"0000x", "0000x", "0xxxx", "0x00x", "0x00x"};
-    private static String[] numFive = new String[]{"0xxxx", "0000x", "0xxxx", "0x000", "0xxxx"};
-    private static String[] numSix = new String[]{"0xxxx", "0x00x", "0xxxx", "0x000", "0xxxx"};
-    private static String[] numSeven = new String[]{"000x0", "000x0", "00xxx", "000x0", "0xxx0"};
-    private static String[] numEight = new String[]{"0xxxx", "0x00x", "0xxxx", "0x00x", "0xxxx"};
-    private static String[] numNine = new String[]{"0xxxx", "0000x", "0xxxx", "0x00x", "0xxxx"};
-    private static String[] numClear = new String[]{"00000", "00000", "00000", "00000", "00000"};
-    private static String[] dotChar = new String[]{"0000x", "00000", "00000", "00000", "00000"};
-    private static String[] doubleDotChar = new String[]{"00000", "0000x", "00000", "0000x", "00000"};
+    private List<String> numZero = List.of("ppppp", "0xxxx", "0x00x", "0x00x", "0x00x", "0xxxx");
+    private List<String> numOne = List.of("ppppp", "00xxx", "000x0", "000x0", "00xx0", "000x0");
+    private List<String> numTwo = List.of("ppppp", "0xxxx", "0x000", "0xxxx", "0000x", "0xxxx");
+    private List<String> numThree = List.of("ppppp", "0xxxx", "0000x", "00xxx", "0000x", "0xxxx");
+    private List<String> numFour = List.of("ppppp", "0000x", "0000x", "0xxxx", "0x00x", "0x00x");
+    private List<String> numFive = List.of("ppppp", "0xxxx", "0000x", "0xxxx", "0x000", "0xxxx");
+    private List<String> numSix = List.of("ppppp", "0xxxx", "0x00x", "0xxxx", "0x000", "0xxxx");
+    private List<String> numSeven = List.of("ppppp", "000x0", "000x0", "00xxx", "000x0", "0xxx0");
+    private List<String> numEight = List.of("ppppp", "0xxxx", "0x00x", "0xxxx", "0x00x", "0xxxx");
+    private List<String> numNine = List.of("ppppp", "0xxxx", "0000x", "0xxxx", "0x00x", "0xxxx");
+    private List<String> dotChar = List.of("ppppp", "0000x", "00000", "00000", "00000", "00000");
+    private List<String> doubleDotChar = List.of("ppppp", "00000", "0000x", "00000", "0000x", "00000");
+    //also no platform
+    private List<String> numClear = List.of("00000", "00000", "00000", "00000", "00000", "00000");
 
-//	public static void rgNumberTimer(World world, int number, int x, int y, int z) {
-//		int counter = 1;
-//		 var buildNumber = function(){
-//		 rgMakeBigNumber(world, counter+'', x, y, z, direction)
-//		 //stop at given number
-//		 if(counter == number){
-//		 clearInterval(timerId)
-//		 var clearString = ''
-//		 for(var cli = 0; cli < number.length; cli++){
-//		 clearString = clearString + ' '
-//		 }
-//		 rgMakeBigNumber(world, clearString, x, y, z, direction)
-//		 }
-//		 counter = counter + 1
-//		 }
-//		 //Set timer
-//		 var timerId = setInterval(buildNumber, 100)
-//
-//	}
+    Material materialOnTop;
+    Material material;
+    Player player;
+    Block block;
+    BlockFace blockFace;
 
+    public NumbersTool(Player player, Block block, BlockFace blockFace){
+        this.player = player;
+        this.blockFace = blockFace;
+        //First get materials from block and on top of the block
+        this.materialOnTop = BlockTools.getMaterialOnTopOfBlock(player, block);
+        this.material = block.getBlockData().getMaterial();
+
+        //Now do Y - 1 to start on the ground, so -1 to get clicked block position
+        this.block = player.getWorld().getBlockAt(block.getLocation().getBlockX(),
+                block.getLocation().getBlockY()-1,block.getLocation().getBlockZ());
+    }
 
     /**
      * Build entire number
      *
-     * @param player
      * @param bigNumber
-     * @param block
-     * @param blockFace
      */
-    public static void buildEntireNumber(Player player, String bigNumber, Block block, BlockFace blockFace) {
+    public void buildEntireNumber(String bigNumber) {
         if(isDebug) {
             player.sendMessage("BigNumber: " + bigNumber);
         }
 
         char[] numberPieces = bigNumber.toCharArray();
-        Material material = block.getBlockData().getMaterial();
+
+        player.sendMessage("MATERIALONTOP: " + materialOnTop);
 
         //TODO:RG nog checken voor correct width?
 
@@ -84,9 +80,11 @@ public final class NumbersTool implements ErowTVConstants {
         if (numberPieces.length > 0) {
             for (int reverseIter = (numberPieces.length - 1); reverseIter >= 0; reverseIter--) {
                 try {
-                    int numWidthForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter], startingBlockPostionForNumber, blockFace, material);
+                    int numWidthForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter],
+                            startingBlockPostionForNumber, blockFace, material, materialOnTop);
 
-                    startingBlockPostionForNumber = calculateCorrectStartingPosition(player, startingBlockPostionForNumber, blockFace, numWidthForNext);
+                    startingBlockPostionForNumber = calculateCorrectStartingPosition(player, startingBlockPostionForNumber,
+                            blockFace, numWidthForNext);
                 } catch (Exception ex) {
                     player.sendMessage("[NumbersTool][buildEntireNumber][Cant build char]");
                 }
@@ -94,7 +92,9 @@ public final class NumbersTool implements ErowTVConstants {
         }
     }
 
-    public static Block calculateCorrectStartingPosition(Player player, Block startingBlockPostionForNumber, BlockFace blockFace, int numWidthForNext){
+
+    public static Block calculateCorrectStartingPosition(Player player, Block startingBlockPostionForNumber,
+                                                         BlockFace blockFace, int numWidthForNext){
         int yas = startingBlockPostionForNumber.getY();
         int xas = startingBlockPostionForNumber.getX();
         int zas = startingBlockPostionForNumber.getZ();
@@ -130,7 +130,8 @@ public final class NumbersTool implements ErowTVConstants {
      * @param block
      * @param blockFace
      */
-    public static int getPatternForNumberAndBuild(Player player, char number, Block block, BlockFace blockFace, Material material) {
+    public int getPatternForNumberAndBuild(Player player, char number, Block block, BlockFace blockFace,
+                                           Material material, Material materialOnTop) {
         //Yas + 1 to place on top of the block
         int yas = block.getY() + 1;
         int xas = block.getX();
@@ -142,48 +143,48 @@ public final class NumbersTool implements ErowTVConstants {
 
         switch (number) {
             case '0':
-                buildSingleNumber(player, block, numZero, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numZero, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
             case '1':
-                buildSingleNumber(player, block, numOne, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numOne, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
             case '2':
-                buildSingleNumber(player, block, numTwo, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numTwo, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
             case '3':
-                buildSingleNumber(player, block, numThree, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numThree, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
             case '4':
-                buildSingleNumber(player, block, numFour, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numFour, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
             case '5':
-                buildSingleNumber(player, block, numFive, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numFive, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
             case '6':
-                buildSingleNumber(player, block, numSix, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numSix, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
             case '7':
-                buildSingleNumber(player, block, numSeven, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numSeven, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
             case '8':
-                buildSingleNumber(player, block, numEight, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numEight, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
             case '9':
-                buildSingleNumber(player, block, numNine, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numNine, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
             case '.':
-                buildSingleNumber(player, block, dotChar, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, dotChar, xas, yas, zas, blockFace, material, materialOnTop);
                 return dotWidth;
             case ',':
-                buildSingleNumber(player, block, dotChar, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, dotChar, xas, yas, zas, blockFace, material, materialOnTop);
                 return dotWidth;
             case ':':
-                buildSingleNumber(player, block, doubleDotChar, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, doubleDotChar, xas, yas, zas, blockFace, material, materialOnTop);
                 return dotWidth;
 
                 //Does a AIR number, so you'l see nothing
             default:
-                buildSingleNumber(player, block, numClear, xas, yas, zas, blockFace, material);
+                buildSingleNumber(player, block, numClear, xas, yas, zas, blockFace, material, materialOnTop);
                 return numWidth;
         }
     }
@@ -199,19 +200,24 @@ public final class NumbersTool implements ErowTVConstants {
      * @param zas
      * @param blockFace
      */
-    public static void buildSingleNumber(Player player, Block block, String[] numberPattern, int xas, int yas, int zas, BlockFace blockFace, Material material) {
+    public void buildSingleNumber(Player player, Block block, List<String> numberPattern, int xas, int yas, int zas,
+                                         BlockFace blockFace, Material material, Material materialOnTop) {
+
         int tmpYas = 0;
 
-        for (String pattern : numberPattern) {
+        //If material on top is not AIR then use that material as a platform
+        for (String pattern: numberPattern) {
             int tmpZas = 0;
             int tmpXas = 0;
-            int placeY = yas - tmpYas;
+            //- tmpYas to keep all next numbers on the same block heigth.
+            //Or else every next block will go into the ground further and further.
+            int placeY = yas;
 
             if(isDebug) {
                 player.sendMessage("Pattern: " + pattern);
             }
 
-            for (int iter = 0; iter < pattern.length(); iter++) {
+            for (int index = 0; index < pattern.length(); index++) {
                 int placeZ = zas;
                 int placeX = xas;
                 int isNorthSouth = 0;
@@ -237,9 +243,13 @@ public final class NumbersTool implements ErowTVConstants {
 
                 Block blockAt = player.getWorld().getBlockAt(placeX, placeY, placeZ);
 
-                if (pattern.charAt(iter) == 'x') {
+                //Check if it is platform OR block that get material or air
+                if (pattern.charAt(index) == 'x') {
+                    //If numberPattern size == 6 then it has the platform pattern in it
                     blockAt.setType(material, false);
-                } else {
+                } else if(pattern.charAt(index) == 'p') {
+                    blockAt.setType(materialOnTop, false);
+                }else {
                     blockAt.setType(Material.AIR, false);
                 }
 

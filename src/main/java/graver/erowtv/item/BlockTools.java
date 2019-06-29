@@ -86,6 +86,21 @@ public final class BlockTools {
     }
 
     /**
+     * Get the material that is on top of the clicked block
+     *
+     * @param player
+     * @param block
+     */
+    public static Material getMaterialOnTopOfBlock(Player player, Block block){
+        block.getBlockData().getMaterial();
+
+        Block blockOnTop = player.getWorld().getBlockAt(block.getLocation().getBlockX(),
+                block.getLocation().getBlockY()+1,block.getLocation().getBlockZ());
+
+        return blockOnTop.getBlockData().getMaterial();
+    }
+
+    /**
      * Handle block BlockEvents
      * If there can only be one, also check 'blockBreak' method
      *
@@ -134,6 +149,9 @@ public final class BlockTools {
      * @param block
      */
     public static void blockBreak(Player player, Block block) {
+        //For use with blocks that can have more positions in the world then just one
+        String memoryName = "";
+
         //Check if the broken block is COPY_FROM, if so then remove it from the memory
         if (ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_COPY_FROM_POSITION) &&
                 isBlockPositionTheSame(block, (List<Integer>) ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_COPY_FROM_POSITION))) {
@@ -154,9 +172,8 @@ public final class BlockTools {
                 isBlockPositionTheSame(block, (List<Integer>) ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION))) {
             ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION);
 
-            //TODO:RG dit klopt niet,moet anders. Moet een unieke sign memory zijn.
-        } else if (ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION)){
-            String memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION);
+        } else if (ErowTV.doesPlayerHaveSpecificMemory(player,
+                memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION))){
             ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
         }
     }

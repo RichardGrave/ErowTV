@@ -3,6 +3,7 @@ package graver.erowtv.special;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.tools.NumbersTool;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -29,6 +30,8 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
     private boolean isWallSign;
     private String memoryName;
 
+    private NumbersTool numbersTool;
+
     public CountDownTimer(Player player, BlockFace blockFace, Block blockToUse, Sign sign, boolean isWallSign, String memoryName) {
         this.player = player;
         this.blockToUse = blockToUse;
@@ -36,6 +39,8 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
         this.sign = sign;
         this.isWallSign = isWallSign;
         this.memoryName = memoryName;
+
+        this.numbersTool = new NumbersTool(player, blockToUse, blockFace);
 
         setTime(sign.getLine(SPECIAL_SIGN_PARAMETER_1));
     }
@@ -68,7 +73,9 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
                 //Just to be sure there are 2 position for the seconds
                 formattedTimeString += timeSplit[2].length() == 1 ? "0" + timeSplit[2] : timeSplit[2];
             }
-            player.sendMessage("FormattedTimeString = " + formattedTimeString);
+            if(isDebug) {
+                player.sendMessage("FormattedTimeString = " + formattedTimeString);
+            }
         } catch (Exception ex) {
             player.sendMessage("[CountDownTimer][Exception][Not a valid time so set]");
         }
@@ -82,15 +89,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
     @Override
     public void run() {
         try {
-            if(isWallSign) {
-                //create number with blocks
-                NumbersTool.buildEntireNumber(player, formattedTimeString, blockToUse, blockFace);
-            }else{
-                //else update the sign text
-                sign.setLine(0, formattedTimeString);
-                sign.setLine(1, "");
-                sign.update();
-            }
+            createNumberBlocksOrUpdateSign(formattedTimeString, formattedTimeString);
 
             //It stops if time is zero or whitespace
             if (formattedTimeString.equalsIgnoreCase(END_TIME_SECOND) || formattedTimeString.equalsIgnoreCase(" ")) {
@@ -98,21 +97,29 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
                 //Remove the memory after the timer ends
                 ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
 
-                if(isWallSign) {
-                    //Clean up last number
-                    NumbersTool.buildEntireNumber(player, " ", blockToUse, blockFace);
-                }else{
-                    //Else set this text to the sign
-                    sign.setLine(0, "Time's up");
-                    sign.setLine(1, "");
-                    sign.update();
-                }
+                //Play sound to notify that the CountdownTimer is ended
+                new RingTheBell().runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+
+                //Last thing to do
+                createNumberBlocksOrUpdateSign(" ", "Time's up");
             }else{
                 //Build new time string for next number
                 buildTimeString(formattedTimeString);
             }
         } catch (Exception ex) {
             player.sendMessage("[CountDownTimer-run][Exception][" + ex.getMessage() + "]");
+        }
+    }
+
+    private void createNumberBlocksOrUpdateSign(String bigNumber, String textSignLineONe){
+        if(isWallSign) {
+            //Clean up last number
+            numbersTool.buildEntireNumber(bigNumber);
+        }else{
+            //Else set this text to the sign
+            sign.setLine(0, textSignLineONe);
+            sign.setLine(1, "");
+            sign.update();
         }
     }
 
@@ -171,6 +178,28 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
             case TIME_FORMAT_SS:
                 timeFormat = TIME_FORMAT_S;
                 break;
+        }
+    }
+
+    //Only for ringing a bell to notify the user that the Countdown has ended.
+    private class RingTheBell extends BukkitRunnable{
+
+        private final int RING_THE_BELL_SIX_TIMES = 6;
+        private int ringBellTimes = 1;
+
+        @Override
+        public void run() {
+            try {
+                player.playSound(player.getLocation(), Sound.BLOCK_BELL_USE, 1.0f, 1.0f);
+
+                //Cancel if we reach the number of time the bell rang
+                if(ringBellTimes == RING_THE_BELL_SIX_TIMES){
+                    this.cancel();
+                }
+                ringBellTimes++;
+            } catch (Exception ex) {
+                player.sendMessage("[CountDownTimer-run][Exception][" + ex.getMessage() + "]");
+            }
         }
     }
 }

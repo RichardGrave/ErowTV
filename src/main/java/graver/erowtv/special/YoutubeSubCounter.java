@@ -55,6 +55,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
     private Block blockToUse;
     private BlockFace blockFace;
     private Sign sign;
+    private NumbersTool numbersTool;
 
     private boolean isWallSign = false;
     private String youtubeChannel = "";
@@ -78,6 +79,8 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
         this.youtubeChannel = sign.getLine(SPECIAL_SIGN_PARAMETER_1);
         this.isWallSign = isWallSign;
         this.memoryName = memoryName; //TODO:RG iets mee doen? kunnen laten eindigen?
+
+        this.numbersTool = new NumbersTool(player, blockToUse, blockFace);
 
         initializeConnection();
         setApiKeyAndDefaultChannel();
@@ -159,7 +162,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
         //Should is be placed with block or just text on a sign
         if (isWallSign) {
             //Create number for how many subscribers we have
-            NumbersTool.buildEntireNumber(player, numberOfSubscribers, blockToUse, blockFace);
+            numbersTool.buildEntireNumber(numberOfSubscribers);
         } else {
             //Else set this text to the sign
             sign.setLine(0, (youtubeChannel.isEmpty() ? youtubeChannelName : youtubeChannel));

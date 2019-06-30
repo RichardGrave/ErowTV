@@ -23,11 +23,15 @@ And I will refactor bits of code to better structured code whenever I have the t
 You can give a channel name (or ID) and how many seconds it has to wait before getting the number of subscribers again.
   - Countdown Timer: creates a time on a sign or with blocks to begin from with the countdown. Use hours, minutes and seconds.
   - Paste: can paste everything from a file that was created with the Copy blocks.
-- Recipes: are put into recipe crafting book
+- Recipes: are put into recipe crafting book.
   
  YouTube video: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)\
  A few features have already changed sinds the video.\
  Maybe a new video in the near future.\
+  
+## Usable commands in chat:
+- facing: Gives the direction you are facing. NORTH, EAST, etc.
+- debug_messages: Turns debug messages ON or OFF.
   
 ## Memory system:
 I have created a simple memory system that saves the coordinates of each **special block** (from the features in the text above) for the player that places them. Only that player can do interactions with the blocks/signs to activate them.
@@ -44,8 +48,9 @@ They each get a unique memory name so the server always knows where the signs wi
 - A server memory system, that remembers where the placed Games/Tools are in the world. This by saving to a file and loading from a file if the server has been restarted. Because the player memory system gets cleaned up when the server stops or restarts. The YouTube Subscribers Counter won't work anymore and the Countdown Timer will stop counting down.
 - Little games
 - Maybe a Twitter Subscribers Counter
-- Extra commands usable in the chat. At least one command that lets me activate debug messages in chat when programming new features.
-- More tools to use (dont know what they will be, yet) Have to brainstorm on that one :)
+- A chest with book that explains how to use all the features (and future games).
+- Extra commands usable in the chat.
+- More tools to use (dont know what they will be, yet). Have to brainstorm on that one :)
 - More YouTube videos of this plugin on our channel
 [YouTube Channel ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
 

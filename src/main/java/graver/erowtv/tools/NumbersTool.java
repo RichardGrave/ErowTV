@@ -20,33 +20,37 @@ public final class NumbersTool implements ErowTVConstants {
 
     // First of every String is 0 (AIR) so numbers can be place next to each other
     // with space between them
-    private List<String> numZero = List.of("ppppp", "0xxxx", "0x00x", "0x00x", "0x00x", "0xxxx");
-    private List<String> numOne = List.of("ppppp", "00xxx", "000x0", "000x0", "00xx0", "000x0");
-    private List<String> numTwo = List.of("ppppp", "0xxxx", "0x000", "0xxxx", "0000x", "0xxxx");
-    private List<String> numThree = List.of("ppppp", "0xxxx", "0000x", "00xxx", "0000x", "0xxxx");
-    private List<String> numFour = List.of("ppppp", "0000x", "0000x", "0xxxx", "0x00x", "0x00x");
-    private List<String> numFive = List.of("ppppp", "0xxxx", "0000x", "0xxxx", "0x000", "0xxxx");
-    private List<String> numSix = List.of("ppppp", "0xxxx", "0x00x", "0xxxx", "0x000", "0xxxx");
-    private List<String> numSeven = List.of("ppppp", "000x0", "000x0", "00xxx", "000x0", "0xxx0");
-    private List<String> numEight = List.of("ppppp", "0xxxx", "0x00x", "0xxxx", "0x00x", "0xxxx");
-    private List<String> numNine = List.of("ppppp", "0xxxx", "0000x", "0xxxx", "0x00x", "0xxxx");
-    private List<String> dotChar = List.of("ppppp", "0000x", "00000", "00000", "00000", "00000");
-    private List<String> doubleDotChar = List.of("ppppp", "00000", "0000x", "00000", "0000x", "00000");
+    private List<String> numZero = List.of("ppppp", "0xxxx", "0x00x", "0x00x", "0x00x", "0xxxL");
+    private List<String> numOne = List.of("ppppp", "00xxx", "000x0", "000x0", "00xx0", "000L0");
+    private List<String> numTwo = List.of("ppppp", "0xxxx", "0x000", "0xxxx", "0000x", "0xxxL");
+    private List<String> numThree = List.of("ppppp", "0xxxx", "0000x", "00xxx", "0000x", "0xxxL");
+    private List<String> numFour = List.of("ppppp", "0000x", "0000x", "0xxxx", "0x00x", "0x00L");
+    private List<String> numFive = List.of("ppppp", "0xxxx", "0000x", "0xxxx", "0x000", "0xxxL");
+    private List<String> numSix = List.of("ppppp", "0xxxx", "0x00x", "0xxxx", "0x000", "0xxxL");
+    private List<String> numSeven = List.of("ppppp", "000x0", "000x0", "00xxx", "000x0", "0xxL0");
+    private List<String> numEight = List.of("ppppp", "0xxxx", "0x00x", "0xxxx", "0x00x", "0xxxL");
+    private List<String> numNine = List.of("ppppp", "0xxxx", "0000x", "0xxxx", "0x00x", "0xxxL");
+    private List<String> dotChar = List.of("ppppp", "0000L", "00000", "00000", "00000", "00000");
+    private List<String> doubleDotChar = List.of("ppppp", "00000", "0000x", "00000", "0000L", "00000");
     //also no platform
     private List<String> numClear = List.of("00000", "00000", "00000", "00000", "00000", "00000");
 
-    Material materialOnTop;
-    Material material;
-    Player player;
-    Block block;
-    BlockFace blockFace;
+    private Material materialOnTop;
+    private Material material;
+    private Player player;
+    private Block block;
+    private BlockFace blockFace;
 
-    public NumbersTool(Player player, Block block, BlockFace blockFace){
+    private boolean firstNumber;
+    private boolean useLightning;
+
+    public NumbersTool(Player player, Block block, BlockFace blockFace, boolean useLightning){
         this.player = player;
         this.blockFace = blockFace;
         //First get materials from block and on top of the block
         this.materialOnTop = BlockTools.getMaterialOnTopOfBlock(player, block);
         this.material = block.getBlockData().getMaterial();
+        this.useLightning = useLightning;
 
         //Now do Y - 1 to start on the ground, so -1 to get clicked block position
         this.block = player.getWorld().getBlockAt(block.getLocation().getBlockX(),
@@ -64,6 +68,9 @@ public final class NumbersTool implements ErowTVConstants {
             player.sendMessage("MATERIALONTOP: " + materialOnTop);
         }
 
+        //Everytime with a new number. So ligtning only strikes on the first timer number
+        firstNumber = true;
+
         char[] numberPieces = bigNumber.toCharArray();
 
         //Check first char for width and -1 because of the starting AIR block
@@ -80,6 +87,8 @@ public final class NumbersTool implements ErowTVConstants {
                 try {
                     int numWidthForNext = getPatternForNumberAndBuild(player, numberPieces[reverseIter],
                             startingBlockPostionForNumber, blockFace, material, materialOnTop);
+
+                    firstNumber = false;
 
                     startingBlockPostionForNumber = calculateCorrectStartingPosition(player, startingBlockPostionForNumber,
                             blockFace, numWidthForNext);
@@ -201,8 +210,6 @@ public final class NumbersTool implements ErowTVConstants {
     public void buildSingleNumber(Player player, Block block, List<String> numberPattern, int xas, int yas, int zas,
                                          BlockFace blockFace, Material material, Material materialOnTop) {
 
-        int tmpYas = 0;
-
         //If material on top is not AIR then use that material as a platform
         for (String pattern: numberPattern) {
             int tmpZas = 0;
@@ -242,13 +249,18 @@ public final class NumbersTool implements ErowTVConstants {
                 Block blockAt = player.getWorld().getBlockAt(placeX, placeY, placeZ);
 
                 //Check if it is platform OR block that get material or air
-                if (pattern.charAt(index) == 'x') {
+                if (pattern.charAt(index) == 'x' || pattern.charAt(index) == 'L') {
                     //If numberPattern size == 6 then it has the platform pattern in it
                     blockAt.setType(material, false);
                 } else if(pattern.charAt(index) == 'p') {
                     blockAt.setType(materialOnTop, false);
                 }else {
                     blockAt.setType(Material.AIR, false);
+                }
+
+                if(useLightning && firstNumber && pattern.charAt(index) == 'L'){
+                    blockAt.getWorld().strikeLightning(blockAt.getLocation());
+                    blockAt.getWorld().strikeLightningEffect(blockAt.getLocation());
                 }
 
                 tmpZas = tmpZas + (isNorthSouth == 1 ? 0 : 1);

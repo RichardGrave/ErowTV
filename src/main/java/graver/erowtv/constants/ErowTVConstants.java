@@ -141,6 +141,9 @@ public interface ErowTVConstants {
 
 	public final static int TIME_1_HOUR = 72000;
 
+	//Real seconds, not game ticks
+	public final static int TIME_REAL_30_SECONDS = 30;
+
 	//Timeformats
 	public final static String TIME_FORMAT_HH_MM_SS = "HH:mm:ss";
 	public final static String TIME_FORMAT_H_MM_SS = "H:mm:ss";

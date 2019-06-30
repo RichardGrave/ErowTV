@@ -40,7 +40,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
         this.isWallSign = isWallSign;
         this.memoryName = memoryName;
 
-        this.numbersTool = new NumbersTool(player, blockToUse, blockFace);
+        this.numbersTool = new NumbersTool(player, blockToUse, blockFace, false);
 
         setTime(sign.getLine(SPECIAL_SIGN_PARAMETER_1));
     }

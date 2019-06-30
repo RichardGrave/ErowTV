@@ -21,12 +21,14 @@ public class SpecialHandler implements ErowTVConstants {
 
         String secondParameter = toolSign.getLine(SPECIAL_SIGN_PARAMETER_2);
         //Default 30 seconds check
-        int period = TIME_30_SECONDS;
+        int interval = TIME_30_SECONDS;
+        int intervalInSeconds = TIME_REAL_30_SECONDS;
 
         try {
-            //Only parse when not empty
-            if (!secondParameter.isEmpty()) {
-                period = TIME_SECOND * Integer.parseInt(secondParameter);
+            //Only parse when not empty and bigger then zero
+            if (!secondParameter.isEmpty() && (intervalInSeconds = Integer.parseInt(secondParameter)) > 0) {
+                //Game ticks (20) * real seconds
+                interval = TIME_SECOND * intervalInSeconds;
             }
         } catch (Exception ex) {
             player.sendMessage("Second parameter on the SpecialSign is not a Number");
@@ -34,8 +36,8 @@ public class SpecialHandler implements ErowTVConstants {
         }
 
         //Run YoutubeSubCounter
-        new YoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, memoryName).
-                runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, period);
+        new YoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, intervalInSeconds, memoryName).
+                runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, interval);
     }
 
 }

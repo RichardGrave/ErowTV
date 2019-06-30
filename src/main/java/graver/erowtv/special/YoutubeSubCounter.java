@@ -62,28 +62,33 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
 
     private boolean isWallSign = false;
     private String youtubeChannel = "";
-    private String memoryName;
+    private String previousNumberOfSubscribers = "";
+    //default 30 seconds
+    private int checkInXSeconds = 30;
 
     //API-KEY is necessary
     private String youtubeApiKey;
+    private String memoryName;
+
     //You will need one. Channel ID or Channel name
     //!!!Google has rules for when you can use a channel name!!!
-    private String youtubeChannelId;
-    private String youtubeChannelName;
+    private String youtubeChannelId = "";
+    private String youtubeChannelName = "";
 
-    //TODO:RG laten stoppen als de sign weg is. Niet zo moeilijk
-    //Geef positie van sign mee, zodat bij stuk gaan het this.cancel() aanroept
 
-    public YoutubeSubCounter(Player player, Block blockToUse, BlockFace blockFace, Sign sign, boolean isWallSign, String memoryName) {
+    public YoutubeSubCounter(Player player, Block blockToUse, BlockFace blockFace, Sign sign, boolean isWallSign,
+                             int interval, String memoryName) {
+
         this.player = player;
         this.blockToUse = blockToUse;
         this.blockFace = blockFace;
         this.sign = sign;
         this.youtubeChannel = sign.getLine(SPECIAL_SIGN_PARAMETER_1);
         this.isWallSign = isWallSign;
-        this.memoryName = memoryName; //TODO:RG iets mee doen? kunnen laten eindigen?
+        this.checkInXSeconds = interval;
+        this.memoryName = memoryName;
 
-        this.numbersTool = new NumbersTool(player, blockToUse, blockFace);
+        this.numbersTool = new NumbersTool(player, blockToUse, blockFace, true);
 
         initializeConnection();
         setApiKeyAndDefaultChannel();
@@ -105,7 +110,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
                 if (blockConfig.contains(YML_CHANNEL_ID)) {
                     youtubeChannelId = blockConfig.get(YML_CHANNEL_ID).toString();
                 }
-                if (blockConfig.contains(YML_API_KEY)) {
+                if (blockConfig.contains(YML_CHANNEL_NAME)) {
                     youtubeChannelName = blockConfig.get(YML_CHANNEL_NAME).toString();
                 }
             }
@@ -125,8 +130,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
                 .build();
     }
 
-    //TODO:RG Kleur van blokken laten bepalen aan de hand van aantal subscribers
-    //Zoals bronze, zilver, diamond??
+    //TODO:RG Change color or blocks by number of subscribers like in YouTube bronze, silver, diamond etc.?
 
     @Override
     public void run() {
@@ -148,7 +152,8 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
 
             //If there are no subscribers or the memory for the specialsign is gone, then cancel.
             if(numberOfSubscribers.isEmpty() ||
-                    !ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION)){
+                    !ErowTV.doesPlayerHaveSpecificMemory(player, memoryName)){
+
                 if(ErowTV.isDebug) {
                     player.sendMessage("Cancel YoutubeSubCounter");
                 }
@@ -162,14 +167,27 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
     }
 
     private void updateNumbersOrSign(String numberOfSubscribers){
-        //Should is be placed with block or just text on a sign
-        if (isWallSign) {
-            //Create number for how many subscribers we have
-            numbersTool.buildEntireNumber(numberOfSubscribers);
-        } else {
-            //Else set this text to the sign
-            sign.setLine(0, (youtubeChannel.isEmpty() ? youtubeChannelName : youtubeChannel));
-            sign.setLine(1, numberOfSubscribers);
+        //Only need to update if subscribers count changes.
+        if(!previousNumberOfSubscribers.equalsIgnoreCase(numberOfSubscribers)) {
+            //set the new number to compare later
+            previousNumberOfSubscribers = numberOfSubscribers;
+
+            //This is the same for both situations
+            sign.setLine(0, "Channel");
+            sign.setLine(1, (youtubeChannel.isEmpty() ? youtubeChannelName : youtubeChannel));
+
+            //Should is be placed with block or just text on a sign
+            if (isWallSign) {
+                //Create number for how many subscribers we have
+                numbersTool.buildEntireNumber(numberOfSubscribers);
+
+                sign.setLine(2, checkInXSeconds + "s check");
+            } else {
+                //Set number of subscribers
+                sign.setLine(2, "Subs: " +numberOfSubscribers);
+                sign.setLine(3, checkInXSeconds + "s check");
+            }
+            //Update sign is needed to see changes
             sign.update();
         }
     }
@@ -179,9 +197,12 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
         if (youtubeChannel.isEmpty()) {
             //If youtubeChannel empty then default channel name or channel id
             if (!youtubeChannelName.isEmpty()) {
-                //Only available if you comply with the Google rules
+                //Only available if you comply with the Google rules (info is on google)
+                //Not use, but i think you'll need 100 subscribers for it
+                //And channel needs to exist more then 30 days.
                 search.setForUsername(youtubeChannelName);
             } else {
+                //Else use your channel ID (everybody has this if there is not channel name created)
                 search.setId(youtubeChannelId);
             }
         } else {

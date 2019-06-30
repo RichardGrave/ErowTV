@@ -80,7 +80,7 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	 */
 	public void registerCommands() {
 		getCommand(ErowTVConstants.TEST).setExecutor(new TestCommand());
-		getCommand(ErowTVConstants.PLAYER_DIRECTION).setExecutor(new PlayerCommands(ErowTVConstants.PLAYER_DIRECTION));
+		getCommand(ErowTVConstants.FACING).setExecutor(new PlayerCommands(ErowTVConstants.FACING));
 		getCommand(ErowTVConstants.DEBUG_MESSAGES).setExecutor(new PlayerCommands(ErowTVConstants.DEBUG_MESSAGES));
 
 		getLogger().info(Messages.EROWTV_COMMAND_REGISTRATION_COMPLETE);

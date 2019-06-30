@@ -8,9 +8,9 @@ commands:
   test:
     description: Test command to check if commands are loaded
     usage: /test
-  player_direction:
-    description: Get the players direction
-    usage: /player_direction
+  facing:
+    description: Gives you your facing direction
+    usage: /facing
   debug_messages:
     description: Turn debug messages on or off
     usage: /debug_messages

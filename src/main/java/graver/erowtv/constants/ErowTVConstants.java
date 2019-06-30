@@ -41,7 +41,7 @@ public interface ErowTVConstants {
 	
 	//Commands to register
 	public final static String TEST = "test";
-	public final static String PLAYER_DIRECTION = "player_direction";
+	public final static String FACING = "facing";
 	public final static String DEBUG_MESSAGES = "debug_messages";
 
 	//Rotations to calculate the directions

@@ -16,7 +16,7 @@ public class PlayerCommands implements CommandExecutor{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if(action.equalsIgnoreCase(ErowTVConstants.PLAYER_DIRECTION)) {
+		if(action.equalsIgnoreCase(ErowTVConstants.FACING)) {
 			sender.sendMessage(PlayerTools.getCardinalDirection(sender.getServer().getPlayer(sender.getName()), true));
 		}else if(action.equalsIgnoreCase(ErowTVConstants.DEBUG_MESSAGES)){
 			//switch it on or off

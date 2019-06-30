@@ -2,6 +2,7 @@ package graver.erowtv.tools;
 
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
+import graver.erowtv.main.ErowTV;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -58,15 +59,12 @@ public final class NumbersTool implements ErowTVConstants {
      * @param bigNumber
      */
     public void buildEntireNumber(String bigNumber) {
-        if(isDebug) {
+        if(ErowTV.isDebug) {
             player.sendMessage("BigNumber: " + bigNumber);
+            player.sendMessage("MATERIALONTOP: " + materialOnTop);
         }
 
         char[] numberPieces = bigNumber.toCharArray();
-
-        player.sendMessage("MATERIALONTOP: " + materialOnTop);
-
-        //TODO:RG nog checken voor correct width?
 
         //Check first char for width and -1 because of the starting AIR block
         String firstNum = bigNumber.substring(bigNumber.length());
@@ -137,8 +135,8 @@ public final class NumbersTool implements ErowTVConstants {
         int xas = block.getX();
         int zas = block.getZ();
 
-        if(isDebug) {
-         player.sendMessage("Number: " + number);
+        if(ErowTV.isDebug) {
+            player.sendMessage("Number: " + number);
         }
 
         switch (number) {
@@ -213,7 +211,7 @@ public final class NumbersTool implements ErowTVConstants {
             //Or else every next block will go into the ground further and further.
             int placeY = yas;
 
-            if(isDebug) {
+            if(ErowTV.isDebug) {
                 player.sendMessage("Pattern: " + pattern);
             }
 

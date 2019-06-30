@@ -109,7 +109,9 @@ public final class BlockTools {
      */
     @SuppressWarnings("incomplete-switch")
     public static void blockPlaced(Player player, Block block) {
-        player.sendMessage("blockPlaced");
+        if(ErowTV.isDebug) {
+            player.sendMessage("blockPlaced");
+        }
         //check if player isnt null. Maybe block place event is triggerd by something else??? EnderMan???
         if (player != null) {
             switch (CustomItem.getCustomItem(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())) {
@@ -126,7 +128,6 @@ public final class BlockTools {
                     thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_DESTROY_TO_POSITION);
                     break;
                 case SPECIAL_SIGN:
-                    player.sendMessage("SPECIAL_SIGN PLACED");
                     //This is a sign, make it editable(false).
 //                    ((Sign) block.getState()).setEditable(false); TODO:RG is Editable false needed?
                     String memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION);
@@ -172,6 +173,7 @@ public final class BlockTools {
                 isBlockPositionTheSame(block, (List<Integer>) ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION))) {
             ErowTV.removeMemoryFromPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION);
 
+            //TODO:RG kijken of dit werkt.
         } else if (ErowTV.doesPlayerHaveSpecificMemory(player,
                 memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION))){
             ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
@@ -704,7 +706,9 @@ public final class BlockTools {
             case ORG_BUKKIT_MATERIAL_ENDERCHEST:
                 break;
             case ORG_BUKKIT_MATERIAL_FURNACE:
-                player.sendMessage("FURNACE");
+                if(ErowTV.isDebug) {
+                    player.sendMessage("FURNACE");
+                }
                 Furnace furnace = (Furnace) block.getState();
                 //		org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)block.getData();
                 org.bukkit.material.Furnace furn = ((org.bukkit.material.Furnace) furnace.getData());
@@ -738,14 +742,18 @@ public final class BlockTools {
                 break;
             case ORG_BUKKIT_MATERIAL_SKULL:
                 //TODO:RG
-                player.sendMessage("SKULL");
+                if(ErowTV.isDebug) {
+                    player.sendMessage("SKULL");
+                }
                 Skull skull = (Skull) block.getState();
                 skull.setSkullType(SkullType.ZOMBIE);
                 skull.setRotation(blockFace);
                 skull.update();
                 break;
             case ORG_BUKKIT_MATERIAL_STAIRS:
-                player.sendMessage("STAIRS");
+                if(ErowTV.isDebug) {
+                    player.sendMessage("STAIRS");
+                }
                 Stairs stairs = (Stairs) block.getState().getData();
 //			org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)block.getData();
                 stairs.setFacingDirection(blockFace.getOppositeFace());
@@ -800,7 +808,9 @@ public final class BlockTools {
             case ORG_BUKKIT_MATERIAL_ENDERCHEST:
                 break;
             case ORG_BUKKIT_MATERIAL_FURNACE:
-                player.sendMessage("FURNACE");
+                if(ErowTV.isDebug) {
+                    player.sendMessage("FURNACE");
+                }
                 Furnace furnace = (Furnace) block.getState();
                 //		org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)block.getData();
                 org.bukkit.material.Furnace newfurn = ((org.bukkit.material.Furnace) furnace.getData());
@@ -831,7 +841,9 @@ public final class BlockTools {
             case ORG_BUKKIT_MATERIAL_SIMPLEATTACHABLEMATERIALDATA:
                 break;
             case ORG_BUKKIT_MATERIAL_SKULL:
-                player.sendMessage("SKULL");
+                if(ErowTV.isDebug) {
+                    player.sendMessage("SKULL");
+                }
 
                 Skull skull = (Skull) block.getState();
                 org.bukkit.material.Skull newSkull = ((org.bukkit.material.Skull) skull.getData());
@@ -846,7 +858,9 @@ public final class BlockTools {
 //			return new String[]{((Skull)block.getState()).getRotation().toString()};
                 return new String[]{String.valueOf(getCurrentBlockFaceRotation(player, ((Skull) block.getState()).getRotation()))};
             case ORG_BUKKIT_MATERIAL_STAIRS:
-                player.sendMessage("STAIRS");
+                if(ErowTV.isDebug) {
+                    player.sendMessage("STAIRS");
+                }
                 Stairs stairs = (Stairs) block.getState().getData();
                 return new String[]{String.valueOf(getCurrentBlockFaceRotation(player, stairs.getFacing()))};
             case ORG_BUKKIT_MATERIAL_TORCH:

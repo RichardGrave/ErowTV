@@ -59,7 +59,7 @@ public class PlayerEvents implements Listener, ErowTVConstants {
      * @param event
      */
     private void playerLeftClickEvent(PlayerInteractEvent event) {
-        if(isDebug) {
+        if(ErowTV.isDebug) {
             event.getPlayer().sendMessage("playerLeftClickEvent");
         }
         boolean specialItemUseHand = false;
@@ -93,7 +93,7 @@ public class PlayerEvents implements Listener, ErowTVConstants {
      * @param event
      */
     private void playerRightClickEvent(PlayerInteractEvent event) {
-        if(isDebug) {
+        if(ErowTV.isDebug) {
             event.getPlayer().sendMessage("playerRightClickEvent");
         }
         boolean specialItemUseHand = false;
@@ -102,7 +102,7 @@ public class PlayerEvents implements Listener, ErowTVConstants {
             specialItemUseHand = ItemTools.rightClickItemUse(event.getPlayer(), event.getItem(), event.getClickedBlock());
         }
         if(!specialItemUseHand) {
-            if(isDebug){
+            if(ErowTV.isDebug){
                 event.getPlayer().sendMessage(event.getClickedBlock().getType().toString());
             }
             //Do event by clicked block material

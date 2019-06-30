@@ -46,11 +46,12 @@ public final class DestroyBlockTool {
 
 			//Destroy block has nothing to click on (no Sign), so use Player's Facing direction. ClickedBlock = NULL
 			int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, null, player.getFacing());
-			
-			//Use for debug
-//			player.sendMessage("DEPTH="+directions[ARRAY_PLACEMENT_POS_DEPTH] + " HEIGHT="+directions[ARRAY_PLACEMENT_POS_HEIGHT] + " WIDTH="+directions[ARRAY_PLACEMENT_POS_WIDTH]);
-//			player.sendMessage("XAS="+directions[ARRAY_PLACEMENT_POS_XAS] + " ZAS="+directions[ARRAY_PLACEMENT_POS_ZAS] + " IS_NORTH_SOUTH="+directions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH]);
-			
+
+			if(ErowTV.isDebug) {
+				player.sendMessage("DEPTH="+directions[ARRAY_PLACEMENT_POS_DEPTH] + " HEIGHT="+directions[ARRAY_PLACEMENT_POS_HEIGHT] + " WIDTH="+directions[ARRAY_PLACEMENT_POS_WIDTH]);
+				player.sendMessage("XAS="+directions[ARRAY_PLACEMENT_POS_XAS] + " ZAS="+directions[ARRAY_PLACEMENT_POS_ZAS] + " IS_NORTH_SOUTH="+directions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH]);
+			}
+
 			if(directions.length != 0) {
 				player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 1.0f, 1.0f);
 

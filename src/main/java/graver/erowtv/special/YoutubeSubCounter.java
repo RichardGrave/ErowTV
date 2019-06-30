@@ -26,6 +26,9 @@ import java.util.List;
 
 public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants {
 
+
+    //TODO:RG check if previous API key is really invalid
+
     //You will need a file with the Google API-KEY and default channel.
     private final String API_KEY_FILE = DIR_GENERAL + "api_key_and_channel.yml";
     //'api_key' is important the others can be empty.
@@ -131,7 +134,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
             if(youtubeApiKey.isEmpty()){
                 this.cancel();
             }
-            if(isDebug) {
+            if(ErowTV.isDebug) {
                 player.sendMessage("Running");
             }
             String numberOfSubscribers = "";
@@ -146,7 +149,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
             //If there are no subscribers or the memory for the specialsign is gone, then cancel.
             if(numberOfSubscribers.isEmpty() ||
                     !ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION)){
-                if(isDebug) {
+                if(ErowTV.isDebug) {
                     player.sendMessage("Cancel YoutubeSubCounter");
                 }
 

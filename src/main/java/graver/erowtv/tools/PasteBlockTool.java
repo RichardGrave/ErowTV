@@ -186,7 +186,11 @@ public final class PasteBlockTool implements ErowTVConstants {
 						if(block.getState().getData() instanceof Directional) {
 							//if directional then blockData[3] should exist
 							BlockFace directionalBlockFace = DirectionalRotation.getBlockFaceByRotation(Integer.parseInt(blockData[3]));
-							player.sendMessage("Directional");
+
+							if(ErowTV.isDebug) {
+								player.sendMessage("Directional");
+							}
+
 							//TODO:RG change to real saved Blockface
 							BlockFace newBlockFaceDirection = BlockTools.getNewBlockFaceDirection(player, directionalBlockFace, faceRotation);
 							BlockTools.changeDataForBlockType(player, block, newBlockFaceDirection, new String[] {});

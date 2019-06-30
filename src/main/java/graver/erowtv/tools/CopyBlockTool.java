@@ -54,11 +54,12 @@ public final class CopyBlockTool implements ErowTVConstants {
 
 				//Copy block has a sign to click on for directions, so CustomBlockFace = NULL
 				int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, clickedBlock, null);
-			
-				//For debugging
-				//player.sendMessage("DEPTH="+directions[ARRAY_PLACEMENT_POS_DEPTH] + " HEIGHT="+directions[ARRAY_PLACEMENT_POS_HEIGHT] + " WIDTH="+directions[ARRAY_PLACEMENT_POS_WIDTH]);
-				//player.sendMessage("XAS="+directions[ARRAY_PLACEMENT_POS_XAS] + " ZAS="+directions[ARRAY_PLACEMENT_POS_ZAS] + " IS_NORTH_SOUTH="+directions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH]);
-			
+
+				if(ErowTV.isDebug) {
+					player.sendMessage("DEPTH=" + directions[ARRAY_PLACEMENT_POS_DEPTH] + " HEIGHT=" + directions[ARRAY_PLACEMENT_POS_HEIGHT] + " WIDTH=" + directions[ARRAY_PLACEMENT_POS_WIDTH]);
+					player.sendMessage("XAS=" + directions[ARRAY_PLACEMENT_POS_XAS] + " ZAS=" + directions[ARRAY_PLACEMENT_POS_ZAS] + " IS_NORTH_SOUTH=" + directions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH]);
+				}
+
 				if(directions.length != 0) {
 					copyBlocksAtAllPositions(player, fileName, directions);
 			

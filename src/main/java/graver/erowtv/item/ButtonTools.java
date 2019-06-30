@@ -67,6 +67,7 @@ public final class ButtonTools {
 	 * @param blockBehindButton
 	 */
 	public static void handleLeverClicked(Player player, Block clickedBlock, Block blockBehindButton) {
+		//TODO:RG dont need it yet. Leave it for future purposes
 //		if(BlockTools.isBlockPositionTheSame(blockBehindButton,(List<Integer>)ErowTV.readPlayerMemory(player, ErowTVConstants.MEMORY_DESTROY_FROM_POSITION))) {
 //			//We also need the DESTROY_TO position
 //			if(ErowTV.doesPlayerHaveSpecificMemory(player, ErowTVConstants.MEMORY_DESTROY_TO_POSITION)) {

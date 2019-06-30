@@ -29,7 +29,7 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 */
 	public static void leftClickWallSignByPlayer(Player player, Block clickedBlock) {
-		if(isDebug) {
+		if(ErowTV.isDebug) {
 			player.sendMessage("leftClickWallSignByPlayer");
 		}
 		//We already know its a wall sign. That was checked before this method was called.
@@ -54,7 +54,7 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 */
 	public static void leftClickSignByPlayer(Player player, Block clickedBlock) {
-		if(isDebug) {
+		if(ErowTV.isDebug) {
 			player.sendMessage("leftClickSignByPlayer");
 		}
 		//We already know its a sign. That was checked before this method was called.
@@ -80,7 +80,7 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 */
 	public static void rightClickSignByPlayer(Player player, Block clickedBlock) {
-		if(isDebug) {
+		if(ErowTV.isDebug) {
 			player.sendMessage("rightClickSignByPlayer");
 		}
 		//We already know its a sign. That was checked before this method was called.
@@ -105,7 +105,7 @@ public final class SignTools implements ErowTVConstants {
 	 * @param clickedBlock
 	 */
 	public static void rightClickWallSignByPlayer(Player player, Block clickedBlock) {
-		if(isDebug) {
+		if(ErowTV.isDebug) {
 			player.sendMessage("rightClickWallSignByPlayer");
 		}
 		//We already know its a wall sign. That was checked before this method was called.
@@ -135,7 +135,7 @@ public final class SignTools implements ErowTVConstants {
 	 */
 	private static void handleSignClicked(Player player, Block clickedBlock, Sign sign, Block blockBehindSign,
 										  BlockFace blockFace, boolean isWallSign, boolean isLeftClick) {
-		if(isDebug) {
+		if(ErowTV.isDebug) {
 			player.sendMessage("handleWallSignClicked");
 		}
 		//Used for signs
@@ -180,7 +180,7 @@ public final class SignTools implements ErowTVConstants {
 		Sign toolSign = (Sign) player.getWorld().getBlockAt(signPosition.get(ErowTVConstants.BLOCK_POS_X),
 				signPosition.get(ErowTVConstants.BLOCK_POS_Y), signPosition.get(ErowTVConstants.BLOCK_POS_Z)).getState();
 
-		if(isDebug) {
+		if(ErowTV.isDebug) {
 			player.sendMessage("SPECIAL_SIGN = " + toolSign.getLine(SPECIAL_SIGN_ACTION).toLowerCase());
 		}
 
@@ -190,7 +190,7 @@ public final class SignTools implements ErowTVConstants {
 				case SPECIAL_COUNTDOWN_TIMER:
 					if(!isLeftClick) {
 						new CountDownTimer(player, blockFace, blockBehindSign, toolSign, isWallSign, uniqueMemory).
-								runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+								runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, TIME_SECOND);
 						break;
 					}
 				case SPECIAL_YOUTUBE_SUBS:

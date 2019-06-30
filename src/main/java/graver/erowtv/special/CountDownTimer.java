@@ -73,7 +73,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
                 //Just to be sure there are 2 position for the seconds
                 formattedTimeString += timeSplit[2].length() == 1 ? "0" + timeSplit[2] : timeSplit[2];
             }
-            if(isDebug) {
+            if(ErowTV.isDebug) {
                 player.sendMessage("FormattedTimeString = " + formattedTimeString);
             }
         } catch (Exception ex) {
@@ -98,7 +98,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
                 ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
 
                 //Play sound to notify that the CountdownTimer is ended
-                new RingTheBell().runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, TIME_SECOND);
+                new RingTheBell().runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, TIME_SECOND);
 
                 //Last thing to do
                 createNumberBlocksOrUpdateSign(" ", "Time's up");

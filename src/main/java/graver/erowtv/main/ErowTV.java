@@ -23,6 +23,8 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	public static Map<String, Map<String, List<?>>> playerMemory;
 	public static Collection<NamespacedKey> namespacedKeysRecipes = new ArrayList<NamespacedKey>();
 
+	//Set isDebug on true if player messages with info is neededs
+	public static boolean isDebug = false;
 	public static String fileSaveFolder;
 
 	//Reference to this plugin.
@@ -78,7 +80,8 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	 */
 	public void registerCommands() {
 		getCommand(ErowTVConstants.TEST).setExecutor(new TestCommand());
-		getCommand(ErowTVConstants.PLAYER_DIRECTION).setExecutor(new PlayerCommands());
+		getCommand(ErowTVConstants.PLAYER_DIRECTION).setExecutor(new PlayerCommands(ErowTVConstants.PLAYER_DIRECTION));
+		getCommand(ErowTVConstants.DEBUG_MESSAGES).setExecutor(new PlayerCommands(ErowTVConstants.DEBUG_MESSAGES));
 
 		getLogger().info(Messages.EROWTV_COMMAND_REGISTRATION_COMPLETE);
 	}
@@ -203,9 +206,5 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 
 		//Now check if the player HAS the memory
 		return playerMemory.get(player.getUniqueId().toString()).containsKey(memoryName);
-	}
-
-	public static JavaPlugin getJavaPluginErowTV(){
-		return javaPluginErowTV;
 	}
 }

@@ -1,6 +1,7 @@
 package graver.erowtv.tools;
 
 import graver.erowtv.constants.ErowTVConstants;
+import graver.erowtv.main.ErowTV;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -65,7 +66,7 @@ public final class CharacterTool implements ErowTVConstants {
      * @param blockFace
      */
     public static void buildEntireNumber(Player player, String bigNumber, Block block, BlockFace blockFace) {
-        if(isDebug) {
+        if(ErowTV.isDebug) {
             player.sendMessage("BigNumber: " + bigNumber);
         }
 
@@ -138,8 +139,8 @@ public final class CharacterTool implements ErowTVConstants {
         int xas = block.getX();
         int zas = block.getZ();
 
-        if(isDebug) {
-         player.sendMessage("Number: " + number);
+        if(ErowTV.isDebug) {
+            player.sendMessage("Number: " + number);
         }
 
         switch (number) {
@@ -206,7 +207,7 @@ public final class CharacterTool implements ErowTVConstants {
             int tmpXas = 0;
             int placeY = yas - tmpYas;
 
-            if(isDebug) {
+            if(ErowTV.isDebug) {
                 player.sendMessage("Pattern: " + pattern);
             }
 

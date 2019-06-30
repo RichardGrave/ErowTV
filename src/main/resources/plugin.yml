@@ -11,3 +11,6 @@ commands:
   player_direction:
     description: Get the players direction
     usage: /player_direction
+  debug_messages:
+    description: Turn debug messages on or off
+    usage: /debug_messages

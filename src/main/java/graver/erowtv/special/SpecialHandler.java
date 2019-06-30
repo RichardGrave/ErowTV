@@ -35,7 +35,7 @@ public class SpecialHandler implements ErowTVConstants {
 
         //Run YoutubeSubCounter
         new YoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, memoryName).
-                runTaskTimer(ErowTV.getJavaPluginErowTV(), TIME_SECOND, period);
+                runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, period);
     }
 
 }

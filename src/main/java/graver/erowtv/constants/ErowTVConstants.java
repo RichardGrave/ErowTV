@@ -2,9 +2,6 @@ package graver.erowtv.constants;
 
 public interface ErowTVConstants {
 
-	//Set isDebug on true if player messages with info is needed
-	public final static boolean isDebug = true;
-
 	//Various Strings
 	public final static String ENCHANTMENT_EROWTV = "ErowTV's Magic";
 
@@ -45,6 +42,7 @@ public interface ErowTVConstants {
 	//Commands to register
 	public final static String TEST = "test";
 	public final static String PLAYER_DIRECTION = "player_direction";
+	public final static String DEBUG_MESSAGES = "debug_messages";
 
 	//Rotations to calculate the directions
 	public static final float ROTATION_0_0_F = 0.0f;

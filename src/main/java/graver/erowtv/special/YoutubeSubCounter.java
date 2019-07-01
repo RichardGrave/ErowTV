@@ -173,7 +173,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
             previousNumberOfSubscribers = numberOfSubscribers;
 
             //This is the same for both situations
-            sign.setLine(0, "Channel");
+            sign.setLine(0, "Youtube Channel");
             sign.setLine(1, (youtubeChannel.isEmpty() ? youtubeChannelName : youtubeChannel));
 
             //Should is be placed with block or just text on a sign

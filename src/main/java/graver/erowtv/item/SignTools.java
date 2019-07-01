@@ -185,7 +185,7 @@ public final class SignTools implements ErowTVConstants {
 		}
 
 		if(toolSign != null) {
-			//Read first line
+			//Read first line and make it LowerCase for comparing
 			switch (toolSign.getLine(SPECIAL_SIGN_ACTION).toLowerCase()) {
 				case SPECIAL_COUNTDOWN_TIMER:
 					if(!isLeftClick) {

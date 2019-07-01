@@ -9,7 +9,7 @@ This is **NOT** a mod for clientside single player Minecraft.
 ## Also:
 This may not be the best code.
 It has been refactored a lot during the time that it exists (even before I put it on GitHub). Some API methods/classes of SpigotMC have become deprecated and replaced with new ones. I still have to update some of it in my code.
-So i didnt want to spend much time on restructuring the code. Just enough to keep it readable/understandable.
+I didnt want to spend much time on restructuring the code. Just enough to keep it readable/understandable/runnable.
 
 I try not to be to messy with my code.\
 I do use JavaDoc and comments.\
@@ -19,7 +19,7 @@ And I will refactor bits of code to better structured code whenever I have the t
 - Copy blocks: a Copy FROM and Copy TO block that can copy everything between them and saves it to a file with a given name(from a sign). At the moment this works for all the blocks, but some blocks with special data will have a wrong direction when placed. Stairs for example. They can be upside down and those kind of things.
 - Destroy blocks: a Destroy FROM and Destroy TO block that can destroy everthing between them.
 - Two by Two block: that creates 8 blocks using clicked block material or left-click creating 8 blocks of AIR.
-- Paste block: Right-click sign with filename (saved with Copy blocks) and every where you'll right click in the world it will paste all the blocks from the file.
+- Paste block: Right-click sign with filename (saved with Copy blocks) and everywhere you'll right click in the world it will paste all the blocks from the file.
 - Special sign:
   - Youtube Subscribers Counter: creates a subscribers count on a sign or with blocks. This uses a Google API-key (generated on [Google Developers](https://developers.google.com) that everybody can generate and use for themselfs)
 You can give a channel name (or ID) and how many seconds it has to wait before getting the number of subscribers again.

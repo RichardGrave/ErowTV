@@ -33,7 +33,7 @@ You can give a channel name (or ID) and how many seconds it has to wait before g
   
 ## Usable commands in chat:
 - facing: Gives the direction you are facing. NORTH, EAST, etc.
-- debug_messages: Turns debug messages ON or OFF.
+- debug_messages: Turns debug messages ON or OFF (messages that I placed in the code for testing).
   
 ## Memory system:
 I have created a simple memory system that saves the coordinates of each **special block** (from the features in the text above) for the player that places them. Only that player can do interactions with the blocks/signs to activate them.

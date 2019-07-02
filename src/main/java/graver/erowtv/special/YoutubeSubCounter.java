@@ -26,9 +26,6 @@ import java.util.List;
 
 public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants {
 
-
-    //TODO:RG check if previous API key is really invalid
-
     //You will need a file with the Google API-KEY and default channel.
     private final String API_KEY_FILE = DIR_GENERAL + "api_key_and_channel.yml";
     //'api_key' is required the others can be left out or empty.

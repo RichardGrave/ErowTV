@@ -16,10 +16,10 @@ I do use JavaDoc and comments.\
 And I will refactor bits of code to better structured code whenever I have the time or when I need it for new features.
 
 ## Features it has:
-- Copy blocks: a Copy FROM and Copy TO block that can copy everything between them and saves it to a file with a given name(from a sign). At the moment this works for all the blocks, but some blocks with special data will have a wrong direction when placed. Stairs for example. They can be upside down and those kind of things.
+- Copy blocks: a Copy FROM and Copy TO block that can copy everything between them and saves it to a file with a given name(from a sign on the block). At the moment this works for all the blocks, but some blocks with special data will have a wrong direction when placed or no pyshics, etc. Stairs for example. They can be upside down and those kind of things.
 - Destroy blocks: a Destroy FROM and Destroy TO block that can destroy everthing between them.
 - Two by Two block: that creates 8 blocks using clicked block material or left-click creating 8 blocks of AIR.
-- Paste block: Right-click sign with filename (saved with Copy blocks) and everywhere you'll right click in the world it will paste all the blocks from the file.
+- Paste block: Right-click sign with filename (saved with Copy blocks) and everywhere you'll right-click in the world it will paste all the blocks from the file.
 - Special sign:
   - Youtube Subscribers Counter: creates a subscribers count on a sign or with blocks. This uses a Google API-key (generated on [Google Developers](https://developers.google.com) that everybody can generate and use for themselfs)
 You can give a channel name (or ID) and how many seconds it has to wait before getting the number of subscribers again.
@@ -29,7 +29,7 @@ You can give a channel name (or ID) and how many seconds it has to wait before g
   
  YouTube video: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)\
  A few features have already changed sinds the video.\
- Maybe a new video in the near future.\
+ Maybe a new video in the near future.
   
 ## Usable commands in chat:
 - facing: Gives the direction you are facing. NORTH, EAST, etc.
@@ -50,10 +50,12 @@ They each get a unique memory name so the server always knows where the signs wi
 - A server memory system, that remembers where the placed Games/Tools are in the world. This by saving to a file and loading from a file if the server has been restarted. Because the player memory system gets cleaned up when the server stops or restarts. The YouTube Subscribers Counter won't work anymore and the Countdown Timer will stop counting down.
 - Little games
 - Maybe a Twitter Subscribers Counter
-- A chest with book that explains how to use all the features (and future games).
+- A chest with books that explain how to use all the features (and games).
 - Extra commands usable in the chat.
+- A bridge builder to get over water or canyons.
+- A stair builder to get down from a high place
 - More tools to use (dont know what they will be, yet). Have to brainstorm on that one :)
-- More YouTube videos of this plugin on our channel
+- More YouTube videos about this plugin on our channel
 [YouTube Channel ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
 
 

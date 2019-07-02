@@ -40,7 +40,7 @@ public final class PasteBlockTool implements ErowTVConstants {
 	public static void pasteBlocks(Player player, Block clickedBlock, Sign sign, String fileName, List<Integer> pasteBlock, String memoryName) {
 		//We need to check if the blocks are in the same world.
 		Block blockTo = player.getWorld().getBlockAt(pasteBlock.get(ErowTVConstants.BLOCK_POS_X),
-				pasteBlock.get(ErowTVConstants.BLOCK_POS_Y),pasteBlock.get(ErowTVConstants.BLOCK_POS_Z));
+				pasteBlock.get(ErowTVConstants.BLOCK_POS_Y), pasteBlock.get(ErowTVConstants.BLOCK_POS_Z));
 
 		//Add DIR_COPY_BLOCKS for SPECIAL_SIGN
 		if(fileName == null || fileName.isEmpty()) {
@@ -79,7 +79,6 @@ public final class PasteBlockTool implements ErowTVConstants {
 					pasteBlocksAtAllPositions(player, copyFile, directions, blockFace);
 					//Set blocks and the sign to AIR
 					blockTo.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
-
 		
 					//Remove the memory after the copy
 					//Only for SPECIAL_SIGN paste action. NOT for PASTE BLOCK
@@ -126,7 +125,8 @@ public final class PasteBlockTool implements ErowTVConstants {
 			player.sendMessage("String doesnt contain depth, height and widht in yml file");
 			return;
 		}
-		
+
+		//TODO:RG Magic numbers, never use forbidden magic
 		//Depth not needed, is calculated before placing blocks
 		int height = Integer.parseInt(dhw[1]);
 		int width = Integer.parseInt(dhw[2]);
@@ -206,22 +206,4 @@ public final class PasteBlockTool implements ErowTVConstants {
 			}
 		}
 	}
-	
-	
-//		
-//		if(block.getState().getData() instanceof Stairs) {
-//			player.sendMessage("Stairs");
-//			Stairs stairs = (Stairs)block.getState().getData();
-////			org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)block.getData();
-//			stairs.setFacingDirection((!stairs.isInverted() ? blockFace : blockFace.getOppositeFace()));
-//			block.setData(stairs.getData());
-//		}else if(block.getState().getData() instanceof Stairs) {
-//			player.sendMessage("Stairs");
-//			Furnace furnace = (Furnace)block.getState();
-////			org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)block.getData();
-//			org.bukkit.material.Furnace furn = ((org.bukkit.material.Furnace)furnace.getData());
-//			furn.setFacingDirection(blockFace);
-//			block.setData(furn.getData());
-//		}
-	
 }

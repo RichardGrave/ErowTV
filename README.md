@@ -52,10 +52,10 @@ They each get a unique memory name so the server always knows where the signs wi
 - Maybe a Twitter Subscribers Counter
 - A chest with books that explain how to use all the features (and games).
 - Extra commands usable in the chat.
+- Turn lights on/off with special buttons that connect to a light source through coordinates.
 - A bridge builder to get over water or canyons.
-- A stair builder to get down from a high place
-- More tools to use (dont know what they will be, yet). Have to brainstorm on that one :)
-- More YouTube videos about this plugin on our channel
+- A stair builder to get down from a high place.
+- More YouTube videos about this plugin on our channel.
 [YouTube Channel ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
 
 

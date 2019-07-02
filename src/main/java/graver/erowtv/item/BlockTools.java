@@ -107,7 +107,6 @@ public final class BlockTools {
      * @param player
      * @param block
      */
-    @SuppressWarnings("incomplete-switch")
     public static void blockPlaced(Player player, Block block) {
         if(ErowTV.isDebug) {
             player.sendMessage("blockPlaced");
@@ -287,6 +286,8 @@ public final class BlockTools {
         return false;
     }
 
+
+    //TODO:RG Still need to use this or deprecated?
     public static boolean doesBlockExist(Player player, List<Integer> position) {
         //If null, then position can never be the same
         if (position != null && position.size() == ErowTVConstants.POSITION_SIZE) {
@@ -676,6 +677,7 @@ public final class BlockTools {
         //TODO:RG Need to save Directions en inverted -> calculate correct ones for pasting
 //		player.sendMessage(block.getState().getData().getClass().getName());
 
+        //TODO:RG OLD?
         //!!Remember: Blocks are not copies of data. So if skull is a block then this:
         //Skull skull = (Skull)block.getState();
         //skull.setSkullType(SkullType.ZOMBIE);
@@ -713,7 +715,7 @@ public final class BlockTools {
                 //		org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)block.getData();
                 org.bukkit.material.Furnace furn = ((org.bukkit.material.Furnace) furnace.getData());
                 furn.setFacingDirection(blockFace);
-                //TODO:RG moet nog
+                //TODO:RG still have to do this
 //			block.setData(furn.getData());
                 break;
             case ORG_BUKKIT_MATERIAL_FURNACEANDDISPENSER:
@@ -741,7 +743,7 @@ public final class BlockTools {
             case ORG_BUKKIT_MATERIAL_SIMPLEATTACHABLEMATERIALDATA:
                 break;
             case ORG_BUKKIT_MATERIAL_SKULL:
-                //TODO:RG
+                //TODO:RG still have to do this
                 if(ErowTV.isDebug) {
                     player.sendMessage("SKULL");
                 }
@@ -757,7 +759,7 @@ public final class BlockTools {
                 Stairs stairs = (Stairs) block.getState().getData();
 //			org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)block.getData();
                 stairs.setFacingDirection(blockFace.getOppositeFace());
-                //TODO:RG moet nog
+                //TODO:RG still have to do this
 //			block.setData(stairs.getData());
                 break;
             case ORG_BUKKIT_MATERIAL_TORCH:

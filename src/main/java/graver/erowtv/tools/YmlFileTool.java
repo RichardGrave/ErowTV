@@ -32,6 +32,11 @@ public final class YmlFileTool implements ErowTVConstants {
 			if (blockYml.exists()) {
 				// Never save to a existing file, just in case the data would be appended to te
 				// rest of the existing data.
+
+				//TODO:RG Danger that someone else can overwrite your file. Maybe save per player?
+				//Or if you forgot about your file you would accidentally overwrite it.
+				//Maybe stop saving if it exists with a warning and you'll have to overrule it with a second line
+				//parameter on the sign?
 				if(!blockYml.delete()) {
 					player.sendMessage("File already exists and could not be deleted");
 					return false;

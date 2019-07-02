@@ -31,11 +31,11 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
 
     //You will need a file with the Google API-KEY and default channel.
     private final String API_KEY_FILE = DIR_GENERAL + "api_key_and_channel.yml";
-    //'api_key' is important the others can be empty.
-    //File looks like this. Each on a new line!
+    //'api_key' is required the others can be left out or empty.
+    //File contents looks like this. Each on a new line!
     //    api_key: 'TheGoogleApiKeyHere'
-    //    default_channel_name: 'DefaultChannelName'
-    //    default_channel_id: 'DefaultChannelId'
+    //    channel_name: 'DefaultChannelName'
+    //    channel_id: 'DefaultChannelId'
 
     private final String YOUTUBE_STATISTICS = "statistics";
     private final String YOUTUBE_APP_NAME = "YoutubeSubsCounter";
@@ -47,11 +47,12 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
 
 
     //TODO:RG if server can load this in the future then we need something to stop this if sign is destroyed
-    //TODO:RG Kijken of een subs counter mogelijk is
-    //Dat om de 30 seconden checkt hoeveel subs we hebben.
-    //Bij bepaalde waarden vuurwerk afschiet. B.v. 100, 1000, 10.000, 50.000, 100.000, 500.000
-    //Bij bepaalde waarden die belangrijk zijn iets speciaals? Chat met kleuren etc??
-    //Gekleurde blocks per waarden?
+    //Default 30 second check.
+    //Some ideas
+    //Shoot fireworks when reaching certain subscriber values.
+    //Maybe fireworks at 100, 1000, 10.000, 50.000, 100.000, 500.000 and more fireworks the higher the number?
+    //Also notifications in chat with colors?
+    //Maybe give block numbers the color of importency? Meaning bronze, silver, gold, diamond like Youtube Play Button.
 
     private YouTube youTube;
     private Player player;
@@ -70,8 +71,14 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
     private String youtubeApiKey;
     private String memoryName;
 
-    //You will need one. Channel ID or Channel name
-    //!!!Google has rules for when you can use a channel name!!!
+    //You will need one -> Channel ID or Channel name
+    //!!!Google has rules for when you can use a custom channel name for your YouTube channel!!!
+    //1:    Have 100 or more subscribers
+    //2:    Be at least 30 days old
+    //3:    Have an uploaded photo as a channel icon
+    //4:    Have uploaded channel art
+    //
+    //So, if you dont comply to the rules, then use your channel ID (the random character/numbers)
     private String youtubeChannelId = "";
     private String youtubeChannelName = "";
 

@@ -48,10 +48,11 @@ They each get a unique memory name so the server always knows where the signs wi
 ## What I want to make in the future:
 - Expand the Copy feature so that all needed data from certain blocks like Stairs, pistons, etc. get copied.
 - A server memory system, that remembers where the placed Games/Tools are in the world. This by saving to a file and loading from a file if the server has been restarted. Because the player memory system gets cleaned up when the server stops or restarts. The YouTube Subscribers Counter won't work anymore and the Countdown Timer will stop counting down.
+- That players can click each others special signs to activate the action on it (now a player can only activate his own placed special sign because of the memory system)
 - Little games
 - Maybe a Twitter Subscribers Counter
 - A chest with books that explain how to use all the features (and games).
-- Extra commands usable in the chat.
+- Extra commands usable in the chat (Maybe for building blocks in a certain way? Like a row of blocks or a platform to build a house on).
 - Turn lights on/off with special buttons that connect to a light source through coordinates.
 - A bridge builder to get over water or canyons.
 - A stair builder to get down from a high place.

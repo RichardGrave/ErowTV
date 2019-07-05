@@ -38,7 +38,8 @@ You can give a channel name (or ID) and how many seconds it has to wait before g
 ## Memory system:
 I have created a simple memory system that saves the coordinates of each **special block** (from the features in the text above) for the player that places them. Only that player can do interactions with the blocks/signs to activate them.
 
-This is needed for the copy/destroy blocks so you can check if there already exists one of each. If it already exists then it will replace the block with AIR and changes the memory with the new placed block.
+So you can ONLY have multiple Copy FROM blocks in the world if they are from DIFFERENT players.
+This is needed for the copy/destroy blocks so you can check if there already exists one of each (for that player). If it already exists then it will replace the block with AIR and changes the memory with the new placed block.
 If we dont do that then we could for example place multiple Copy FROM blocks (or TO blocks) and then the server doesn't know where to calculate FROM en TO. So it would mess things up pretty bad.
 It will also remove blocks from the memory system if they break.
 

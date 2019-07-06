@@ -23,7 +23,8 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	public static Map<String, Map<String, List<?>>> playerMemory;
 	public static Collection<NamespacedKey> namespacedKeysRecipes = new ArrayList<NamespacedKey>();
 
-	//Set isDebug on true if player messages with info is neededs
+	//Set isDebug on true if player messages with info is needed
+	//No encapsulations, just call them directly.
 	public static boolean isDebug = false;
 	public static String fileSaveFolder;
 

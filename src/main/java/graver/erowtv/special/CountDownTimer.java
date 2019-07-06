@@ -32,6 +32,16 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
 
     private NumbersTool numbersTool;
 
+    /**
+     * Create a CountDownTimer on a Sign or with block Numbers (interval is every second)
+     *
+     * @param player     player that creates this
+     * @param blockFace  direction
+     * @param blockToUse the block that is needed to get the Material from and Material from block on top of it
+     * @param sign       the sign to update the text on
+     * @param isWallSign yes, then create the block numbers. No, then just update the sign.
+     * @param memoryName use to look if special sign still exists
+     */
     public CountDownTimer(Player player, BlockFace blockFace, Block blockToUse, Sign sign, boolean isWallSign, String memoryName) {
         this.player = player;
         this.blockToUse = blockToUse;
@@ -45,6 +55,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
         setTime(sign.getLine(SPECIAL_SIGN_PARAMETER_1));
     }
 
+    //Get the time from Sign text.
     private void setTime(String time) {
         try {
             String[] timeSplit = time.split(":");
@@ -83,9 +94,6 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
         //If length is greater then 3 or 0 then somethins is wrong and dont do anything.
     }
 
-    //TODO:RG Use blockToUse as number block
-    //If there is only a sign and no block behind it then change sign text to a countdown
-
     @Override
     public void run() {
         try {
@@ -111,6 +119,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
         }
     }
 
+    //Check if we need to create numbers or just update the sign with the new time.
     private void createNumberBlocksOrUpdateSign(String bigNumber, String textSignLineONe){
         if(isWallSign) {
             //Clean up last number
@@ -123,6 +132,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
         }
     }
 
+    //Get the String with the time to use.
     private void buildTimeString(String timeToUse) {
         try {
             //Remove whitespaces from reformatTimeString method
@@ -146,6 +156,8 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
         }
     }
 
+    //Removed starting zero's
+    //So, 01:25 becomes 1:25
     private void reformatTimeString(){
         //If it starts with 0: then remove for better viewing and set new timeFormat
         if(formattedTimeString.startsWith("0:")){
@@ -161,6 +173,8 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
         }
     }
 
+    //Change timeformat if starting zero's are gone.
+    //So, mm:ss becomes m:ss
     private void changeTimeFormat(){
         switch (timeFormat){
             case TIME_FORMAT_HH_MM_SS:

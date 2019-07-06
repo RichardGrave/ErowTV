@@ -1,6 +1,7 @@
 package graver.erowtv.special;
 
 import graver.erowtv.constants.ErowTVConstants;
+import graver.erowtv.constants.Messages;
 import graver.erowtv.main.ErowTV;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -31,7 +32,7 @@ public class SpecialHandler implements ErowTVConstants {
                 interval = TIME_SECOND * intervalInSeconds;
             }
         } catch (Exception ex) {
-            player.sendMessage("Second parameter on the SpecialSign is not a Number");
+            player.sendMessage(Messages.PROBLEM_SECOND_PARAM_NOT_A_NUMBER);
             ex.printStackTrace();
         }
 

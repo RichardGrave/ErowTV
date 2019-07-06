@@ -86,14 +86,13 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
     /**
      * Create a YouTube counter on a Sign or with block Numbers
      *
-     * @param player     with correct dir Example: /copy_blocks/tree
-     * @param blockToUse used for sending a message
-     * @param blockFace
+     * @param player     player that creates this
+     * @param blockToUse as Material for the numbers
+     * @param blockFace  direction
      * @param sign       the sign to update the text on
      * @param isWallSign yes, then create the block numbers. No, then just update the sign.
      * @param interval   write on the sign what the interval is for checking YouTube.
      * @param memoryName use to look if special sign still exists
-     * @return true if succeded, false if something went wrong
      */
     public YoutubeSubCounter(Player player, Block blockToUse, BlockFace blockFace, Sign sign, boolean isWallSign,
                              int interval, String memoryName) {

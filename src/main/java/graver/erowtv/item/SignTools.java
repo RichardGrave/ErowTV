@@ -195,7 +195,7 @@ public final class SignTools implements ErowTVConstants {
 					}
 				case SPECIAL_YOUTUBE_SUBS:
 					if(!isLeftClick) {
-						new SpecialHandler().handleYoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, uniqueMemory);
+						new SpecialHandler().handleYoutubeSubCounter(player, blockBehindSign, toolSign, isWallSign, uniqueMemory);
 					}
 					break;
 				case SPECIAL_PASTE:

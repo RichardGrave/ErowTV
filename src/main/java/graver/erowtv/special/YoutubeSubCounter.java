@@ -26,13 +26,15 @@ import java.util.List;
 
 public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants {
 
-    //You will need a file with the Google API-KEY and default channel.
+    //Important
+    //!!!! You will need a file ('plugins/saved_files/general/api_key_and_channel.yml') with the Google API-KEY and default channel.
     private final String API_KEY_FILE = DIR_GENERAL + "api_key_and_channel.yml";
-    //'api_key' is required the others can be left out or empty.
-    //File contents looks like this. Each on a new line!
-    //    api_key: 'TheGoogleApiKeyHere'
-    //    channel_name: 'DefaultChannelName'
-    //    channel_id: 'DefaultChannelId'
+    /*'api_key' is required the others can be left out or empty.
+     *File contents looks like this. Each on a new line!
+     *    api_key: 'TheGoogleApiKeyHere'
+     *    channel_name: 'DefaultChannelName'
+     *    channel_id: 'DefaultChannelId'
+     */
 
     private final String YOUTUBE_STATISTICS = "statistics";
     private final String YOUTUBE_APP_NAME = "YoutubeSubsCounter";
@@ -43,18 +45,17 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
     public final static String YML_CHANNEL_ID = "channel_id";
 
 
-    //TODO:RG if server can load this in the future then we need something to stop this if sign is destroyed
-    //Default 30 second check.
-    //Some ideas
-    //Shoot fireworks when reaching certain subscriber values.
-    //Maybe fireworks at 100, 1000, 10.000, 50.000, 100.000, 500.000 and more fireworks the higher the number?
-    //Also notifications in chat with colors?
-    //Maybe give block numbers the color of importency? Meaning bronze, silver, gold, diamond like Youtube Play Button.
+    //TODO:RG if server can load this in the future then we need something to stop this if the sign is destroyed
+    /*Default 30 second check.
+     *Some ideas
+     *Shoot fireworks when reaching certain subscriber values.
+     *Maybe fireworks at 100, 1000, 10.000, 50.000, 100.000, 500.000 and more fireworks the higher the number?
+     *Also notifications in chat with colors?
+     *Maybe give block numbers the color of importency? Meaning bronze, silver, gold, diamond like Youtube Play Button.
+     */
 
     private YouTube youTube;
     private Player player;
-    private Block blockToUse;
-    private BlockFace blockFace;
     private Sign sign;
     private NumbersTool numbersTool;
 
@@ -68,24 +69,36 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
     private String youtubeApiKey;
     private String memoryName;
 
-    //You will need one -> Channel ID or Channel name
-    //!!!Google has rules for when you can use a custom channel name for your YouTube channel!!!
-    //1:    Have 100 or more subscribers
-    //2:    Be at least 30 days old
-    //3:    Have an uploaded photo as a channel icon
-    //4:    Have uploaded channel art
-    //
-    //So, if you dont comply to the rules, then use your channel ID (the random character/numbers)
+    /*You will need one -> Channel ID or Channel name
+     *!!!Google has rules for when you can use a custom channel name for your YouTube channel!!!
+     *1:    Have 100 or more subscribers
+     *2:    Be at least 30 days old
+     *3:    Have an uploaded photo as a channel icon
+     *4:    Have uploaded channel art
+     *
+     *So, if you dont comply to the rules, then use your channel ID (the random character/numbers)
+     */
+
     private String youtubeChannelId = "";
     private String youtubeChannelName = "";
 
 
+    /**
+     * Create a YouTube counter on a Sign or with block Numbers
+     *
+     * @param player     with correct dir Example: /copy_blocks/tree
+     * @param blockToUse used for sending a message
+     * @param blockFace
+     * @param sign       the sign to update the text on
+     * @param isWallSign yes, then create the block numbers. No, then just update the sign.
+     * @param interval   write on the sign what the interval is for checking YouTube.
+     * @param memoryName use to look if special sign still exists
+     * @return true if succeded, false if something went wrong
+     */
     public YoutubeSubCounter(Player player, Block blockToUse, BlockFace blockFace, Sign sign, boolean isWallSign,
                              int interval, String memoryName) {
 
         this.player = player;
-        this.blockToUse = blockToUse;
-        this.blockFace = blockFace;
         this.sign = sign;
         this.youtubeChannel = sign.getLine(SPECIAL_SIGN_PARAMETER_1);
         this.isWallSign = isWallSign;
@@ -98,6 +111,12 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
         setApiKeyAndDefaultChannel();
     }
 
+
+    /*
+     * Read .yml file and get the API_KEY to use with YouTube.
+     * YML_CHANNEL_ID and YML_CHANNEL_NAME are optional and only used if there
+     * is no channel information on the special sign.
+     */
     private void setApiKeyAndDefaultChannel() {
         //Check if file with name exists
         File youtube_file;
@@ -139,10 +158,10 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
     @Override
     public void run() {
         try {
-            if(youtubeApiKey.isEmpty()){
+            if (youtubeApiKey.isEmpty()) {
                 this.cancel();
             }
-            if(ErowTV.isDebug) {
+            if (ErowTV.isDebug) {
                 player.sendMessage("Running");
             }
             String numberOfSubscribers = "";
@@ -155,10 +174,10 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
             updateNumbersOrSign(numberOfSubscribers);
 
             //If there are no subscribers or the memory for the specialsign is gone, then cancel.
-            if(numberOfSubscribers.isEmpty() ||
-                    !ErowTV.doesPlayerHaveSpecificMemory(player, memoryName)){
+            if (numberOfSubscribers.isEmpty() ||
+                    !ErowTV.doesPlayerHaveSpecificMemory(player, memoryName)) {
 
-                if(ErowTV.isDebug) {
+                if (ErowTV.isDebug) {
                     player.sendMessage("Cancel YoutubeSubCounter");
                 }
 
@@ -170,9 +189,14 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
         }
     }
 
-    private void updateNumbersOrSign(String numberOfSubscribers){
+    /*
+     * Depending on the type of sign it does it's action.
+     * WallSign -> Build block numbers and update sign text.
+     * Sign -> only update the sign text.
+     */
+    private void updateNumbersOrSign(String numberOfSubscribers) {
         //Only need to update if subscribers count changes.
-        if(!previousNumberOfSubscribers.equalsIgnoreCase(numberOfSubscribers)) {
+        if (!previousNumberOfSubscribers.equalsIgnoreCase(numberOfSubscribers)) {
             //set the new number to compare later
             previousNumberOfSubscribers = numberOfSubscribers;
 
@@ -188,7 +212,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
                 sign.setLine(2, checkInXSeconds + "s check");
             } else {
                 //Set number of subscribers
-                sign.setLine(2, "Subs: " +numberOfSubscribers);
+                sign.setLine(2, "Subs: " + numberOfSubscribers);
                 sign.setLine(3, checkInXSeconds + "s check");
             }
             //Update sign is needed to see changes
@@ -196,14 +220,15 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
         }
     }
 
+    /*
+     * Checks what YouTube channel it needs to search for
+     */
     private void setYoutubeSearchParameters(YouTube.Channels.List search) {
         //If the sign row is empty
         if (youtubeChannel.isEmpty()) {
             //If youtubeChannel empty then default channel name or channel id
             if (!youtubeChannelName.isEmpty()) {
                 //Only available if you comply with the Google rules (info is on google)
-                //Not use, but i think you'll need 100 subscribers for it
-                //And channel needs to exist more then 30 days.
                 search.setForUsername(youtubeChannelName);
             } else {
                 //Else use your channel ID (everybody has this if there is not channel name created)
@@ -216,6 +241,9 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
         search.setKey(youtubeApiKey);
     }
 
+    /*
+     * Handle channels response to find the number of channel subscribers
+     */
     private String getChannelsResponse(YouTube.Channels.List search) {
         try {
             String numberOfSubscribers = "";

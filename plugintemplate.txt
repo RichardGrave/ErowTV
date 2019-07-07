@@ -7,5 +7,5 @@ commands:
   mycommand:
     description: An example command
     usage: /mycommand
-    permission: myplugin.mycommand 			//Bij weglaten(en message hieronder) is het voor iedereen beschikbaar
+    permission: myplugin.mycommand
     permission-message: You don't have the myplugin.mycommand permission.

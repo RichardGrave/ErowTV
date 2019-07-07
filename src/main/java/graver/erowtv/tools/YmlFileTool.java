@@ -68,7 +68,14 @@ public final class YmlFileTool implements ErowTVConstants {
 		player.sendMessage("File '"+fileName + ".yml' saved");
 		return true;
 	}
-	
+
+	/**
+	 * Checks if the given file exists. If yes, then return the file otherwise return NULL.
+	 *
+	 *
+	 * @param fileName with correct dir Example: /copy_blocks/tree
+	 * @return file if found
+	 */
 	public static File doesFileExist(String fileName) {
 		//Add .yml if filename doesn't have it.
 		if(!fileName.endsWith(FILE_EXTENSION_YML)){

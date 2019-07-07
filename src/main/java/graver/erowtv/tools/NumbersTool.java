@@ -12,7 +12,6 @@ import java.util.List;
 
 public final class NumbersTool implements ErowTVConstants {
 
-    private int numHeight = 5;
     private int numWidth = 5;
     //Needs to be 2 because every other char has already got a starting AIR block.
     //Else you will get one AIR block on one side to many
@@ -44,6 +43,14 @@ public final class NumbersTool implements ErowTVConstants {
     private boolean firstNumber;
     private boolean useLightning;
 
+    /**
+     * Get the right pattern and build the number
+     *
+     * @param player
+     * @param block
+     * @param blockFace
+     * @param useLightning if yes, then the 'L' in the patterns above is the spot where it strikes.
+     */
     public NumbersTool(Player player, Block block, BlockFace blockFace, boolean useLightning){
         this.player = player;
         this.blockFace = blockFace;
@@ -100,11 +107,19 @@ public final class NumbersTool implements ErowTVConstants {
     }
 
 
-    public static Block calculateCorrectStartingPosition(Player player, Block startingBlockPostionForNumber,
+    /**
+     * Calculate starting position/coordinates for the next number.
+     *
+     * @param player
+     * @param PostionPreviousNumber
+     * @param blockFace
+     * @param numWidthForNext width can be 5 or 3 depending on if its a number or dot
+     */
+    public static Block calculateCorrectStartingPosition(Player player, Block PostionPreviousNumber,
                                                          BlockFace blockFace, int numWidthForNext){
-        int yas = startingBlockPostionForNumber.getY();
-        int xas = startingBlockPostionForNumber.getX();
-        int zas = startingBlockPostionForNumber.getZ();
+        int yas = PostionPreviousNumber.getY();
+        int xas = PostionPreviousNumber.getX();
+        int zas = PostionPreviousNumber.getZ();
 
         //Use blockFace to determine the direction
         switch (blockFace) {
@@ -258,6 +273,8 @@ public final class NumbersTool implements ErowTVConstants {
                     blockAt.setType(Material.AIR, false);
                 }
 
+                //Only do lightning strikes on the first number. Not all numbers.
+                //That's the number that changes the most.
                 if(useLightning && firstNumber && pattern.charAt(index) == 'L'){
                     blockAt.getWorld().strikeLightning(blockAt.getLocation());
                     blockAt.getWorld().strikeLightningEffect(blockAt.getLocation());

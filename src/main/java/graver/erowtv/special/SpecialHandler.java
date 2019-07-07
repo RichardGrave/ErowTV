@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
  */
 public class SpecialHandler implements ErowTVConstants {
 
-    /*
+    /**
      * Create a YoutubeSubCounter that check every X seconds
      * Default is 30 seconds
      */

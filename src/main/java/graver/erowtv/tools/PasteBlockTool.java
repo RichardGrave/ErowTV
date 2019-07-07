@@ -146,7 +146,7 @@ public final class PasteBlockTool implements ErowTVConstants {
 				if(!blockConfig.contains(rowNum+"")) {
 					player.sendMessage("Missing row to read from yml file");
 					return;
-				};
+				}
 				//Use \\ with SEP_BLOCK to use correct split for '$'
 				String[] blockRow = (blockConfig.get(rowNum+"").toString()).split("\\"+ ErowTVConstants.SEP_BLOCK);
 				//Is needed for (iterD * zas) or (iterD * xas) in for loop down below
@@ -177,7 +177,7 @@ public final class PasteBlockTool implements ErowTVConstants {
 	
 						Block block = player.getWorld().getBlockAt(placeX, (startY + iterH), placeZ);
 						//TODO:RG Sign data -> Text + Checst, Furnace, etc. -> items it contains
-						//TODO:RG moet nog Deprecated but needed
+						//TODO:RG still needs some updating (deprecated stuff)
 //						block.setTypeId(typeId);
 						block.setType(material);
 

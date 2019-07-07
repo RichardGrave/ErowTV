@@ -199,7 +199,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
     private class RingTheBell extends BukkitRunnable{
 
         private final int RING_THE_BELL_SIX_TIMES = 6;
-        private int ringBellTimes = 1;
+        private int rangTheBell = 1;
 
         @Override
         public void run() {
@@ -207,10 +207,10 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
                 player.playSound(player.getLocation(), Sound.BLOCK_BELL_USE, 1.0f, 1.0f);
 
                 //Cancel if we reach the number of time the bell rang
-                if(ringBellTimes == RING_THE_BELL_SIX_TIMES){
+                if(rangTheBell == RING_THE_BELL_SIX_TIMES){
                     this.cancel();
                 }
-                ringBellTimes++;
+                rangTheBell++;
             } catch (Exception ex) {
                 player.sendMessage("[CountDownTimer-run][Exception][" + ex.getMessage() + "]");
             }

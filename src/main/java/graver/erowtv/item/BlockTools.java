@@ -1,20 +1,15 @@
 package graver.erowtv.item;
 
 import graver.erowtv.constants.Enumerations.CustomItem;
-import graver.erowtv.constants.Enumerations.DirectionalMaterial;
 import graver.erowtv.constants.Enumerations.DirectionalRotation;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.player.PlayerTools;
 import org.bukkit.Material;
-import org.bukkit.SkullType;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Furnace;
-import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Stairs;
 
 import java.util.Arrays;
 import java.util.List;
@@ -91,11 +86,11 @@ public final class BlockTools {
      * @param player
      * @param block
      */
-    public static Material getMaterialOnTopOfBlock(Player player, Block block){
+    public static Material getMaterialOnTopOfBlock(Player player, Block block) {
         block.getBlockData().getMaterial();
 
         Block blockOnTop = player.getWorld().getBlockAt(block.getLocation().getBlockX(),
-                block.getLocation().getBlockY()+1,block.getLocation().getBlockZ());
+                block.getLocation().getBlockY() + 1, block.getLocation().getBlockZ());
 
         return blockOnTop.getBlockData().getMaterial();
     }
@@ -108,7 +103,7 @@ public final class BlockTools {
      * @param block
      */
     public static void blockPlaced(Player player, Block block) {
-        if(ErowTV.isDebug) {
+        if (ErowTV.isDebug) {
             player.sendMessage("blockPlaced");
         }
         //check if player isnt null. Maybe block place event is triggerd by something else??? EnderMan???
@@ -130,7 +125,7 @@ public final class BlockTools {
                     //This is a sign, make it editable(false).
 //                    ((Sign) block.getState()).setEditable(false); TODO:RG is Editable false needed?
                     String memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION);
-                    player.sendMessage("MEMORY="+memoryName);
+                    player.sendMessage("MEMORY=" + memoryName);
                     SignTools.thereCanBeMore(player, block, memoryName);
                     break;
 
@@ -174,7 +169,7 @@ public final class BlockTools {
 
             //TODO:RG kijken of dit werkt.
         } else if (ErowTV.doesPlayerHaveSpecificMemory(player,
-                memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION))){
+                memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION))) {
             ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
         }
     }
@@ -618,7 +613,9 @@ public final class BlockTools {
         return blockFace;
     }
 
-    public static int getCurrentBlockFaceRotation(Player player, BlockFace blockFace) {
+
+
+    public static int getCurrentBlockFaceRotation(BlockFace blockFace) {
         //Get new blockface direction
         switch (blockFace) {
             case NORTH:
@@ -667,216 +664,101 @@ public final class BlockTools {
     }
 
     /**
-     * Only for items/blocks with a directional
+     * Replace the original 'facing=' direction with a new one depending on the BlockFace.
      *
-     * @param player
-     * @param block
-     * @param blockFace direction the block with sign clicked is facing
+     * @param player for debug messages
+     * @param entireBlock is the String with entire block data.
+     * @param blockFace contains the new direction for 'facing=' replacement.
      */
-    public static void changeDataForBlockType(Player player, Block block, BlockFace blockFace, String[] blockState) {
-        //TODO:RG Need to save Directions en inverted -> calculate correct ones for pasting
-//		player.sendMessage(block.getState().getData().getClass().getName());
+    public static void replaceBlockFaceDirection(Player player, String entireBlock, BlockFace blockFace) {
 
-        //TODO:RG OLD?
-        //!!Remember: Blocks are not copies of data. So if skull is a block then this:
-        //Skull skull = (Skull)block.getState();
-        //skull.setSkullType(SkullType.ZOMBIE);
-        //No need to CAST to other Object, only with materials like Stairs
-        //And it needs its own update call, like skull.update();
+        //Get new blockface direction
+        if (entireBlock.contains("facing=north")) {
+            entireBlock = entireBlock.replace("facing=north", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=north_north_east")) {
+            entireBlock =  entireBlock.replace("facing=north_north_east", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=north_east")) {
+            entireBlock =  entireBlock.replace("facing=north_east", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=east_north_east")) {
+            entireBlock =  entireBlock.replace("facing=east_north_east", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=east")) {
+            entireBlock =  entireBlock.replace("facing=east", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=east_south_east")) {
+            entireBlock =  entireBlock.replace("facing=east_south_east", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=south_east")) {
+            entireBlock =  entireBlock.replace("facing=south_east", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=south_south_east")) {
+            entireBlock =  entireBlock.replace("facing=south_south_east", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=south")) {
+            entireBlock =  entireBlock.replace("facing=south", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=south_south_west")) {
+            entireBlock =  entireBlock.replace("facing=south_south_west", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=south_west")) {
+            entireBlock =  entireBlock.replace("facing=south_west", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=west_south_west")) {
+            entireBlock =  entireBlock.replace("facing=west_south_west", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=west")) {
+            entireBlock =  entireBlock.replace("facing=west", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=west_north_west")) {
+            entireBlock =  entireBlock.replace("facing=west_north_west", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=north_west")) {
+            entireBlock =  entireBlock.replace("facing=north_west", "facing=" + blockFace.toString().toLowerCase());
+        } else if (entireBlock.contains("facing=north_north_west")) {
+            entireBlock =  entireBlock.replace("facing=north_north_west", "facing=" + blockFace.toString().toLowerCase());
+        }
 
-        switch (DirectionalMaterial.getDirectionMaterial(block.getState().getData().getClass().getName())) {
-            case ORG_BUKKIT_MATERIAL_BANNER:
-                break;
-            case ORG_BUKKIT_MATERIAL_BED:
-                break;
-            case ORG_BUKKIT_MATERIAL_BUTTON:
-                break;
-            case ORG_BUKKIT_MATERIAL_CHEST:
-                break;
-            case ORG_BUKKIT_MATERIAL_COCOAPLANT:
-                break;
-            case ORG_BUKKIT_MATERIAL_COMPARATOR:
-                break;
-            case ORG_BUKKIT_MATERIAL_DIODE:
-                break;
-            case ORG_BUKKIT_MATERIAL_DIRECTIONALCONTAINER:
-                break;
-            case ORG_BUKKIT_MATERIAL_DISPENSER:
-                break;
-            case ORG_BUKKIT_MATERIAL_DOOR:
-                break;
-            case ORG_BUKKIT_MATERIAL_ENDERCHEST:
-                break;
-            case ORG_BUKKIT_MATERIAL_FURNACE:
-                if(ErowTV.isDebug) {
-                    player.sendMessage("FURNACE");
-                }
-                Furnace furnace = (Furnace) block.getState();
-                //		org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)block.getData();
-                org.bukkit.material.Furnace furn = ((org.bukkit.material.Furnace) furnace.getData());
-                furn.setFacingDirection(blockFace);
-                //TODO:RG still have to do this
-//			block.setData(furn.getData());
-                break;
-            case ORG_BUKKIT_MATERIAL_FURNACEANDDISPENSER:
-                break;
-            case ORG_BUKKIT_MATERIAL_GATE:
-                break;
-            case ORG_BUKKIT_MATERIAL_HOPPER:
-                break;
-            case ORG_BUKKIT_MATERIAL_LADDER:
-                break;
-            case ORG_BUKKIT_MATERIAL_LEVER:
-                break;
-            case ORG_BUKKIT_MATERIAL_OBSERVER:
-                break;
-            case ORG_BUKKIT_MATERIAL_PISTONBASEMATERIAL:
-                break;
-            case ORG_BUKKIT_MATERIAL_PISTONEXTENSIONMATERIAL:
-                break;
-            case ORG_BUKKIT_MATERIAL_PUMPKIN:
-                break;
-            case ORG_BUKKIT_MATERIAL_REDSTONETORCH:
-                break;
-            case ORG_BUKKIT_MATERIAL_SIGN:
-                break;
-            case ORG_BUKKIT_MATERIAL_SIMPLEATTACHABLEMATERIALDATA:
-                break;
-            case ORG_BUKKIT_MATERIAL_SKULL:
-                //TODO:RG still have to do this
-                if(ErowTV.isDebug) {
-                    player.sendMessage("SKULL");
-                }
-                Skull skull = (Skull) block.getState();
-                skull.setSkullType(SkullType.ZOMBIE);
-                skull.setRotation(blockFace);
-                skull.update();
-                break;
-            case ORG_BUKKIT_MATERIAL_STAIRS:
-                if(ErowTV.isDebug) {
-                    player.sendMessage("STAIRS");
-                }
-                Stairs stairs = (Stairs) block.getState().getData();
-//			org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)block.getData();
-                stairs.setFacingDirection(blockFace.getOppositeFace());
-                //TODO:RG still have to do this
-//			block.setData(stairs.getData());
-                break;
-            case ORG_BUKKIT_MATERIAL_TORCH:
-                break;
-            case ORG_BUKKIT_MATERIAL_TRAPDOOR:
-                break;
-            case ORG_BUKKIT_MATERIAL_TRIPWIREHOOK:
-                break;
-            case NO_ITEM:
-            default:
-                break;
+        if (ErowTV.isDebug) {
+            player.sendMessage("Problem::replaceBlockFaceDirection::Facing."+blockFace.toString().toLowerCase());
         }
     }
 
     /**
-     * Only for items/blocks with a directional
+     * Get the BlockFace depending on the 'facing=' in the entireBlock String.
      *
-     * @param player
-     * @param block
+     * @param player for debug messages
+     * @param entireBlock is the String with entire block data.
+     * @return BlockFace depending on the 'facing=' in the entireBlock String.
      */
-    public static String[] getDataForBlockType(Player player, Block block) {
-        //TODO:RG FIRST!!!!! get all the stuff to copy
-        //Need to save Directions en inverted -> calculate correct ones for pasting
-
-//		player.sendMessage(block.getState().getData().getClass().getName());
-
-        switch (DirectionalMaterial.getDirectionMaterial(block.getState().getData().getClass().getName())) {
-            case ORG_BUKKIT_MATERIAL_BANNER:
-                break;
-            case ORG_BUKKIT_MATERIAL_BED:
-                break;
-            case ORG_BUKKIT_MATERIAL_BUTTON:
-                break;
-            case ORG_BUKKIT_MATERIAL_CHEST:
-                break;
-            case ORG_BUKKIT_MATERIAL_COCOAPLANT:
-                break;
-            case ORG_BUKKIT_MATERIAL_COMPARATOR:
-                break;
-            case ORG_BUKKIT_MATERIAL_DIODE:
-                break;
-            case ORG_BUKKIT_MATERIAL_DIRECTIONALCONTAINER:
-                break;
-            case ORG_BUKKIT_MATERIAL_DISPENSER:
-                break;
-            case ORG_BUKKIT_MATERIAL_DOOR:
-                break;
-            case ORG_BUKKIT_MATERIAL_ENDERCHEST:
-                break;
-            case ORG_BUKKIT_MATERIAL_FURNACE:
-                if(ErowTV.isDebug) {
-                    player.sendMessage("FURNACE");
-                }
-                Furnace furnace = (Furnace) block.getState();
-                //		org.bukkit.material.Sign dataSign = (org.bukkit.material.Sign)block.getData();
-                org.bukkit.material.Furnace newfurn = ((org.bukkit.material.Furnace) furnace.getData());
-//			furn.setFacingDirection(blockFace);
-                return new String[]{String.valueOf(getCurrentBlockFaceRotation(player, newfurn.getFacing()))};
-            case ORG_BUKKIT_MATERIAL_FURNACEANDDISPENSER:
-                break;
-            case ORG_BUKKIT_MATERIAL_GATE:
-                break;
-            case ORG_BUKKIT_MATERIAL_HOPPER:
-                break;
-            case ORG_BUKKIT_MATERIAL_LADDER:
-                break;
-            case ORG_BUKKIT_MATERIAL_LEVER:
-                break;
-            case ORG_BUKKIT_MATERIAL_OBSERVER:
-                break;
-            case ORG_BUKKIT_MATERIAL_PISTONBASEMATERIAL:
-                break;
-            case ORG_BUKKIT_MATERIAL_PISTONEXTENSIONMATERIAL:
-                break;
-            case ORG_BUKKIT_MATERIAL_PUMPKIN:
-                break;
-            case ORG_BUKKIT_MATERIAL_REDSTONETORCH:
-                break;
-            case ORG_BUKKIT_MATERIAL_SIGN:
-                break;
-            case ORG_BUKKIT_MATERIAL_SIMPLEATTACHABLEMATERIALDATA:
-                break;
-            case ORG_BUKKIT_MATERIAL_SKULL:
-                if(ErowTV.isDebug) {
-                    player.sendMessage("SKULL");
-                }
-
-                Skull skull = (Skull) block.getState();
-                org.bukkit.material.Skull newSkull = ((org.bukkit.material.Skull) skull.getData());
-
-//			player.sendMessage(skull.getRotation().toString());
-//			player.sendMessage(newSkull.getFacing().toString());
-//			player.sendMessage(skull.getSkullType().toString());
-//			player.sendMessage(newSkull.getItemType().toString());
-//			player.sendMessage(block.getState().toString());
-//			Skull skull = (Skull)block.getState();
-//			org.bukkit.material.Skull newSkull = ((org.bukkit.material.Skull)skull.getData());
-//			return new String[]{((Skull)block.getState()).getRotation().toString()};
-                return new String[]{String.valueOf(getCurrentBlockFaceRotation(player, ((Skull) block.getState()).getRotation()))};
-            case ORG_BUKKIT_MATERIAL_STAIRS:
-                if(ErowTV.isDebug) {
-                    player.sendMessage("STAIRS");
-                }
-                Stairs stairs = (Stairs) block.getState().getData();
-                return new String[]{String.valueOf(getCurrentBlockFaceRotation(player, stairs.getFacing()))};
-            case ORG_BUKKIT_MATERIAL_TORCH:
-                break;
-            case ORG_BUKKIT_MATERIAL_TRAPDOOR:
-                break;
-            case ORG_BUKKIT_MATERIAL_TRIPWIREHOOK:
-                break;
-            case NO_ITEM:
-            default:
-                break;
+    public static BlockFace getBlockFaceByString(Player player, String entireBlock) {
+        //Get new blockface direction
+        if (entireBlock.contains("facing=north")) {
+            return BlockFace.NORTH;
+        }else if (entireBlock.contains("facing=north_north_east")) {
+            return BlockFace.NORTH_NORTH_EAST;
+        }else if (entireBlock.contains("facing=north_east")) {
+            return BlockFace.NORTH_EAST;
+        }else if (entireBlock.contains("facing=east_north_east")) {
+            return BlockFace.EAST_NORTH_EAST;
+        }else if (entireBlock.contains("facing=east")) {
+            return BlockFace.EAST;
+        }else if (entireBlock.contains("facing=east_south_east")) {
+            return BlockFace.EAST_SOUTH_EAST;
+        }else if (entireBlock.contains("facing=south_east")) {
+            return BlockFace.SOUTH_EAST;
+        }else if (entireBlock.contains("facing=south_south_east")) {
+            return BlockFace.SOUTH_SOUTH_EAST;
+        }else if (entireBlock.contains("facing=south")) {
+            return BlockFace.SOUTH;
+        }else if (entireBlock.contains("facing=south_south_west")) {
+            return BlockFace.SOUTH_SOUTH_WEST;
+        }else if (entireBlock.contains("facing=south_west")) {
+            return BlockFace.SOUTH_WEST;
+        }else if (entireBlock.contains("facing=west_south_west")) {
+            return BlockFace.WEST_SOUTH_WEST;
+        }else if (entireBlock.contains("facing=west")) {
+            return BlockFace.WEST;
+        }else if (entireBlock.contains("facing=west_north_west")) {
+            return BlockFace.WEST_NORTH_WEST;
+        }else if (entireBlock.contains("facing=north_west")) {
+            return BlockFace.NORTH_WEST;
+        }else if (entireBlock.contains("facing=north_north_west")) {
+            return BlockFace.NORTH_NORTH_WEST;
         }
 
-        return new String[]{};
+        if (ErowTV.isDebug) {
+            player.sendMessage("Problem::getBlockFaceByString::FACING=SELF");
+        }
+        //This shouldn't happen
+        return BlockFace.SELF;
     }
-
 }

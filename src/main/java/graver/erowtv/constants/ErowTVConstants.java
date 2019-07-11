@@ -121,6 +121,7 @@ public interface ErowTVConstants {
 	public final static String SEP_D_H_W = "_";
 	public final static String SEP_BLOCK_DATA = "&";
 	public final static String SEP_BLOCK = "$";
+	public final static String BLOCK_INDEX = "B";
 
 	public final static String SEP_ROW_BLOCK_COUNT = "%";
 

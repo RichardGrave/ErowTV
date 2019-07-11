@@ -105,11 +105,19 @@ public final class CopyBlockTool implements ErowTVConstants {
 		
 		//TODO:RG Write dept, width, height
 		
-		LinkedHashMap<String, String> blockRowData = new LinkedHashMap<>();
+		LinkedHashMap<String, String> blockFileData = new LinkedHashMap<>();
+		LinkedHashMap<String, String> blockIndex = new LinkedHashMap<>();
+
+		//Easy way to get the key for the value. Needed when reading YML file.
+		//Then it's easier to loop through the file and get the correct blockIndex when tryint to paste.
+		LinkedHashMap<String, String> blockIndexReverse = new LinkedHashMap<>();
+
 		int rowNum = 0;
+		int index = 0;
+		int tmpIndexNum = 0;
 		
 		//first save depth, height and width
-		blockRowData.put(ErowTVConstants.YML_D_H_W_KEY, depth + ErowTVConstants.SEP_D_H_W + height +
+		blockIndex.put(ErowTVConstants.YML_D_H_W_KEY, depth + ErowTVConstants.SEP_D_H_W + height +
 						 ErowTVConstants.SEP_D_H_W + width + ErowTVConstants.SEP_D_H_W + facingDirection);
 		
 		//Copy all the blocks that are found
@@ -136,14 +144,24 @@ public final class CopyBlockTool implements ErowTVConstants {
 					}
 
 					Block block = player.getWorld().getBlockAt(placeX, (startY + iterH), placeZ);
-					
-					//TODO:RG Sign data -> Text + Checst, Furnace, etc. -> items it contains
+					//Entire block data(Facing, activated, etc.) into one String.
+					String entireBlock = block.getBlockData().getAsString();
 
-					String[] directionalData = BlockTools.getDataForBlockType(player, block);
-					
+					//Keep track of blocks in Reversed list.
+					if(blockIndexReverse.containsKey(entireBlock)){
+						//Easy way of getting block key.
+						index = Integer.parseInt(blockIndexReverse.get(entireBlock).substring(1));
+					}else{
+						index = tmpIndexNum;
+						//Add "B" so we know when reading the YML file this is a block that is used
+						//in the rows (that also start with numbers)
+						blockIndexReverse.put(entireBlock, BLOCK_INDEX+index);
+						blockIndex.put(BLOCK_INDEX+index, entireBlock);
+						tmpIndexNum++;
+					}
+
 					//Deprecated but needed
-					String blockData = block.getBlockData().getMaterial() + ErowTVConstants.SEP_BLOCK_DATA + block.getState().getData().getData()
-							+ ErowTVConstants.SEP_BLOCK_DATA + (directionalData.length > 0 ? directionalData[0] : "") + ErowTVConstants.SEP_BLOCK;
+					String blockData = index + ErowTVConstants.SEP_BLOCK;
 					
 					if(!tmpBlockData.isEmpty()) {
 						//Check if blocks are the same, if so then counter++ and go to the next block
@@ -179,12 +197,15 @@ public final class CopyBlockTool implements ErowTVConstants {
 				}
 				
 				//store rowNum (as key) with rowData
-				blockRowData.put(rowNum+"", rowData);
+				blockFileData.put(rowNum+"", rowData);
 			}
 		}
-		
+
+		//Combine blockIndex and all the copy blocks together so they get into one file.
+		blockIndex.putAll(blockFileData);
+
 		//When done, write data
-		YmlFileTool.saveToYmlFile(fileName, player, blockRowData);
+		YmlFileTool.saveToYmlFile(fileName, player, blockIndex);
 	}
 	
 }

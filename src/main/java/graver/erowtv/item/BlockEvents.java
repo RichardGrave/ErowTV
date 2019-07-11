@@ -27,14 +27,11 @@ public class BlockEvents implements Listener, ErowTVConstants {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         try {
-            BlockTools.getDataForBlockType(event.getPlayer(), event.getBlockPlaced());
-//			PasteBlockTool.changeDirectionForBlockType(event.getPlayer(),event.getBlockPlaced(), null, new String[] {});
             //This checks for CustomItem block made by me.
             //Dont use for game blocks.
             BlockTools.blockPlaced(event.getPlayer(), event.getBlockPlaced());
 
             handlePlacedBlock(event.getPlayer(), event.getItemInHand(), event.getBlockPlaced());
-
 
         } catch (Exception ex) {
             event.getPlayer().sendMessage("[EventException]:[onBlockPlace]");

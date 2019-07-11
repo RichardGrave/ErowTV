@@ -3,6 +3,10 @@
 # [YouTube Channel ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
 ## A Minecraft plugin for a [SpigotMC](https://www.spigotmc.org) server.
 
+YouTube video: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)\
+A few features have already changed sinds the first video and you can see it in the next one.\
+YouTube video: [YouTube Subscribers counter and more](https://www.youtube.com/watch?v=uWnNGf31Cw8)
+
 ## Disclaimer:
 This is **NOT** a mod for clientside single player Minecraft.
 
@@ -26,11 +30,7 @@ You can give a channel name (or ID) and how many seconds it has to wait before g
   - Countdown Timer: creates a time on a sign or with blocks to begin from with the countdown. Use hours, minutes and seconds.
   - Paste: can paste everything from a file that was created with the Copy blocks.
 - Recipes: are put into recipe crafting book.
-  
-YouTube video: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)\
-A few features have already changed sinds the first video and you can see it in the next one.\
-YouTube video: [YouTube Subscribers counter and more](https://www.youtube.com/watch?v=uWnNGf31Cw8)
-  
+    
 ## Usable commands in chat:
 - facing: Gives the direction you are facing. NORTH, EAST, etc.
 - debug_messages: Turns debug messages ON or OFF (messages that I placed in the code for testing).

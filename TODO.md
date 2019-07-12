@@ -10,6 +10,6 @@
 - [ ] A bridge builder to get over water or canyons.
 - [ ] Maybe a Twitter Subscribers Counter
 - [ ] A chest with books that explain how to use all the features (and games).
-- [ ] Extra commands usable in the chat (Maybe block building rows/heigth etc.)
+- [ ] Extra commands usable in the chat (Maybe block building rows/heigth etc. + show list files from COPY)
 - [ ] A stair builder to get down from a high place or to go up.
 

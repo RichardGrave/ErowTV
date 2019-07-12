@@ -12,4 +12,5 @@
 - [ ] A chest with books that explain how to use all the features (and games).
 - [ ] Extra commands usable in the chat (Maybe block building rows/heigth etc. + show list files from COPY)
 - [ ] A stair builder to get down from a high place or to go up.
+- [ ] Picture builder. Read image file and use colored blocks to build the picture in Minecraft.
 

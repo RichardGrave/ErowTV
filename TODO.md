@@ -11,5 +11,5 @@
 - [ ] Maybe a Twitter Subscribers Counter
 - [ ] A chest with books that explain how to use all the features (and games).
 - [ ] Extra commands usable in the chat (Maybe block building rows/heigth etc.)
-- [ ] A stair builder to get down from a high place.
+- [ ] A stair builder to get down from a high place or to go up.
 

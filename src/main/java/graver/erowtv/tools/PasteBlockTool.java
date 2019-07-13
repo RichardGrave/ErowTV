@@ -158,6 +158,11 @@ public final class PasteBlockTool implements ErowTVConstants {
         //getRotation for blocks to rotate them
         int faceRotation = BlockTools.getRotationDifference(player, wasFacing, currentFacing);
 
+        if (ErowTV.isDebug) {
+            player.sendMessage("FaceRotation="+faceRotation +
+                    " - WasFacing="+wasFacing + " CurrentFacing="+currentFacing);
+        }
+
         //Key for next row in file
         int rowNum = 0;
 
@@ -198,26 +203,43 @@ public final class PasteBlockTool implements ErowTVConstants {
                         //Block somewhere in the world
                         Block block = player.getWorld().getBlockAt(placeX, (startY + iterH), placeZ);
 
-                        //Blocks with facing need a new recalculated facing (by BlockFace direction from Copy sign)
-                        if (entireBlock.contains("facing=")) {
-                            BlockFace blockFaceFromSavedBlock = BlockTools.getBlockFaceByString(player, entireBlock);
-                            BlockFace newBlockFaceDirection = BlockTools.getNewBlockFaceDirection(player, blockFaceFromSavedBlock, faceRotation);
+                        //Start updating the block
+                        updateBlockDirections(player, block, entireBlock, faceRotation);
 
-                            if (ErowTV.isDebug) {
-                                player.sendMessage("entireBlock=" + entireBlock);
-                                player.sendMessage("newBlockFaceDirection=" + newBlockFaceDirection.toString().toLowerCase());
-                            }
-
-                            //Replace old 'facing=' with the new 'facing='
-                            BlockTools.replaceBlockFaceDirection(player, entireBlock, newBlockFaceDirection);
-                        }
-
-                        block.setBlockData(Bukkit.getServer().createBlockData(entireBlock));
                         //++ the realDepth for next depth position
                         realDepth++;
                     }
                 }
             }
         }
+    }
+
+    private static void updateBlockDirections(Player player, Block block, String entireBlock, int faceRotation){
+
+        //Blocks with facing need a new recalculated facing (by BlockFace direction from Copy sign)
+        if (entireBlock.contains("facing=")) {
+            BlockFace blockFaceFromSavedBlock = BlockTools.getBlockFaceByString(player, entireBlock);
+            BlockFace newBlockFaceDirection = BlockTools.getNewBlockFaceDirection(player, blockFaceFromSavedBlock, faceRotation);
+
+            if (ErowTV.isDebug) {
+                player.sendMessage("entireBlock=" + entireBlock);
+                player.sendMessage("newBlockFaceDirection=" + newBlockFaceDirection.toString().toLowerCase());
+            }
+
+            //Replace old 'facing=' with the new 'facing='
+            entireBlock = BlockTools.replaceBlockFaceDirection(player, entireBlock, newBlockFaceDirection);
+        }
+        //Some blocks don't have facing but 'axis='
+        if(entireBlock.contains("axis=")){
+            if (ErowTV.isDebug) {
+                player.sendMessage("axisBlock=" + entireBlock);
+            }
+            entireBlock = BlockTools.replaceAxisDirection(entireBlock, faceRotation);
+            if (ErowTV.isDebug) {
+                player.sendMessage("NEW axisBlock=" + entireBlock);
+            }
+        }
+
+        block.setBlockData(Bukkit.getServer().createBlockData(entireBlock));
     }
 }

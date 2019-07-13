@@ -562,42 +562,108 @@ public final class BlockTools {
         }
     }
 
+    /**
+     *
+     * Change the axis for materials like 'log' they dont have 'facing=' but 'axis='
+     *
+     * @param entireBlock is the String with entire block data.
+     * @param rotation    for a new direction.
+     * @return
+     */
+    public static String replaceAxisDirection(String entireBlock, int rotation) {
+        //Get new axis direction
+        //If you dont rotate (0) or rotate 2 times then the axis stays the same.
 
+        //So if your rotate 1 or 3 times then you change axis.
+        if(rotation == 1 || rotation == 3) {
+            if (entireBlock.contains("axis=x")) {
+                return entireBlock.replace("axis=x", "axis=z");
+            } else if (entireBlock.contains("axis=z")) {
+                return entireBlock.replace("axis=z", "axis=x");
+            }
+        }
+
+        //else axis=y then do nothing.
+
+        return entireBlock;
+    }
+
+
+    /**
+     * Get the new BlockFace depending on the rotation
+     *
+     * @param player for debug messages
+     * @param blockFace contains the new direction for 'facing=' replacement.
+     * @Param rotate is how often we rotate direction
+     * @return new BlockFace
+     */
     public static BlockFace getNewBlockFaceDirection(Player player, BlockFace blockFace, int rotate) {
         //Get new blockface direction
         switch (blockFace) {
             case NORTH:
-                return (rotate == 1 ? BlockFace.EAST : rotate == 2 ? BlockFace.SOUTH : BlockFace.WEST);
+                return (rotate == 1 ? BlockFace.EAST :
+                        rotate == 2 ? BlockFace.SOUTH :
+                        rotate == 3 ? BlockFace.WEST : BlockFace.NORTH);
             case NORTH_NORTH_EAST:
-                return (rotate == 1 ? BlockFace.EAST_SOUTH_EAST : rotate == 2 ? BlockFace.SOUTH_SOUTH_WEST : BlockFace.WEST_NORTH_WEST);
+                return (rotate == 1 ? BlockFace.EAST_SOUTH_EAST :
+                        rotate == 2 ? BlockFace.SOUTH_SOUTH_WEST :
+                        rotate == 3 ? BlockFace.WEST_NORTH_WEST : BlockFace.NORTH_NORTH_EAST);
             case NORTH_EAST:
-                return (rotate == 1 ? BlockFace.SOUTH_EAST : rotate == 2 ? BlockFace.SOUTH_WEST : BlockFace.NORTH_WEST);
+                return (rotate == 1 ? BlockFace.SOUTH_EAST :
+                        rotate == 2 ? BlockFace.SOUTH_WEST :
+                        rotate == 3 ? BlockFace.NORTH_WEST : BlockFace.NORTH_EAST);
             case EAST_NORTH_EAST:
-                return (rotate == 1 ? BlockFace.SOUTH_SOUTH_EAST : rotate == 2 ? BlockFace.WEST_SOUTH_WEST : BlockFace.NORTH_NORTH_WEST);
+                return (rotate == 1 ? BlockFace.SOUTH_SOUTH_EAST :
+                        rotate == 2 ? BlockFace.WEST_SOUTH_WEST :
+                        rotate == 3 ? BlockFace.NORTH_NORTH_WEST : BlockFace.EAST_NORTH_EAST);
             case EAST:
-                return (rotate == 1 ? BlockFace.SOUTH : rotate == 2 ? BlockFace.WEST : BlockFace.NORTH);
+                return (rotate == 1 ? BlockFace.SOUTH :
+                        rotate == 2 ? BlockFace.WEST :
+                        rotate == 3 ? BlockFace.NORTH : BlockFace.EAST);
             case EAST_SOUTH_EAST:
-                return (rotate == 1 ? BlockFace.SOUTH_SOUTH_WEST : rotate == 2 ? BlockFace.WEST_NORTH_WEST : BlockFace.NORTH_NORTH_EAST);
+                return (rotate == 1 ? BlockFace.SOUTH_SOUTH_WEST :
+                        rotate == 2 ? BlockFace.WEST_NORTH_WEST :
+                        rotate == 3 ? BlockFace.NORTH_NORTH_EAST : BlockFace.EAST_SOUTH_EAST);
             case SOUTH_EAST:
-                return (rotate == 1 ? BlockFace.SOUTH_WEST : rotate == 2 ? BlockFace.NORTH_WEST : BlockFace.NORTH_EAST);
+                return (rotate == 1 ? BlockFace.SOUTH_WEST :
+                        rotate == 2 ? BlockFace.NORTH_WEST :
+                        rotate == 3 ? BlockFace.NORTH_EAST : BlockFace.SOUTH_EAST);
             case SOUTH_SOUTH_EAST:
-                return (rotate == 1 ? BlockFace.WEST_SOUTH_WEST : rotate == 2 ? BlockFace.NORTH_NORTH_WEST : BlockFace.EAST_NORTH_EAST);
+                return (rotate == 1 ? BlockFace.WEST_SOUTH_WEST :
+                        rotate == 2 ? BlockFace.NORTH_NORTH_WEST :
+                        rotate == 3 ? BlockFace.EAST_NORTH_EAST : BlockFace.SOUTH_SOUTH_EAST);
             case SOUTH:
-                return (rotate == 1 ? BlockFace.WEST : rotate == 2 ? BlockFace.NORTH : BlockFace.EAST);
+                return (rotate == 1 ? BlockFace.WEST :
+                        rotate == 2 ? BlockFace.NORTH :
+                        rotate == 3 ? BlockFace.EAST : BlockFace.SOUTH);
             case SOUTH_SOUTH_WEST:
-                return (rotate == 1 ? BlockFace.WEST_NORTH_WEST : rotate == 2 ? BlockFace.NORTH_NORTH_EAST : BlockFace.EAST_SOUTH_EAST);
+                return (rotate == 1 ? BlockFace.WEST_NORTH_WEST :
+                        rotate == 2 ? BlockFace.NORTH_NORTH_EAST :
+                        rotate == 3 ? BlockFace.EAST_SOUTH_EAST : BlockFace.SOUTH_SOUTH_WEST);
             case SOUTH_WEST:
-                return (rotate == 1 ? BlockFace.NORTH_WEST : rotate == 2 ? BlockFace.NORTH_EAST : BlockFace.SOUTH_EAST);
+                return (rotate == 1 ? BlockFace.NORTH_WEST :
+                        rotate == 2 ? BlockFace.NORTH_EAST :
+                        rotate == 3 ? BlockFace.SOUTH_EAST : BlockFace.SOUTH_WEST);
             case WEST_SOUTH_WEST:
-                return (rotate == 1 ? BlockFace.NORTH_NORTH_WEST : rotate == 2 ? BlockFace.EAST_NORTH_EAST : BlockFace.SOUTH_SOUTH_EAST);
+                return (rotate == 1 ? BlockFace.NORTH_NORTH_WEST :
+                        rotate == 2 ? BlockFace.EAST_NORTH_EAST :
+                        rotate == 3 ? BlockFace.SOUTH_SOUTH_EAST : BlockFace.WEST_SOUTH_WEST);
             case WEST:
-                return (rotate == 1 ? BlockFace.NORTH : rotate == 2 ? BlockFace.EAST : BlockFace.SOUTH);
+                return (rotate == 1 ? BlockFace.NORTH :
+                        rotate == 2 ? BlockFace.EAST :
+                        rotate == 3 ? BlockFace.SOUTH : BlockFace.WEST);
             case WEST_NORTH_WEST:
-                return (rotate == 1 ? BlockFace.NORTH_NORTH_EAST : rotate == 2 ? BlockFace.EAST_SOUTH_EAST : BlockFace.SOUTH_SOUTH_WEST);
+                return (rotate == 1 ? BlockFace.NORTH_NORTH_EAST :
+                        rotate == 2 ? BlockFace.EAST_SOUTH_EAST :
+                        rotate == 3 ? BlockFace.SOUTH_SOUTH_WEST : BlockFace.WEST_NORTH_WEST);
             case NORTH_WEST:
-                return (rotate == 1 ? BlockFace.NORTH_EAST : rotate == 2 ? BlockFace.SOUTH_EAST : BlockFace.SOUTH_WEST);
+                return (rotate == 1 ? BlockFace.NORTH_EAST :
+                        rotate == 2 ? BlockFace.SOUTH_EAST :
+                        rotate == 3 ? BlockFace.SOUTH_WEST : BlockFace.NORTH_WEST);
             case NORTH_NORTH_WEST:
-                return (rotate == 1 ? BlockFace.EAST_NORTH_EAST : rotate == 2 ? BlockFace.SOUTH_SOUTH_EAST : BlockFace.WEST_SOUTH_WEST);
+                return (rotate == 1 ? BlockFace.EAST_NORTH_EAST :
+                        rotate == 2 ? BlockFace.SOUTH_SOUTH_EAST :
+                        rotate == 3 ? BlockFace.WEST_SOUTH_WEST : BlockFace.NORTH_NORTH_WEST);
 
             //Dont do anything with this (yet)
             case DOWN:
@@ -609,6 +675,11 @@ public final class BlockTools {
             default:
                 break;
         }
+
+        if (ErowTV.isDebug) {
+            player.sendMessage("getNewBlockFaceDirection::BlockFace="+blockFace.toString().toLowerCase());
+        }
+
 
         return blockFace;
     }
@@ -665,51 +736,56 @@ public final class BlockTools {
 
     /**
      * Replace the original 'facing=' direction with a new one depending on the BlockFace.
+     * Normally we dont need to return the String because of Object referencing, but in this
+     * case if it's not returned then we see the Debug logging (if turned on)
      *
      * @param player for debug messages
      * @param entireBlock is the String with entire block data.
      * @param blockFace contains the new direction for 'facing=' replacement.
+     * @return entireBlock with new 'facing='
      */
-    public static void replaceBlockFaceDirection(Player player, String entireBlock, BlockFace blockFace) {
+    public static String replaceBlockFaceDirection(Player player, String entireBlock, BlockFace blockFace) {
 
         //Get new blockface direction
         if (entireBlock.contains("facing=north")) {
-            entireBlock = entireBlock.replace("facing=north", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=north", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=north_north_east")) {
-            entireBlock =  entireBlock.replace("facing=north_north_east", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=north_north_east", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=north_east")) {
-            entireBlock =  entireBlock.replace("facing=north_east", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=north_east", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=east_north_east")) {
-            entireBlock =  entireBlock.replace("facing=east_north_east", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=east_north_east", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=east")) {
-            entireBlock =  entireBlock.replace("facing=east", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=east", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=east_south_east")) {
-            entireBlock =  entireBlock.replace("facing=east_south_east", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=east_south_east", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=south_east")) {
-            entireBlock =  entireBlock.replace("facing=south_east", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=south_east", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=south_south_east")) {
-            entireBlock =  entireBlock.replace("facing=south_south_east", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=south_south_east", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=south")) {
-            entireBlock =  entireBlock.replace("facing=south", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=south", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=south_south_west")) {
-            entireBlock =  entireBlock.replace("facing=south_south_west", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=south_south_west", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=south_west")) {
-            entireBlock =  entireBlock.replace("facing=south_west", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=south_west", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=west_south_west")) {
-            entireBlock =  entireBlock.replace("facing=west_south_west", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=west_south_west", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=west")) {
-            entireBlock =  entireBlock.replace("facing=west", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=west", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=west_north_west")) {
-            entireBlock =  entireBlock.replace("facing=west_north_west", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=west_north_west", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=north_west")) {
-            entireBlock =  entireBlock.replace("facing=north_west", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=north_west", "facing=" + blockFace.toString().toLowerCase());
         } else if (entireBlock.contains("facing=north_north_west")) {
-            entireBlock =  entireBlock.replace("facing=north_north_west", "facing=" + blockFace.toString().toLowerCase());
+            return entireBlock.replace("facing=north_north_west", "facing=" + blockFace.toString().toLowerCase());
         }
 
         if (ErowTV.isDebug) {
-            player.sendMessage("Problem::replaceBlockFaceDirection::Facing."+blockFace.toString().toLowerCase());
+            player.sendMessage("replaceBlockFaceDirection::facing."+blockFace.toString().toLowerCase());
         }
+
+        return entireBlock;
     }
 
     /**
@@ -756,7 +832,7 @@ public final class BlockTools {
         }
 
         if (ErowTV.isDebug) {
-            player.sendMessage("Problem::getBlockFaceByString::FACING=SELF");
+            player.sendMessage("getBlockFaceByString::FACING=SELF");
         }
         //This shouldn't happen
         return BlockFace.SELF;

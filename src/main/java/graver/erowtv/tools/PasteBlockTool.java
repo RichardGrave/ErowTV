@@ -218,26 +218,23 @@ public final class PasteBlockTool implements ErowTVConstants {
 
         //Blocks with facing need a new recalculated facing (by BlockFace direction from Copy sign)
         if (entireBlock.contains("facing=")) {
+            //Get new BlockFace direction by using old BlockFace and the ratation
             BlockFace blockFaceFromSavedBlock = BlockTools.getBlockFaceByString(player, entireBlock);
             BlockFace newBlockFaceDirection = BlockTools.getNewBlockFaceDirection(player, blockFaceFromSavedBlock, faceRotation);
-
-            if (ErowTV.isDebug) {
-                player.sendMessage("entireBlock=" + entireBlock);
-                player.sendMessage("newBlockFaceDirection=" + newBlockFaceDirection.toString().toLowerCase());
-            }
 
             //Replace old 'facing=' with the new 'facing='
             entireBlock = BlockTools.replaceBlockFaceDirection(player, entireBlock, newBlockFaceDirection);
         }
+
         //Some blocks don't have facing but 'axis='
         if(entireBlock.contains("axis=")){
-            if (ErowTV.isDebug) {
-                player.sendMessage("axisBlock=" + entireBlock);
-            }
             entireBlock = BlockTools.replaceAxisDirection(entireBlock, faceRotation);
-            if (ErowTV.isDebug) {
-                player.sendMessage("NEW axisBlock=" + entireBlock);
-            }
+        }
+
+        //Glass has boolean directions for north, east, south and west.
+        if(entireBlock.contains("north=") || entireBlock.contains("east=") ||
+                entireBlock.contains("south=") || entireBlock.contains("west=")){
+            entireBlock = BlockTools.replaceGlassDirections(entireBlock, faceRotation);
         }
 
         block.setBlockData(Bukkit.getServer().createBlockData(entireBlock));

@@ -18,7 +18,7 @@ import java.util.List;
 /*
  * Block methods that should be use for any type of block in the game.
  */
-public final class BlockTools {
+public final class BlockTools implements ErowTVConstants {
 
     //Dont instantiate or subclass the class
     private BlockTools() {
@@ -563,7 +563,6 @@ public final class BlockTools {
     }
 
     /**
-     *
      * Change the axis for materials like 'log' they dont have 'facing=' but 'axis='
      *
      * @param entireBlock is the String with entire block data.
@@ -571,31 +570,132 @@ public final class BlockTools {
      * @return
      */
     public static String replaceAxisDirection(String entireBlock, int rotation) {
-        //Get new axis direction
-        //If you dont rotate (0) or rotate 2 times then the axis stays the same.
+        //Handle the boolean directions one by one.
 
-        //So if your rotate 1 or 3 times then you change axis.
-        if(rotation == 1 || rotation == 3) {
+        //If rotate == 0 then they dont change directions.
+        if (rotation > 0) {
             if (entireBlock.contains("axis=x")) {
                 return entireBlock.replace("axis=x", "axis=z");
             } else if (entireBlock.contains("axis=z")) {
                 return entireBlock.replace("axis=z", "axis=x");
             }
         }
-
         //else axis=y then do nothing.
 
         return entireBlock;
     }
 
+    /**
+     * Glass has four boolean directions. Example: north=true,east=false,south=false,west=true
+     *
+     * @param entireBlock is the String with entire block data.
+     * @param rotation    for a new direction.
+     * @return
+     */
+    public static String replaceGlassDirections(String entireBlock, int rotation) {
+        //Get all the boolean true directions so we can use it to set
+        //a different direction on true
+        boolean[] glassDirections = {
+                entireBlock.contains("north=true"),
+                entireBlock.contains("east=true"),
+                entireBlock.contains("south=true"),
+                entireBlock.contains("west=true")
+        };
+
+        //Ratation 0 then it stays the same.
+        if (rotation == 0) {
+            return entireBlock;
+        }
+
+        //So if your rotate 1 or 3 times then you change boolean directions.
+        if (rotation == 1) {
+            entireBlock = (glassDirections[ARRAY_NORTH] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("east=false", "east=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("east=true", "east=false"));
+
+            entireBlock = (glassDirections[ARRAY_EAST] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("south=false", "south=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("south=true", "south=false"));
+
+            entireBlock = (glassDirections[ARRAY_SOUTH] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("west=false", "west=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("west=true", "west=false"));
+
+            entireBlock = (glassDirections[ARRAY_WEST] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("north=false", "north=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("north=true", "north=false"));
+
+        } else if (rotation == 2) {
+            entireBlock = (glassDirections[ARRAY_NORTH] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("south=false", "south=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("south=true", "south=false"));
+
+            entireBlock = (glassDirections[ARRAY_EAST] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("west=false", "west=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("west=true", "west=false"));
+
+            entireBlock = (glassDirections[ARRAY_SOUTH] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("north=false", "north=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("north=true", "north=false"));
+
+            entireBlock = (glassDirections[ARRAY_WEST] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("east=false", "east=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("east=true", "east=false"));
+
+        } else if (rotation == 3) {
+            entireBlock = (glassDirections[ARRAY_NORTH] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("west=false", "west=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("west=true", "west=false"));
+
+            entireBlock = (glassDirections[ARRAY_EAST] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("north=false", "north=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("north=true", "north=false"));
+
+            entireBlock = (glassDirections[ARRAY_SOUTH] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("east=false", "east=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("east=true", "east=false"));
+
+            entireBlock = (glassDirections[ARRAY_WEST] ?
+                    //If it already is '=true' then it stays true else replace the false.
+                    entireBlock.replace("south=false", "south=true") :
+                    //IF it already is '=false' then it stays false else replace the true.
+                    entireBlock.replace("south=true", "south=false"));
+
+        }
+
+        //return entireBlock String with changed boolean directions
+        return entireBlock;
+    }
 
     /**
      * Get the new BlockFace depending on the rotation
      *
-     * @param player for debug messages
+     * @param player    for debug messages
      * @param blockFace contains the new direction for 'facing=' replacement.
-     * @Param rotate is how often we rotate direction
      * @return new BlockFace
+     * @Param rotate is how often we rotate direction
      */
     public static BlockFace getNewBlockFaceDirection(Player player, BlockFace blockFace, int rotate) {
         //Get new blockface direction
@@ -603,67 +703,67 @@ public final class BlockTools {
             case NORTH:
                 return (rotate == 1 ? BlockFace.EAST :
                         rotate == 2 ? BlockFace.SOUTH :
-                        rotate == 3 ? BlockFace.WEST : BlockFace.NORTH);
+                                rotate == 3 ? BlockFace.WEST : BlockFace.NORTH);
             case NORTH_NORTH_EAST:
                 return (rotate == 1 ? BlockFace.EAST_SOUTH_EAST :
                         rotate == 2 ? BlockFace.SOUTH_SOUTH_WEST :
-                        rotate == 3 ? BlockFace.WEST_NORTH_WEST : BlockFace.NORTH_NORTH_EAST);
+                                rotate == 3 ? BlockFace.WEST_NORTH_WEST : BlockFace.NORTH_NORTH_EAST);
             case NORTH_EAST:
                 return (rotate == 1 ? BlockFace.SOUTH_EAST :
                         rotate == 2 ? BlockFace.SOUTH_WEST :
-                        rotate == 3 ? BlockFace.NORTH_WEST : BlockFace.NORTH_EAST);
+                                rotate == 3 ? BlockFace.NORTH_WEST : BlockFace.NORTH_EAST);
             case EAST_NORTH_EAST:
                 return (rotate == 1 ? BlockFace.SOUTH_SOUTH_EAST :
                         rotate == 2 ? BlockFace.WEST_SOUTH_WEST :
-                        rotate == 3 ? BlockFace.NORTH_NORTH_WEST : BlockFace.EAST_NORTH_EAST);
+                                rotate == 3 ? BlockFace.NORTH_NORTH_WEST : BlockFace.EAST_NORTH_EAST);
             case EAST:
                 return (rotate == 1 ? BlockFace.SOUTH :
                         rotate == 2 ? BlockFace.WEST :
-                        rotate == 3 ? BlockFace.NORTH : BlockFace.EAST);
+                                rotate == 3 ? BlockFace.NORTH : BlockFace.EAST);
             case EAST_SOUTH_EAST:
                 return (rotate == 1 ? BlockFace.SOUTH_SOUTH_WEST :
                         rotate == 2 ? BlockFace.WEST_NORTH_WEST :
-                        rotate == 3 ? BlockFace.NORTH_NORTH_EAST : BlockFace.EAST_SOUTH_EAST);
+                                rotate == 3 ? BlockFace.NORTH_NORTH_EAST : BlockFace.EAST_SOUTH_EAST);
             case SOUTH_EAST:
                 return (rotate == 1 ? BlockFace.SOUTH_WEST :
                         rotate == 2 ? BlockFace.NORTH_WEST :
-                        rotate == 3 ? BlockFace.NORTH_EAST : BlockFace.SOUTH_EAST);
+                                rotate == 3 ? BlockFace.NORTH_EAST : BlockFace.SOUTH_EAST);
             case SOUTH_SOUTH_EAST:
                 return (rotate == 1 ? BlockFace.WEST_SOUTH_WEST :
                         rotate == 2 ? BlockFace.NORTH_NORTH_WEST :
-                        rotate == 3 ? BlockFace.EAST_NORTH_EAST : BlockFace.SOUTH_SOUTH_EAST);
+                                rotate == 3 ? BlockFace.EAST_NORTH_EAST : BlockFace.SOUTH_SOUTH_EAST);
             case SOUTH:
                 return (rotate == 1 ? BlockFace.WEST :
                         rotate == 2 ? BlockFace.NORTH :
-                        rotate == 3 ? BlockFace.EAST : BlockFace.SOUTH);
+                                rotate == 3 ? BlockFace.EAST : BlockFace.SOUTH);
             case SOUTH_SOUTH_WEST:
                 return (rotate == 1 ? BlockFace.WEST_NORTH_WEST :
                         rotate == 2 ? BlockFace.NORTH_NORTH_EAST :
-                        rotate == 3 ? BlockFace.EAST_SOUTH_EAST : BlockFace.SOUTH_SOUTH_WEST);
+                                rotate == 3 ? BlockFace.EAST_SOUTH_EAST : BlockFace.SOUTH_SOUTH_WEST);
             case SOUTH_WEST:
                 return (rotate == 1 ? BlockFace.NORTH_WEST :
                         rotate == 2 ? BlockFace.NORTH_EAST :
-                        rotate == 3 ? BlockFace.SOUTH_EAST : BlockFace.SOUTH_WEST);
+                                rotate == 3 ? BlockFace.SOUTH_EAST : BlockFace.SOUTH_WEST);
             case WEST_SOUTH_WEST:
                 return (rotate == 1 ? BlockFace.NORTH_NORTH_WEST :
                         rotate == 2 ? BlockFace.EAST_NORTH_EAST :
-                        rotate == 3 ? BlockFace.SOUTH_SOUTH_EAST : BlockFace.WEST_SOUTH_WEST);
+                                rotate == 3 ? BlockFace.SOUTH_SOUTH_EAST : BlockFace.WEST_SOUTH_WEST);
             case WEST:
                 return (rotate == 1 ? BlockFace.NORTH :
                         rotate == 2 ? BlockFace.EAST :
-                        rotate == 3 ? BlockFace.SOUTH : BlockFace.WEST);
+                                rotate == 3 ? BlockFace.SOUTH : BlockFace.WEST);
             case WEST_NORTH_WEST:
                 return (rotate == 1 ? BlockFace.NORTH_NORTH_EAST :
                         rotate == 2 ? BlockFace.EAST_SOUTH_EAST :
-                        rotate == 3 ? BlockFace.SOUTH_SOUTH_WEST : BlockFace.WEST_NORTH_WEST);
+                                rotate == 3 ? BlockFace.SOUTH_SOUTH_WEST : BlockFace.WEST_NORTH_WEST);
             case NORTH_WEST:
                 return (rotate == 1 ? BlockFace.NORTH_EAST :
                         rotate == 2 ? BlockFace.SOUTH_EAST :
-                        rotate == 3 ? BlockFace.SOUTH_WEST : BlockFace.NORTH_WEST);
+                                rotate == 3 ? BlockFace.SOUTH_WEST : BlockFace.NORTH_WEST);
             case NORTH_NORTH_WEST:
                 return (rotate == 1 ? BlockFace.EAST_NORTH_EAST :
                         rotate == 2 ? BlockFace.SOUTH_SOUTH_EAST :
-                        rotate == 3 ? BlockFace.WEST_SOUTH_WEST : BlockFace.NORTH_NORTH_WEST);
+                                rotate == 3 ? BlockFace.WEST_SOUTH_WEST : BlockFace.NORTH_NORTH_WEST);
 
             //Dont do anything with this (yet)
             case DOWN:
@@ -677,13 +777,12 @@ public final class BlockTools {
         }
 
         if (ErowTV.isDebug) {
-            player.sendMessage("getNewBlockFaceDirection::BlockFace="+blockFace.toString().toLowerCase());
+            player.sendMessage("getNewBlockFaceDirection::BlockFace=" + blockFace.toString().toLowerCase());
         }
 
 
         return blockFace;
     }
-
 
 
     public static int getCurrentBlockFaceRotation(BlockFace blockFace) {
@@ -739,9 +838,9 @@ public final class BlockTools {
      * Normally we dont need to return the String because of Object referencing, but in this
      * case if it's not returned then we see the Debug logging (if turned on)
      *
-     * @param player for debug messages
+     * @param player      for debug messages
      * @param entireBlock is the String with entire block data.
-     * @param blockFace contains the new direction for 'facing=' replacement.
+     * @param blockFace   contains the new direction for 'facing=' replacement.
      * @return entireBlock with new 'facing='
      */
     public static String replaceBlockFaceDirection(Player player, String entireBlock, BlockFace blockFace) {
@@ -782,7 +881,7 @@ public final class BlockTools {
         }
 
         if (ErowTV.isDebug) {
-            player.sendMessage("replaceBlockFaceDirection::facing."+blockFace.toString().toLowerCase());
+            player.sendMessage("replaceBlockFaceDirection::facing." + blockFace.toString().toLowerCase());
         }
 
         return entireBlock;
@@ -791,7 +890,7 @@ public final class BlockTools {
     /**
      * Get the BlockFace depending on the 'facing=' in the entireBlock String.
      *
-     * @param player for debug messages
+     * @param player      for debug messages
      * @param entireBlock is the String with entire block data.
      * @return BlockFace depending on the 'facing=' in the entireBlock String.
      */
@@ -799,35 +898,35 @@ public final class BlockTools {
         //Get new blockface direction
         if (entireBlock.contains("facing=north")) {
             return BlockFace.NORTH;
-        }else if (entireBlock.contains("facing=north_north_east")) {
+        } else if (entireBlock.contains("facing=north_north_east")) {
             return BlockFace.NORTH_NORTH_EAST;
-        }else if (entireBlock.contains("facing=north_east")) {
+        } else if (entireBlock.contains("facing=north_east")) {
             return BlockFace.NORTH_EAST;
-        }else if (entireBlock.contains("facing=east_north_east")) {
+        } else if (entireBlock.contains("facing=east_north_east")) {
             return BlockFace.EAST_NORTH_EAST;
-        }else if (entireBlock.contains("facing=east")) {
+        } else if (entireBlock.contains("facing=east")) {
             return BlockFace.EAST;
-        }else if (entireBlock.contains("facing=east_south_east")) {
+        } else if (entireBlock.contains("facing=east_south_east")) {
             return BlockFace.EAST_SOUTH_EAST;
-        }else if (entireBlock.contains("facing=south_east")) {
+        } else if (entireBlock.contains("facing=south_east")) {
             return BlockFace.SOUTH_EAST;
-        }else if (entireBlock.contains("facing=south_south_east")) {
+        } else if (entireBlock.contains("facing=south_south_east")) {
             return BlockFace.SOUTH_SOUTH_EAST;
-        }else if (entireBlock.contains("facing=south")) {
+        } else if (entireBlock.contains("facing=south")) {
             return BlockFace.SOUTH;
-        }else if (entireBlock.contains("facing=south_south_west")) {
+        } else if (entireBlock.contains("facing=south_south_west")) {
             return BlockFace.SOUTH_SOUTH_WEST;
-        }else if (entireBlock.contains("facing=south_west")) {
+        } else if (entireBlock.contains("facing=south_west")) {
             return BlockFace.SOUTH_WEST;
-        }else if (entireBlock.contains("facing=west_south_west")) {
+        } else if (entireBlock.contains("facing=west_south_west")) {
             return BlockFace.WEST_SOUTH_WEST;
-        }else if (entireBlock.contains("facing=west")) {
+        } else if (entireBlock.contains("facing=west")) {
             return BlockFace.WEST;
-        }else if (entireBlock.contains("facing=west_north_west")) {
+        } else if (entireBlock.contains("facing=west_north_west")) {
             return BlockFace.WEST_NORTH_WEST;
-        }else if (entireBlock.contains("facing=north_west")) {
+        } else if (entireBlock.contains("facing=north_west")) {
             return BlockFace.NORTH_WEST;
-        }else if (entireBlock.contains("facing=north_north_west")) {
+        } else if (entireBlock.contains("facing=north_north_west")) {
             return BlockFace.NORTH_NORTH_WEST;
         }
 

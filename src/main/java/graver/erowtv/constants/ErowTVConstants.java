@@ -5,6 +5,12 @@ public interface ErowTVConstants {
 	//Various Strings
 	public final static String ENCHANTMENT_EROWTV = "ErowTV's Magic";
 
+	//Direction ints array
+	public final static int ARRAY_NORTH = 0;
+	public final static int ARRAY_EAST  = 1;
+	public final static int ARRAY_SOUTH = 2;
+	public final static int ARRAY_WEST  = 3;
+
 	//File saving
 	public final static String FILE_EXTENSION_YML = ".yml";
 	public final static String DIR_FILE_SAVE = "/saved_files/";

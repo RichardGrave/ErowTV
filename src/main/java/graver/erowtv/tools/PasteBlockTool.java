@@ -234,7 +234,7 @@ public final class PasteBlockTool implements ErowTVConstants {
         //Glass has boolean directions for north, east, south and west.
         if(entireBlock.contains("north=") || entireBlock.contains("east=") ||
                 entireBlock.contains("south=") || entireBlock.contains("west=")){
-            entireBlock = BlockTools.replaceGlassDirections(entireBlock, faceRotation);
+            entireBlock = BlockTools.replaceBooleanDirections(entireBlock, faceRotation);
         }
 
         block.setBlockData(Bukkit.getServer().createBlockData(entireBlock));

@@ -586,20 +586,28 @@ public final class BlockTools implements ErowTVConstants {
     }
 
     /**
+     * Some materials have boolean like directions.
      * Glass has four boolean directions. Example: north=true,east=false,south=false,west=true
+     * Redstone has four different boolean directions. Example: north=none,east=side,south=none,west=side
      *
      * @param entireBlock is the String with entire block data.
      * @param rotation    for a new direction.
      * @return
      */
-    public static String replaceGlassDirections(String entireBlock, int rotation) {
+    public static String replaceBooleanDirections(String entireBlock, int rotation) {
+        //Depending on the Material we use 'true & false' or 'side & none'
+        //Redstone uses 'side & none'. Why not the same as the others??????
+        //So check on 'power=' then it should be redstone.
+        String stringTrue = entireBlock.contains("power=") ? "side" : "true";
+        String stringFalse = entireBlock.contains("power=") ? "none" : "false";
+
         //Get all the boolean true directions so we can use it to set
         //a different direction on true
-        boolean[] glassDirections = {
-                entireBlock.contains("north=true"),
-                entireBlock.contains("east=true"),
-                entireBlock.contains("south=true"),
-                entireBlock.contains("west=true")
+        boolean[] booleanDirections = {
+                entireBlock.contains("north="+stringTrue),
+                entireBlock.contains("east="+stringTrue),
+                entireBlock.contains("south="+stringTrue),
+                entireBlock.contains("west="+stringTrue)
         };
 
         //Ratation 0 then it stays the same.
@@ -609,79 +617,79 @@ public final class BlockTools implements ErowTVConstants {
 
         //So if your rotate 1 or 3 times then you change boolean directions.
         if (rotation == 1) {
-            entireBlock = (glassDirections[ARRAY_NORTH] ?
+            entireBlock = (booleanDirections[ARRAY_NORTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("east=false", "east=true") :
+                    entireBlock.replace("east="+stringFalse, "east="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("east=true", "east=false"));
+                    entireBlock.replace("east="+stringTrue, "east="+stringFalse));
 
-            entireBlock = (glassDirections[ARRAY_EAST] ?
+            entireBlock = (booleanDirections[ARRAY_EAST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("south=false", "south=true") :
+                    entireBlock.replace("south="+stringFalse, "south="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("south=true", "south=false"));
+                    entireBlock.replace("south="+stringTrue, "south="+stringFalse));
 
-            entireBlock = (glassDirections[ARRAY_SOUTH] ?
+            entireBlock = (booleanDirections[ARRAY_SOUTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("west=false", "west=true") :
+                    entireBlock.replace("west="+stringFalse, "west="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("west=true", "west=false"));
+                    entireBlock.replace("west="+stringTrue, "west="+stringFalse));
 
-            entireBlock = (glassDirections[ARRAY_WEST] ?
+            entireBlock = (booleanDirections[ARRAY_WEST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("north=false", "north=true") :
+                    entireBlock.replace("north="+stringFalse, "north="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("north=true", "north=false"));
+                    entireBlock.replace("north="+stringTrue, "north="+stringFalse));
 
         } else if (rotation == 2) {
-            entireBlock = (glassDirections[ARRAY_NORTH] ?
+            entireBlock = (booleanDirections[ARRAY_NORTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("south=false", "south=true") :
+                    entireBlock.replace("south="+stringFalse, "south="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("south=true", "south=false"));
+                    entireBlock.replace("south="+stringTrue, "south="+stringFalse));
 
-            entireBlock = (glassDirections[ARRAY_EAST] ?
+            entireBlock = (booleanDirections[ARRAY_EAST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("west=false", "west=true") :
+                    entireBlock.replace("west="+stringFalse, "west="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("west=true", "west=false"));
+                    entireBlock.replace("west="+stringTrue, "west="+stringFalse));
 
-            entireBlock = (glassDirections[ARRAY_SOUTH] ?
+            entireBlock = (booleanDirections[ARRAY_SOUTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("north=false", "north=true") :
+                    entireBlock.replace("north="+stringFalse, "north="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("north=true", "north=false"));
+                    entireBlock.replace("north="+stringTrue, "north="+stringFalse));
 
-            entireBlock = (glassDirections[ARRAY_WEST] ?
+            entireBlock = (booleanDirections[ARRAY_WEST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("east=false", "east=true") :
+                    entireBlock.replace("east="+stringFalse, "east="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("east=true", "east=false"));
+                    entireBlock.replace("east="+stringTrue, "east="+stringFalse));
 
         } else if (rotation == 3) {
-            entireBlock = (glassDirections[ARRAY_NORTH] ?
+            entireBlock = (booleanDirections[ARRAY_NORTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("west=false", "west=true") :
+                    entireBlock.replace("west="+stringFalse, "west="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("west=true", "west=false"));
+                    entireBlock.replace("west="+stringTrue, "west="+stringFalse));
 
-            entireBlock = (glassDirections[ARRAY_EAST] ?
+            entireBlock = (booleanDirections[ARRAY_EAST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("north=false", "north=true") :
+                    entireBlock.replace("north="+stringFalse, "north="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("north=true", "north=false"));
+                    entireBlock.replace("north="+stringTrue, "north="+stringFalse));
 
-            entireBlock = (glassDirections[ARRAY_SOUTH] ?
+            entireBlock = (booleanDirections[ARRAY_SOUTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("east=false", "east=true") :
+                    entireBlock.replace("east="+stringFalse, "east="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("east=true", "east=false"));
+                    entireBlock.replace("east="+stringTrue, "east="+stringFalse));
 
-            entireBlock = (glassDirections[ARRAY_WEST] ?
+            entireBlock = (booleanDirections[ARRAY_WEST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("south=false", "south=true") :
+                    entireBlock.replace("south="+stringFalse, "south="+stringTrue) :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("south=true", "south=false"));
+                    entireBlock.replace("south="+stringTrue, "south="+stringFalse));
 
         }
 

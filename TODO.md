@@ -1,5 +1,5 @@
 ## Bugs ##
-- [ ] Fix bug with COPY/DESTROY FROM and TO blocks. Sometimes they only COPY/DESTROY a small part between the blocks.
+- [x] Fix bug with COPY/DESTROY FROM and TO blocks. Sometimes they only COPY/DESTROY a small part between the blocks.
 
 ## New features ##
 - [ ] A server memory system, that remembers where the placed Games/Tools are in the world.

@@ -13,16 +13,7 @@ import java.util.List;
 
 public final class CopyBlockTool implements ErowTVConstants {
 
-	private static int ARRAY_PLACEMENT_POS_STARTX = 0;
-	private static int ARRAY_PLACEMENT_POS_STARTY = 1;
-	private static int ARRAY_PLACEMENT_POS_STARTZ = 2;
-	private static int ARRAY_PLACEMENT_POS_DEPTH = 3;
-	private static int ARRAY_PLACEMENT_POS_HEIGHT = 4;
-	private static int ARRAY_PLACEMENT_POS_WIDTH = 5;
-	private static int ARRAY_PLACEMENT_POS_XAS = 6;
-	private static int ARRAY_PLACEMENT_POS_ZAS = 7;
-	private static int ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH = 8;
-	private static int ARRAY_CURRENT_FACING_DIRECTION = 9;
+
 
 	private CopyBlockTool() {
 	}
@@ -97,7 +88,9 @@ public final class CopyBlockTool implements ErowTVConstants {
 		int startZ = positions[ARRAY_PLACEMENT_POS_STARTZ];
 		int xas = positions[ARRAY_PLACEMENT_POS_XAS];
 		int zas = positions[ARRAY_PLACEMENT_POS_ZAS];
+
 		int facingDirection = positions[ARRAY_CURRENT_FACING_DIRECTION];
+		boolean isFromBlockYGreater = (positions[ARRAY_PLACEMENT_FROM_Y_GREATER]==1 ? true : false);
 		
 		int depth = positions[ARRAY_PLACEMENT_POS_DEPTH];
 		int height = positions[ARRAY_PLACEMENT_POS_HEIGHT];
@@ -143,7 +136,9 @@ public final class CopyBlockTool implements ErowTVConstants {
 						placeZ = startZ + (iterW * zas);
 					}
 
-					Block block = player.getWorld().getBlockAt(placeX, (startY + iterH), placeZ);
+					int placeY = (isFromBlockYGreater ? (startY - iterH) : (startY + iterH));
+
+					Block block = player.getWorld().getBlockAt(placeX, placeY, placeZ);
 					//Entire block data(Facing, activated, etc.) into one String.
 					String entireBlock = block.getBlockData().getAsString();
 

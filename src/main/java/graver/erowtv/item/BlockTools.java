@@ -406,6 +406,10 @@ public final class BlockTools implements ErowTVConstants {
         int toBlockX = toBlock.get(ErowTVConstants.BLOCK_POS_X);
         boolean fromBlockXGreater = (fromBlockX > toBlockX ? true : false);
 
+        int fromBlockY = fromBlock.get(ErowTVConstants.BLOCK_POS_Y);
+        int toBlockY = toBlock.get(ErowTVConstants.BLOCK_POS_Y);
+        int isFromBlockYGreater = (fromBlockY > toBlockY ? 1 : 0);
+
         int zas = (fromBlockZGreater ? -1 : 1);
         int xas = (fromBlockXGreater ? -1 : 1);
 
@@ -460,7 +464,8 @@ public final class BlockTools implements ErowTVConstants {
 
         //TODO:RG startX and startZ??
         //Height needs +1 because the height of the COPY_TO block its the actual height we are going to copy
-        return new int[]{startX, startY, startZ, depth, (height + 1), width, xas, zas, isNorthSouth, facingDirection};
+        return new int[]{startX, startY, startZ, depth, (height + 1), width, xas, zas,
+                isNorthSouth, facingDirection, isFromBlockYGreater};
     }
 
     //Either Sign, WallSign, Stone Button or a Lever

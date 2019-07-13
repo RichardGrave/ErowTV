@@ -163,4 +163,16 @@ public interface ErowTVConstants {
 	public final static String SPECIAL_COUNTDOWN_TIMER = "timer";
 	public final static String SPECIAL_YOUTUBE_SUBS = "youtube";
 	public final static String SPECIAL_PASTE = "paste";
+
+	public final static int ARRAY_PLACEMENT_POS_STARTX = 0;
+	public final static int ARRAY_PLACEMENT_POS_STARTY = 1;
+	public final static int ARRAY_PLACEMENT_POS_STARTZ = 2;
+	public final static int ARRAY_PLACEMENT_POS_DEPTH = 3;
+	public final static int ARRAY_PLACEMENT_POS_HEIGHT = 4;
+	public final static int ARRAY_PLACEMENT_POS_WIDTH = 5;
+	public final static int ARRAY_PLACEMENT_POS_XAS = 6;
+	public final static int ARRAY_PLACEMENT_POS_ZAS = 7;
+	public final static int ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH = 8;
+	public final static int ARRAY_CURRENT_FACING_DIRECTION = 9;
+	public final static int ARRAY_PLACEMENT_FROM_Y_GREATER = 10;
 }

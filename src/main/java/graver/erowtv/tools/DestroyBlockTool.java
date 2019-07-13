@@ -11,17 +11,8 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public final class DestroyBlockTool {
+public final class DestroyBlockTool implements ErowTVConstants {
 
-	private static int ARRAY_PLACEMENT_POS_STARTX = 0;
-	private static int ARRAY_PLACEMENT_POS_STARTY = 1;
-	private static int ARRAY_PLACEMENT_POS_STARTZ = 2;
-	private static int ARRAY_PLACEMENT_POS_DEPTH = 3;
-	private static int ARRAY_PLACEMENT_POS_HEIGHT = 4;
-	private static int ARRAY_PLACEMENT_POS_WIDTH = 5;
-	private static int ARRAY_PLACEMENT_POS_XAS = 6;
-	private static int ARRAY_PLACEMENT_POS_ZAS = 7;
-	private static int ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH = 8;
 
 	private DestroyBlockTool() {
 	}
@@ -88,6 +79,7 @@ public final class DestroyBlockTool {
 		int startZ = positions[ARRAY_PLACEMENT_POS_STARTZ];
 		int xas = positions[ARRAY_PLACEMENT_POS_XAS];
 		int zas = positions[ARRAY_PLACEMENT_POS_ZAS];
+		boolean isFromBlockYGreater = (positions[ARRAY_PLACEMENT_FROM_Y_GREATER]==1 ? true : false);
 		
 		int depth = positions[ARRAY_PLACEMENT_POS_DEPTH];
 		int height = positions[ARRAY_PLACEMENT_POS_HEIGHT];
@@ -108,8 +100,10 @@ public final class DestroyBlockTool {
 						placeZ = startZ + (iterW * zas);
 					}
 
+					int placeY = (isFromBlockYGreater ? (startY - iterH) : (startY + iterH));
+
 					//Place a single block in the world at calculate position
-					Block block = player.getWorld().getBlockAt(placeX, (startY + iterH), placeZ);
+					Block block = player.getWorld().getBlockAt(placeX, placeY, placeZ);
 					if(block.getType() != Material.AIR) {
 						//Only show explosion with blocks that are not AIR
 						block.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, block.getLocation(), 3);

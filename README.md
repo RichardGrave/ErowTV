@@ -7,6 +7,9 @@ YouTube video: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6d
 A few features have already changed sinds the first video and you can see it in the next one.\
 YouTube video: [YouTube Subscribers counter and more](https://www.youtube.com/watch?v=uWnNGf31Cw8)
 
+Short video that has no sound and is a bit lagging.\
+YouTube video: [Pasting an entire village and active redstone](https://www.youtube.com/watch?v=Z5vm7HjdGlk)
+
 ## Disclaimer:
 This is **NOT** a mod for clientside single player Minecraft.
 

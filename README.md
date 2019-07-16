@@ -3,8 +3,8 @@
 # [YouTube Channel ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
 ## A Minecraft plugin for a [SpigotMC](https://www.spigotmc.org) server.
 
-- YouTube video 1: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)\
-- A few features have already changed sinds the first video and you can see it in the next one.\
+- YouTube video 1: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)
+- A few features have already changed sinds the first video and you can see it in the next one.
 YouTube video 2: [YouTube Subscribers counter and more](https://www.youtube.com/watch?v=uWnNGf31Cw8)
 - Short video that has no sound and is a bit lagging.\
 YouTube video 3: [Pasting an entire village and active redstone](https://www.youtube.com/watch?v=Z5vm7HjdGlk)

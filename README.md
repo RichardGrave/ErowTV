@@ -23,7 +23,7 @@ I do use JavaDoc and comments.\
 And I will refactor bits of code to better structured code whenever I have the time or when I need it for new features.
 
 ## Features it has:
-- Copy blocks: a Copy FROM and Copy TO block that can copy everything between them and saves it to a file with a given name(from a sign on the block). At the moment this works for all the blocks, but some blocks with special data will have a wrong direction when placed or no pyshics, etc. Stairs for example. They can be upside down and those kind of things.
+- Copy blocks: a Copy FROM and Copy TO block that can copy everything between them and saves it to a file with a given name(from a sign on the block). Seems to work for all the materials now. [Pasting an entire village and active redstone](https://www.youtube.com/watch?v=Z5vm7HjdGlk)
 - Destroy blocks: a Destroy FROM and Destroy TO block that can destroy everthing between them.
 - Two by Two block: that creates 8 blocks using clicked block material or left-click creating 8 blocks of AIR.
 - Paste block: Right-click sign with filename (saved with Copy blocks) and everywhere you'll right-click in the world it will paste all the blocks from the file.

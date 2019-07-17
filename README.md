@@ -2,6 +2,8 @@
 
 # [YouTube Channel ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
 ## A Minecraft plugin for a [SpigotMC](https://www.spigotmc.org) server.
+I am creating this plugin for my two sons Erik and Owen.\
+So they can use it in Minecraft when they are recording videos for our YouTube channel.
 
 - YouTube video 1: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)
 - A few features have already changed sinds the first video and you can see it in the next one.

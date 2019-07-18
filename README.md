@@ -50,17 +50,12 @@ It will also remove blocks from the memory system if they break.
 It will remember multiple special signs for a player, because a sign only needs itself.  
 They each get a unique memory name so the server always knows where the signs with their actions are.
 
-## What I want to make in the future:
+## What to do in the future:
 - A server memory system, that remembers where the placed Games/Tools are in the world. This by saving to a file and loading from a file if the server has been restarted. Because the player memory system gets cleaned up when the server stops or restarts. The YouTube Subscribers Counter won't work anymore and the Countdown Timer will stop counting down.
-- That players can click each others special signs to activate the action on it (now a player can only activate his own placed special sign because of the memory system)
-- Little games
-- Maybe a Twitter Subscribers Counter
-- A chest with books that explain how to use all the features (and games).
-- Extra commands usable in the chat (Maybe for building blocks in a certain way? Like a row of blocks or a platform to build a house on).
-- Turn lights on/off with special buttons that connect to a light source through coordinates.
-- A bridge builder to get over water or canyons.
-- A stair builder to get down from a high place.
-- More YouTube videos about this plugin on our channel.
+- More YouTube videos about this plugin on our channel.\
 [YouTube Channel ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
+- Here is a [TODO](https://github.com/RichardGrave/ErowTV/blob/master/TODO.md) list with Bugs, Changes and New Features.
+
+
 
 

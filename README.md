@@ -51,7 +51,6 @@ It will remember multiple special signs for a player, because a sign only needs 
 They each get a unique memory name so the server always knows where the signs with their actions are.
 
 ## What I want to make in the future:
-- Expand the Copy feature so that all needed data from certain blocks like Stairs, pistons, etc. get copied.
 - A server memory system, that remembers where the placed Games/Tools are in the world. This by saving to a file and loading from a file if the server has been restarted. Because the player memory system gets cleaned up when the server stops or restarts. The YouTube Subscribers Counter won't work anymore and the Countdown Timer will stop counting down.
 - That players can click each others special signs to activate the action on it (now a player can only activate his own placed special sign because of the memory system)
 - Little games

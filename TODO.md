@@ -17,4 +17,4 @@ At first I used it so players can't click other players signs with the memory sy
 - [ ] Extra commands usable in the chat (Maybe block building rows/heigth etc. + show list files from COPY)
 - [ ] A stair builder to get down from a high place or to go up.
 - [ ] Picture builder. Read image file and use colored blocks to build the picture in Minecraft.
-
+- [ ] A block that builds a house with bed, chests(with tools in it), lights, etc. So everything you'll need to survive whereever your are. Or maybe some sort of portable house.

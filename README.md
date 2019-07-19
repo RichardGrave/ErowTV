@@ -1,7 +1,9 @@
 <img src="https://yt3.ggpht.com/PXmBt4TUP1q2ixeKwRSFPaKTbaaW9iOOzt7SzWi45ZI0PVUcFMzfxOoQsELvHvLMvROWM9eQkQ=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no">  
 
-# [YouTube Channel ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
-## A Minecraft plugin for a [SpigotMC](https://www.spigotmc.org) server.
+# A Minecraft plugin for a [SpigotMC](https://www.spigotmc.org) server.
+
+## ErowTV on [YouTube](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw) and [Twitter](https://twitter.com/ErowTV)
+
 I am creating this plugin for my two sons Erik and Owen.\
 So they can use it in Minecraft when they are recording videos for our YouTube channel.
 

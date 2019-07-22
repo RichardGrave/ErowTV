@@ -30,7 +30,7 @@ And I will refactor bits of code to better structured code whenever I have the t
 - Destroy blocks: a Destroy FROM and Destroy TO block that can destroy everthing between them.
 - Two by Two block: that creates 8 blocks using clicked block material or left-click creating 8 blocks of AIR.
 - Paste block: Right-click sign with filename (saved with Copy blocks) and everywhere you'll right-click in the world it will paste all the blocks from the file.
-- Special sign:
+- Special actions:
   - Youtube Subscribers Counter: creates a subscribers count on a sign or with blocks. This uses a Google API-key (generated on [Google Developers](https://developers.google.com) that everybody can generate and use for themselfs)
 You can give a channel name (or ID) and how many seconds it has to wait before getting the number of subscribers again.
   - Countdown Timer: creates a time on a sign or with blocks to begin from with the countdown. Use hours, minutes and seconds.
@@ -48,9 +48,6 @@ So you can ONLY have multiple Copy FROM blocks in the world if they are from DIF
 This is needed for the copy/destroy blocks so you can check if there already exists one of each (for that player). If it already exists then it will replace the block with AIR and changes the memory with the new placed block.
 If we dont do that then we could for example place multiple Copy FROM blocks (or TO blocks) and then the server doesn't know where to calculate FROM en TO. So it would mess things up pretty bad.
 It will also remove blocks from the memory system if they break.
-
-It will remember multiple special signs for a player, because a sign only needs itself.  
-They each get a unique memory name so the server always knows where the signs with their actions are.
 
 ## What to do in the future:
 - A server memory system, that remembers where the placed Games/Tools are in the world. This by saving to a file and loading from a file if the server has been restarted. Because the player memory system gets cleaned up when the server stops or restarts. The YouTube Subscribers Counter won't work anymore and the Countdown Timer will stop counting down.

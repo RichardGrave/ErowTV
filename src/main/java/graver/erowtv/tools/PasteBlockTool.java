@@ -4,6 +4,7 @@ import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
 import graver.erowtv.main.ErowTV;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -13,6 +14,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -36,9 +39,8 @@ public final class PasteBlockTool implements ErowTVConstants {
      * @param sign       is needed to read a name to be used for a JSON file name to paste from
      * @param fileName   if this is not empty then dont use the sign but this filename to paste from
      * @param pasteBlock
-     * @param memoryName so we now the name of the memory to remove from playersmemory when done pasting.
      */
-    public static void pasteBlocks(Player player, Block clickedBlock, Sign sign, String fileName, List<Integer> pasteBlock, String memoryName) {
+    public static void pasteBlocks(Player player, Block clickedBlock, Sign sign, String fileName, List<Integer> pasteBlock) {
         //We need to check if the blocks are in the same world.
         Block blockTo = player.getWorld().getBlockAt(pasteBlock.get(ErowTVConstants.BLOCK_POS_X),
                 pasteBlock.get(ErowTVConstants.BLOCK_POS_Y), pasteBlock.get(ErowTVConstants.BLOCK_POS_Z));
@@ -77,15 +79,11 @@ public final class PasteBlockTool implements ErowTVConstants {
                         blockFace = player.getFacing();
                     }
 
-                    pasteBlocksAtAllPositions(player, copyFile, directions, blockFace);
+                    //No blocks need to be added to a materialBlocks HashMap
+                    pasteBlocksAtAllPositions(player, copyFile, directions, blockFace, null);
                     //Set blocks and the sign to AIR
                     blockTo.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
 
-                    //Remove the memory after the copy
-                    //Only for SPECIAL_SIGN paste action. NOT for PASTE BLOCK
-                    if (!memoryName.equalsIgnoreCase(MEMORY_PASTE_BLOCK_ACTION)) {
-                        ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
-                    }
                 } else {
                     player.sendMessage("Couldnt find the correct directions for pasting");
                 }
@@ -104,9 +102,11 @@ public final class PasteBlockTool implements ErowTVConstants {
      * @param copyFile  file with blocks to paste
      * @param positions for getting starting positions
      * @param blockFace to get current facing direction
+     * @return HashMap with all the asked materials their locations to use in Games
      */
-    @SuppressWarnings("deprecation")
-    public static void pasteBlocksAtAllPositions(Player player, File copyFile, int[] positions, BlockFace blockFace) {
+    public static void pasteBlocksAtAllPositions(Player player, File copyFile, int[] positions, BlockFace blockFace,
+                                                 HashMap<Material, List<Block>> materialBlocks) {
+
 //		startX, startY, startZ, xas, zas, isNorthSouth };
         boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
         int startX = positions[ARRAY_PLACEMENT_POS_STARTX];
@@ -122,13 +122,11 @@ public final class PasteBlockTool implements ErowTVConstants {
 
         if (!blockConfig.contains(ErowTVConstants.YML_D_H_W_KEY)) {
             player.sendMessage("Cant find depth, height and widht in yml file");
-            return;
         }
 
         String[] dhw = blockConfig.get(ErowTVConstants.YML_D_H_W_KEY).toString().split(ErowTVConstants.SEP_D_H_W);
         if (dhw.length != 4) {
             player.sendMessage("String doesnt contain depth, height and widht in yml file");
-            return;
         }
 
         //Index all the blockData, so that we can use the index numbers to get entire blockdata when reading the rows
@@ -159,21 +157,31 @@ public final class PasteBlockTool implements ErowTVConstants {
         int faceRotation = BlockTools.getRotationDifference(player, wasFacing, currentFacing);
 
         if (ErowTV.isDebug) {
-            player.sendMessage("FaceRotation="+faceRotation +
-                    " - WasFacing="+wasFacing + " CurrentFacing="+currentFacing);
+            player.sendMessage(ChatColor.DARK_AQUA+"FaceRotation=" + faceRotation +
+                    " - WasFacing=" + wasFacing + " CurrentFacing=" + currentFacing);
         }
+
+        //Paste block in the world with iteration
+        pasteBlocksInTheWorld(player, startX, startZ, startY, xas, zas, height, width, blockConfig, faceRotation,
+                isNorthSouth, blockIndex, materialBlocks);
+    }
+
+    private static void
+    pasteBlocksInTheWorld(Player player, int startX, int startZ, int startY, int xas, int zas, int height,
+                          int width, FileConfiguration blockConfig, int faceRotation, boolean isNorthSouth,
+                          LinkedHashMap<Integer, String> blockIndex, HashMap<Material, List<Block>> materialBlocks) {
 
         //Key for next row in file
         int rowNum = 0;
 
-        //Copy all the blocks that are found
+        //Paste all the blocks that are found
         for (int iterH = 0; iterH < height; iterH++) {
             for (int iterW = 0; iterW < width; iterW++) {
                 rowNum++;
                 if (!blockConfig.contains(rowNum + "")) {
                     player.sendMessage("Missing row to read from yml file");
-                    return;
                 }
+
                 //Use \\ with SEP_BLOCK to use correct split for '$'
                 String[] blockRow = (blockConfig.get(rowNum + "").toString()).split("\\" + ErowTVConstants.SEP_BLOCK);
                 //Is needed for (iterD * zas) or (iterD * xas) in for loop down below
@@ -201,10 +209,16 @@ public final class PasteBlockTool implements ErowTVConstants {
                         }
 
                         //Block somewhere in the world
-                        Block block = player.getWorld().getBlockAt(placeX, (startY + iterH), placeZ);
+                        int placeY = (startY + iterH);
+                        Block block = player.getWorld().getBlockAt(placeX, placeY, placeZ);
 
                         //Start updating the block
                         updateBlockDirections(player, block, entireBlock, faceRotation);
+
+                        if(materialBlocks != null) {
+                            //Store every block in a HashMap, so we can use it in the game
+                            storeAllMaterials(player, block, placeX, placeY, placeZ, materialBlocks);
+                        }
 
                         //++ the realDepth for next depth position
                         realDepth++;
@@ -214,7 +228,25 @@ public final class PasteBlockTool implements ErowTVConstants {
         }
     }
 
-    private static void updateBlockDirections(Player player, Block block, String entireBlock, int faceRotation){
+    private static void storeAllMaterials(Player player, Block block, int x, int y, int z,
+                                                HashMap<Material, List<Block>> materialBlocks) {
+
+            Material blockMaterial = block.getBlockData().getMaterial();
+
+            if (materialBlocks.containsKey(blockMaterial)) {
+                //if it does exist, then add block to list in materials
+                materialBlocks.get(blockMaterial).add(block);
+            } else {
+                //If it does not exist, create new new List to store the blocks
+                List<Block> blockList = new ArrayList<>();
+                blockList.add(block);
+
+                //Put into HashMap with Material and blockLocation
+                materialBlocks.put(blockMaterial, blockList);
+            }
+    }
+
+    private static void updateBlockDirections(Player player, Block block, String entireBlock, int faceRotation) {
 
         //Blocks with facing need a new recalculated facing (by BlockFace direction from Copy sign)
         if (entireBlock.contains("facing=")) {
@@ -227,15 +259,23 @@ public final class PasteBlockTool implements ErowTVConstants {
         }
 
         //Some blocks don't have facing but 'axis='
-        if(entireBlock.contains("axis=")){
+        if (entireBlock.contains("axis=")) {
             entireBlock = BlockTools.replaceAxisDirection(entireBlock, faceRotation);
         }
 
         //Glass has boolean directions for north, east, south and west.
-        if(entireBlock.contains("north=") || entireBlock.contains("east=") ||
-                entireBlock.contains("south=") || entireBlock.contains("west=")){
-            entireBlock = BlockTools.replaceBooleanDirections(entireBlock, faceRotation);
+        if (entireBlock.contains("north=") || entireBlock.contains("east=") ||
+                entireBlock.contains("south=") || entireBlock.contains("west=")) {
+
+            //This if for Redstone that uses 'side, up and none'. Example: north=up, south=side, east=none, west=up
+            if(entireBlock.contains("power=")){
+                entireBlock = BlockTools.replaceTernaryDirections(entireBlock, faceRotation);
+            }else {
+                //This if for blocks that use true or false. Example: north=true, south=false, east=false, west=false
+                entireBlock = BlockTools.replaceBooleanDirections(entireBlock, faceRotation);
+            }
         }
+
 
         block.setBlockData(Bukkit.getServer().createBlockData(entireBlock));
     }

@@ -6,6 +6,8 @@ import graver.erowtv.item.ButtonTools;
 import graver.erowtv.item.ItemTools;
 import graver.erowtv.item.SignTools;
 import graver.erowtv.main.ErowTV;
+import org.bukkit.ChatColor;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -26,7 +28,7 @@ public class PlayerEvents implements Listener, ErowTVConstants {
             event.setJoinMessage(MessageFormat.format(Messages.PLAYER_LOGIN_WELCOME_MESSAGE, event.getPlayer().getName()));
             event.getPlayer().discoverRecipes(ErowTV.getAllNamespacedKeysRecipes());
         } catch (Exception ex) {
-            event.getPlayer().sendMessage("[EventException]:[onPlayerJoin]");
+            event.getPlayer().sendMessage(ChatColor.DARK_RED+"[EventException]:[onPlayerJoin]");
             ex.printStackTrace();
         }
     }
@@ -48,7 +50,7 @@ public class PlayerEvents implements Listener, ErowTVConstants {
             }
 
         } catch (Exception ex) {
-            event.getPlayer().sendMessage("[EventException]:[onPlayerInteract]");
+            event.getPlayer().sendMessage(ChatColor.DARK_RED+"[EventException]:[onPlayerInteract]");
             ex.printStackTrace();
         }
     }
@@ -60,7 +62,7 @@ public class PlayerEvents implements Listener, ErowTVConstants {
      */
     private void playerLeftClickEvent(PlayerInteractEvent event) {
         if(ErowTV.isDebug) {
-            event.getPlayer().sendMessage("playerLeftClickEvent");
+            event.getPlayer().sendMessage(ChatColor.DARK_AQUA+"playerLeftClickEvent");
         }
         boolean specialItemUseHand = false;
         if (event.getHand() == EquipmentSlot.HAND) {
@@ -69,20 +71,20 @@ public class PlayerEvents implements Listener, ErowTVConstants {
         }
 
         if(!specialItemUseHand) {
-            //Do event by clicked block material
-            switch (event.getClickedBlock().getType()) {
-                case SPRUCE_WALL_SIGN:
-                    SignTools.leftClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
-                    break;
-                case SPRUCE_SIGN:
-                    SignTools.leftClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
-                    break;
-                case ACACIA_BUTTON:
-                    break;
-                case STONE_BUTTON:
-                    break;
-                default:
-                    //nothing, yet
+            if(ErowTV.isDebug){
+                event.getPlayer().sendMessage(ChatColor.DARK_AQUA+event.getClickedBlock().getType().toString());
+            }
+
+            //get blockData for instanceOf check
+            BlockData blockData = event.getClickedBlock().getState().getBlockData();
+
+            //All the WallSigns
+            if (blockData instanceof org.bukkit.block.data.type.WallSign) {
+                SignTools.leftClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
+
+            //All the Signs
+            }else if (blockData instanceof org.bukkit.block.data.type.Sign) {
+                SignTools.leftClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
             }
         }
     }
@@ -94,7 +96,7 @@ public class PlayerEvents implements Listener, ErowTVConstants {
      */
     private void playerRightClickEvent(PlayerInteractEvent event) {
         if(ErowTV.isDebug) {
-            event.getPlayer().sendMessage("playerRightClickEvent");
+            event.getPlayer().sendMessage(ChatColor.DARK_AQUA+"playerRightClickEvent");
         }
         boolean specialItemUseHand = false;
         if (event.getHand() == EquipmentSlot.HAND) {
@@ -103,27 +105,42 @@ public class PlayerEvents implements Listener, ErowTVConstants {
         }
         if(!specialItemUseHand) {
             if(ErowTV.isDebug){
-                event.getPlayer().sendMessage(event.getClickedBlock().getType().toString());
+                event.getPlayer().sendMessage(ChatColor.DARK_AQUA+event.getClickedBlock().getType().toString());
             }
-            //Do event by clicked block material
-            switch (event.getClickedBlock().getType()) {
-                case SPRUCE_WALL_SIGN:
-                    SignTools.rightClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
-                    break;
-                case SPRUCE_SIGN:
-                    SignTools.rightClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
-                    break;
-                case ACACIA_BUTTON:
-                    ButtonTools.buttonRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
-                    break;
-                case STONE_BUTTON:
-                    ButtonTools.buttonRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
-                    break;
-                case LEVER:
-                    ButtonTools.leverRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
-                    break;
-                default:
-                    //nothing, yet
+            //get blockData for instanceOf check
+            BlockData blockData = event.getClickedBlock().getState().getBlockData();
+
+            //All the WallSigns
+            if (blockData instanceof org.bukkit.block.data.type.WallSign) {
+                SignTools.rightClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
+
+                //All the Signs
+            }else if (blockData instanceof org.bukkit.block.data.type.Sign) {
+                SignTools.rightClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
+
+
+            }else {
+
+                //Do event by clicked block material
+                switch (event.getClickedBlock().getType()) {
+                    case SPRUCE_WALL_SIGN:
+                        SignTools.rightClickWallSignByPlayer(event.getPlayer(), event.getClickedBlock());
+                        break;
+                    case SPRUCE_SIGN:
+                        SignTools.rightClickSignByPlayer(event.getPlayer(), event.getClickedBlock());
+                        break;
+                    case ACACIA_BUTTON:
+                        ButtonTools.buttonRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
+                        break;
+                    case STONE_BUTTON:
+                        ButtonTools.buttonRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
+                        break;
+                    case LEVER:
+                        ButtonTools.leverRightClickedByPlayer(event.getPlayer(), event.getClickedBlock());
+                        break;
+                    default:
+                        //nothing, yet
+                }
             }
         }
     }

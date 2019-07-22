@@ -10,12 +10,17 @@ public interface ErowTVConstants {
 	public final static int ARRAY_EAST  = 1;
 	public final static int ARRAY_SOUTH = 2;
 	public final static int ARRAY_WEST  = 3;
+	public final static int ARRAY_NORTH_UP = 4;
+	public final static int ARRAY_EAST_UP  = 5;
+	public final static int ARRAY_SOUTH_UP = 6;
+	public final static int ARRAY_WEST_UP  = 7;
 
 	//File saving
 	public final static String FILE_EXTENSION_YML = ".yml";
 	public final static String DIR_FILE_SAVE = "/saved_files/";
 	public final static String DIR_COPY_BLOCKS = "/copy_blocks/";
 	public final static String DIR_GENERAL = "/general/";
+	public final static String DIR_GAMES = "/games/";
 
 	//Sign TextLine
 	public final static int SPECIAL_SIGN_ACTION = 0;
@@ -112,7 +117,8 @@ public interface ErowTVConstants {
 //	public static final String MEMORY_PASTE_SIGN_POSITION = "PASTE_SIGN_POSITION";
 //	public static final String MEMORY_CLOCK_SIGN_POSITION = "CLOCK_SIGN_POSITION";
 	public static final String MEMORY_SPECIAL_SIGN_POSITION = "SPECIAL_SIGN_POSITION";
-	
+	public static final String MEMORY_GAME_SIGN_POSITION = "GAME_SIGN_POSITION";
+
 	public static final String MEMORY_COPY_TO_POSITION = "COPY_TO_POSITION";
 	public static final String MEMORY_COPY_FROM_POSITION = "COPY_FROM_POSITION";
 	
@@ -163,6 +169,7 @@ public interface ErowTVConstants {
 	public final static String SPECIAL_COUNTDOWN_TIMER = "timer";
 	public final static String SPECIAL_YOUTUBE_SUBS = "youtube";
 	public final static String SPECIAL_PASTE = "paste";
+	public final static String SPECIAL_GAME = "game";
 
 	public final static int ARRAY_PLACEMENT_POS_STARTX = 0;
 	public final static int ARRAY_PLACEMENT_POS_STARTY = 1;
@@ -175,4 +182,7 @@ public interface ErowTVConstants {
 	public final static int ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH = 8;
 	public final static int ARRAY_CURRENT_FACING_DIRECTION = 9;
 	public final static int ARRAY_PLACEMENT_FROM_Y_GREATER = 10;
+
+
+	public final static String GAME_DOUBLE_OR_NOTHING = "DoubleOrNothing";
 }

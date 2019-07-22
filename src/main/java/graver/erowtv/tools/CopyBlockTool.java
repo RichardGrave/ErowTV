@@ -3,6 +3,7 @@ package graver.erowtv.tools;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
 import graver.erowtv.main.ErowTV;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -47,8 +48,8 @@ public final class CopyBlockTool implements ErowTVConstants {
 				int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, clickedBlock, null);
 
 				if(ErowTV.isDebug) {
-					player.sendMessage("DEPTH=" + directions[ARRAY_PLACEMENT_POS_DEPTH] + " HEIGHT=" + directions[ARRAY_PLACEMENT_POS_HEIGHT] + " WIDTH=" + directions[ARRAY_PLACEMENT_POS_WIDTH]);
-					player.sendMessage("XAS=" + directions[ARRAY_PLACEMENT_POS_XAS] + " ZAS=" + directions[ARRAY_PLACEMENT_POS_ZAS] + " IS_NORTH_SOUTH=" + directions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH]);
+					player.sendMessage(ChatColor.DARK_AQUA+"DEPTH=" + directions[ARRAY_PLACEMENT_POS_DEPTH] + " HEIGHT=" + directions[ARRAY_PLACEMENT_POS_HEIGHT] + " WIDTH=" + directions[ARRAY_PLACEMENT_POS_WIDTH]);
+					player.sendMessage(ChatColor.DARK_AQUA+"XAS=" + directions[ARRAY_PLACEMENT_POS_XAS] + " ZAS=" + directions[ARRAY_PLACEMENT_POS_ZAS] + " IS_NORTH_SOUTH=" + directions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH]);
 				}
 
 				if(directions.length != 0) {

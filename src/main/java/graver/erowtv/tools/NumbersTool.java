@@ -3,6 +3,7 @@ package graver.erowtv.tools;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
 import graver.erowtv.main.ErowTV;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -71,8 +72,8 @@ public final class NumbersTool implements ErowTVConstants {
      */
     public void buildEntireNumber(String bigNumber) {
         if(ErowTV.isDebug) {
-            player.sendMessage("BigNumber: " + bigNumber);
-            player.sendMessage("MATERIALONTOP: " + materialOnTop);
+            player.sendMessage(ChatColor.DARK_AQUA+"BigNumber: " + bigNumber);
+            player.sendMessage(ChatColor.DARK_AQUA+"MATERIALONTOP: " + materialOnTop);
         }
 
         //Everytime with a new number. So ligtning only strikes on the first timer number
@@ -160,7 +161,7 @@ public final class NumbersTool implements ErowTVConstants {
         int zas = block.getZ();
 
         if(ErowTV.isDebug) {
-            player.sendMessage("Number: " + number);
+            player.sendMessage(ChatColor.DARK_AQUA+"Number: " + number);
         }
 
         switch (number) {
@@ -234,7 +235,7 @@ public final class NumbersTool implements ErowTVConstants {
             int placeY = yas;
 
             if(ErowTV.isDebug) {
-                player.sendMessage("Pattern: " + pattern);
+                player.sendMessage(ChatColor.DARK_AQUA+"Pattern: " + pattern);
             }
 
             for (int index = 0; index < pattern.length(); index++) {

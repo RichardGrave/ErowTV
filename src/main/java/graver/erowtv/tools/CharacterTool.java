@@ -2,6 +2,7 @@ package graver.erowtv.tools;
 
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -36,27 +37,6 @@ public final class CharacterTool implements ErowTVConstants {
     private static String[] dotChar = new String[]{"0000x", "00000", "00000", "00000", "00000"};
     private static String[] doubleDotChar = new String[]{"00000", "0000x", "00000", "0000x", "00000"};
 
-//	public static void rgNumberTimer(World world, int number, int x, int y, int z) {
-//		int counter = 1;
-//		 var buildNumber = function(){
-//		 rgMakeBigNumber(world, counter+'', x, y, z, direction)
-//		 //stop at given number
-//		 if(counter == number){
-//		 clearInterval(timerId)
-//		 var clearString = ''
-//		 for(var cli = 0; cli < number.length; cli++){
-//		 clearString = clearString + ' '
-//		 }
-//		 rgMakeBigNumber(world, clearString, x, y, z, direction)
-//		 }
-//		 counter = counter + 1
-//		 }
-//		 //Set timer
-//		 var timerId = setInterval(buildNumber, 100)
-//
-//	}
-
-
     /**
      * Build entire number
      *
@@ -67,7 +47,7 @@ public final class CharacterTool implements ErowTVConstants {
      */
     public static void buildEntireNumber(Player player, String bigNumber, Block block, BlockFace blockFace) {
         if(ErowTV.isDebug) {
-            player.sendMessage("BigNumber: " + bigNumber);
+            player.sendMessage(ChatColor.DARK_AQUA+"BigNumber: " + bigNumber);
         }
 
         char[] numberPieces = bigNumber.toCharArray();
@@ -140,7 +120,7 @@ public final class CharacterTool implements ErowTVConstants {
         int zas = block.getZ();
 
         if(ErowTV.isDebug) {
-            player.sendMessage("Number: " + number);
+            player.sendMessage(ChatColor.DARK_AQUA+"Number: " + number);
         }
 
         switch (number) {
@@ -208,7 +188,7 @@ public final class CharacterTool implements ErowTVConstants {
             int placeY = yas - tmpYas;
 
             if(ErowTV.isDebug) {
-                player.sendMessage("Pattern: " + pattern);
+                player.sendMessage(ChatColor.DARK_AQUA+"Pattern: " + pattern);
             }
 
             for (int iter = 0; iter < pattern.length(); iter++) {

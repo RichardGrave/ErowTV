@@ -3,6 +3,7 @@ package graver.erowtv.special;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.tools.NumbersTool;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -28,7 +29,6 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
     private String formattedTimeString = "";
     private String timeFormat;
     private boolean isWallSign;
-    private String memoryName;
 
     private NumbersTool numbersTool;
 
@@ -40,15 +40,13 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
      * @param blockToUse the block that is needed to get the Material from and Material from block on top of it
      * @param sign       the sign to update the text on
      * @param isWallSign yes, then create the block numbers. No, then just update the sign.
-     * @param memoryName use to look if special sign still exists
      */
-    public CountDownTimer(Player player, BlockFace blockFace, Block blockToUse, Sign sign, boolean isWallSign, String memoryName) {
+    public CountDownTimer(Player player, BlockFace blockFace, Block blockToUse, Sign sign, boolean isWallSign) {
         this.player = player;
         this.blockToUse = blockToUse;
         this.blockFace = blockFace;
         this.sign = sign;
         this.isWallSign = isWallSign;
-        this.memoryName = memoryName;
 
         this.numbersTool = new NumbersTool(player, blockToUse, blockFace, false);
 
@@ -85,10 +83,10 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
                 formattedTimeString += timeSplit[2].length() == 1 ? "0" + timeSplit[2] : timeSplit[2];
             }
             if(ErowTV.isDebug) {
-                player.sendMessage("FormattedTimeString = " + formattedTimeString);
+                player.sendMessage(ChatColor.DARK_AQUA+"FormattedTimeString = " + formattedTimeString);
             }
         } catch (Exception ex) {
-            player.sendMessage("[CountDownTimer][Exception][Not a valid time so set]");
+            player.sendMessage(ChatColor.DARK_RED+"[CountDownTimer][Exception][Not a valid time so set]");
         }
 
         //If length is greater then 3 or 0 then somethins is wrong and dont do anything.
@@ -102,8 +100,6 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
             //It stops if time is zero or whitespace
             if (formattedTimeString.equalsIgnoreCase(END_TIME_SECOND) || formattedTimeString.equalsIgnoreCase(" ")) {
                 this.cancel();
-                //Remove the memory after the timer ends
-                ErowTV.removeMemoryFromPlayerMemory(player, memoryName);
 
                 //Play sound to notify that the CountdownTimer is ended
                 new RingTheBell().runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, TIME_SECOND);
@@ -115,7 +111,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
                 buildTimeString(formattedTimeString);
             }
         } catch (Exception ex) {
-            player.sendMessage("[CountDownTimer-run][Exception][" + ex.getMessage() + "]");
+            player.sendMessage(ChatColor.DARK_RED+"[CountDownTimer-run][Exception][" + ex.getMessage() + "]");
         }
     }
 
@@ -151,7 +147,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
             //get rid of zero's and : that are unnecessary
             reformatTimeString();
         } catch (Exception ex) {
-            player.sendMessage("[buildTimeString][Exception][" + ex.getMessage() + "]");
+            player.sendMessage(ChatColor.DARK_RED+"[buildTimeString][Exception][" + ex.getMessage() + "]");
             formattedTimeString = END_TIME_SECOND;
         }
     }
@@ -212,7 +208,7 @@ public class CountDownTimer extends BukkitRunnable implements ErowTVConstants {
                 }
                 rangTheBell++;
             } catch (Exception ex) {
-                player.sendMessage("[CountDownTimer-run][Exception][" + ex.getMessage() + "]");
+                player.sendMessage(ChatColor.DARK_RED+"[CountDownTimer-run][Exception][" + ex.getMessage() + "]");
             }
         }
     }

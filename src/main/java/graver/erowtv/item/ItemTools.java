@@ -37,6 +37,7 @@ public final class ItemTools implements ErowTVConstants {
                     break;
 
                 case PASTE_BLOCK:
+                    //Copy filename from sign and remember it
                     specialItemUseHand = true;
                     if (clickedBlock.getType() == Material.SPRUCE_SIGN || clickedBlock.getType() == Material.SPRUCE_WALL_SIGN) {
                         String fileNameForPaste = ((Sign) clickedBlock.getState()).getLine(PASTE_BLOCK_FILE_NAME);

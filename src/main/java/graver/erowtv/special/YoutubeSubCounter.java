@@ -11,6 +11,7 @@ import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.tools.NumbersTool;
 import graver.erowtv.tools.YmlFileTool;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -67,7 +68,6 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
 
     //API-KEY is necessary
     private String youtubeApiKey;
-    private String memoryName;
 
     /*You will need one -> Channel ID or Channel name
      *!!!Google has rules for when you can use a custom channel name for your YouTube channel!!!
@@ -92,17 +92,15 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
      * @param sign       the sign to update the text on
      * @param isWallSign yes, then create the block numbers. No, then just update the sign.
      * @param interval   write on the sign what the interval is for checking YouTube.
-     * @param memoryName use to look if special sign still exists
      */
     public YoutubeSubCounter(Player player, Block blockToUse, BlockFace blockFace, Sign sign, boolean isWallSign,
-                             int interval, String memoryName) {
+                             int interval) {
 
         this.player = player;
         this.sign = sign;
         this.youtubeChannel = sign.getLine(SPECIAL_SIGN_PARAMETER_1);
         this.isWallSign = isWallSign;
         this.checkInXSeconds = interval;
-        this.memoryName = memoryName;
 
         this.numbersTool = new NumbersTool(player, blockToUse, blockFace, true);
 
@@ -161,7 +159,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
                 this.cancel();
             }
             if (ErowTV.isDebug) {
-                player.sendMessage("Running");
+                player.sendMessage(ChatColor.DARK_AQUA+"Running");
             }
             String numberOfSubscribers = "";
 
@@ -173,18 +171,17 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
             updateNumbersOrSign(numberOfSubscribers);
 
             //If there are no subscribers or the memory for the specialsign is gone, then cancel.
-            if (numberOfSubscribers.isEmpty() ||
-                    !ErowTV.doesPlayerHaveSpecificMemory(player, memoryName)) {
+            if (numberOfSubscribers.isEmpty()) {
 
                 if (ErowTV.isDebug) {
-                    player.sendMessage("Cancel YoutubeSubCounter");
+                    player.sendMessage(ChatColor.DARK_AQUA+"Cancel YoutubeSubCounter");
                 }
 
                 //Something is wrong, so stop
                 this.cancel();
             }
         } catch (Exception ex) {
-            player.sendMessage("[Youtube::run()][Exception][" + ex.getMessage() + "]");
+            player.sendMessage(ChatColor.DARK_RED+"[Youtube::run()][Exception][" + ex.getMessage() + "]");
         }
     }
 
@@ -259,7 +256,7 @@ public class YoutubeSubCounter extends BukkitRunnable implements ErowTVConstants
 
             return numberOfSubscribers;
         } catch (Exception ex) {
-            player.sendMessage("[Youtube::getChannelsResponse()][Exception][" + ex.getMessage() + "]");
+            player.sendMessage(ChatColor.DARK_RED+"[Youtube::getChannelsResponse()][Exception][" + ex.getMessage() + "]");
         }
         return "";
     }

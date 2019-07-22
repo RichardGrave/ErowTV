@@ -2,12 +2,15 @@ package graver.erowtv.tools;
 
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
+import org.apache.commons.io.FileUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -36,7 +39,9 @@ public final class YmlFileTool implements ErowTVConstants {
 				//TODO:RG Danger that someone else can overwrite your file. Maybe save per player?
 				//Or if you forgot about your file you would accidentally overwrite it.
 				//Maybe stop saving if it exists with a warning and you'll have to overrule it with a second line
-				//parameter on the sign?
+				//parameter on the sign? Or maybe a second click to confirm
+				//Another idea is to check for filename for games that are in the jar and should not be overwritten.
+
 				if(!blockYml.delete()) {
 					player.sendMessage("File already exists and could not be deleted");
 					return false;
@@ -90,4 +95,43 @@ public final class YmlFileTool implements ErowTVConstants {
 		}
 	}
 
+	//!!! Important !!!
+	//When developing a Game then STOP and START the server again. Or we get file write problems.
+	/**
+	 * Checks if game file exists. If not then it wil copy the file from the jar to the server plugins
+	 * saved_files directory for games.
+	 *
+	 * @param player
+	 * @param gameName used for filename exists check
+	 * @param gameFile where is should create the file (contains dir + filename)
+	 * @return file for the game
+	 */
+	public static File doesGameFileExist(Player player, String gameName, String gameFile){
+		File file;
+
+		if((file = YmlFileTool.doesFileExist((DIR_GAMES + gameName))) != null){
+			return file;
+		}else{
+			try {
+				if (ErowTV.isDebug) {
+					player.sendMessage(ChatColor.DARK_AQUA+"Going to create the gamefile = "+gameFile);
+				}
+
+				ClassLoader classLoader = ErowTV.class.getClassLoader();
+
+				File targetFile = new File(ErowTV.fileSaveFolder + DIR_GAMES + gameName + FILE_EXTENSION_YML);
+
+				InputStream input = classLoader.getResourceAsStream(gameFile);
+				FileUtils.copyInputStreamToFile(input, targetFile);
+
+				//try to find the file again
+				return YmlFileTool.doesFileExist((DIR_GAMES + gameName));
+			}catch (Exception ex){
+				player.sendMessage(ChatColor.DARK_RED+"[EventException]:[createDoubleOrNothing]");
+				ex.printStackTrace();
+			}
+		}
+
+		return null;
+	}
 }

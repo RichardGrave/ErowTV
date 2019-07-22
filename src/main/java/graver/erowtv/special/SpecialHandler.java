@@ -18,7 +18,7 @@ public class SpecialHandler implements ErowTVConstants {
      * Default is 30 seconds
      */
     public void handleYoutubeSubCounter(Player player, Block blockBehindSign, BlockFace blockFace, Sign toolSign,
-                                               boolean isWallSign, String memoryName) {
+                                               boolean isWallSign) {
 
         String secondParameter = toolSign.getLine(SPECIAL_SIGN_PARAMETER_2);
         //Default 30 seconds check
@@ -37,7 +37,7 @@ public class SpecialHandler implements ErowTVConstants {
         }
 
         //Run YoutubeSubCounter
-        new YoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, intervalInSeconds, memoryName).
+        new YoutubeSubCounter(player, blockBehindSign, blockFace, toolSign, isWallSign, intervalInSeconds).
                 runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, interval);
     }
 

@@ -2,6 +2,7 @@ package graver.erowtv.player;
 
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public class PlayerCommands implements CommandExecutor{
 		}else if(action.equalsIgnoreCase(ErowTVConstants.DEBUG_MESSAGES)){
 			//switch it on or off
 			ErowTV.isDebug = !ErowTV.isDebug;
-			sender.sendMessage("Debugging is " + (ErowTV.isDebug ? "ON" : "OFF"));
+			sender.sendMessage(ChatColor.DARK_AQUA+"Debugging is " + (ErowTV.isDebug ? "ON" : "OFF"));
 		}
 		return true;
 	}

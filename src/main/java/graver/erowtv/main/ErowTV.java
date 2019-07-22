@@ -4,12 +4,15 @@ import graver.erowtv.commands.TestCommand;
 import graver.erowtv.constants.Enumerations;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.constants.Messages;
+import graver.erowtv.games.GameEvents;
+import graver.erowtv.games.GameHandler;
 import graver.erowtv.item.BlockEvents;
 import graver.erowtv.player.PlayerCommands;
 import graver.erowtv.player.PlayerEvents;
 import graver.erowtv.recipes.BuildingBlocksRecipes;
 import graver.erowtv.recipes.MiscellaneousRecipes;
-import graver.erowtv.recipes.ToolsRecipes;
+import graver.erowtv.special.SpecialHandler;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,6 +25,9 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	public static Map<String, List<?>> serverMemory;
 	public static Map<String, Map<String, List<?>>> playerMemory;
 	public static Collection<NamespacedKey> namespacedKeysRecipes = new ArrayList<NamespacedKey>();
+
+	public static GameHandler gameHandler;
+	public static SpecialHandler specialHandler;
 
 	//Set isDebug on true if player messages with info is needed
 	//No encapsulations, just call them directly.
@@ -42,6 +48,9 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 			playerMemory = new HashMap<String, Map<String,List<?>>>();
 			serverMemory = new HashMap<String, List<?>>();
 
+			gameHandler = new GameHandler();
+			specialHandler = new SpecialHandler();
+
 			//!! Make sure that you have a 'saved_files' folder inside the Spigot 'plugins' folder
 			//Just in case the file system doesn't create the needed folder
 			fileSaveFolder = getDataFolder().getParentFile().getAbsolutePath() + DIR_FILE_SAVE;
@@ -59,7 +68,7 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 
 	@Override
 	public void onDisable() {
-//		TODO:RG do Actions depending on filled playerMemory???
+//		TODO:RG do Actions depend on filled playerMemory???
 		//Clear playerMemory for ErowTV
 		playerMemory = null;
 		serverMemory = null;
@@ -72,6 +81,7 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	public void registerEvents() {
 		getServer().getPluginManager().registerEvents(new PlayerEvents(), this);
 		getServer().getPluginManager().registerEvents(new BlockEvents(), this);
+		getServer().getPluginManager().registerEvents(new GameEvents(), this);
 		getLogger().info(Messages.EROWTV_EVENT_REGISTRATION_COMPLETE);
 	}
 
@@ -99,7 +109,7 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 		getServer().addRecipe(BuildingBlocksRecipes.createDestroyToBlock(new NamespacedKey(this, CustomItem.DESTROY_TO_BLOCK.getKey())));
 		getServer().addRecipe(BuildingBlocksRecipes.createPasteBlock(new NamespacedKey(this, CustomItem.PASTE_BLOCK.getKey())));
 
-		getServer().addRecipe(ToolsRecipes.createToolSign(new NamespacedKey(this, CustomItem.SPECIAL_SIGN.getKey())));
+//		getServer().addRecipe(ToolsRecipes.createToolSign(new NamespacedKey(this, CustomItem.SPECIAL_SIGN.getKey())));
 
 
 		getLogger().info(Messages.EROWTV_RECIPE_REGISTRATION_COMPLETE);
@@ -120,16 +130,16 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	 */
 	public static void addPlayerToMemory(Player player) {
 		if(isDebug) {
-			player.sendMessage("AddPlayerToMemory");
+			player.sendMessage(ChatColor.DARK_AQUA+"AddPlayerToMemory");
 		}
 		if(!playerMemory.containsKey(player.getUniqueId().toString())) {
 			playerMemory.put(player.getUniqueId().toString(), new HashMap<String, List<?>>());
 			if(isDebug) {
-				player.sendMessage("PlayerAddedToMemory");
+				player.sendMessage(ChatColor.DARK_AQUA+"PlayerAddedToMemory");
 			}
 		}
 	}
-	
+
 	/**
 	 * Remove a player (and his memory's) from ErowTVs memory
 	 * 
@@ -175,12 +185,12 @@ public class ErowTV extends JavaPlugin implements Enumerations, ErowTVConstants 
 	 */
 	public static List<?> readPlayerMemory(Player player, String memoryName){
 		if(isDebug) {
-			player.sendMessage("ReadMemory");
+			player.sendMessage(ChatColor.DARK_AQUA+"ReadMemory");
 		}
 		//First check if the PLAYER is IN the memory
 		if(!playerMemory.containsKey(player.getUniqueId().toString())) {
 			if(isDebug) {
-				player.sendMessage("NoPlayerInMemory");
+				player.sendMessage(ChatColor.DARK_AQUA+"NoPlayerInMemory");
 			}
 
 			//If by any chance the Player hasn't got a playerMemory, make a new one.

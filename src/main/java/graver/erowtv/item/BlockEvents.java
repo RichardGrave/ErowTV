@@ -4,6 +4,7 @@ import graver.erowtv.constants.Enumerations;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.tools.PasteBlockTool;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -34,7 +35,7 @@ public class BlockEvents implements Listener, ErowTVConstants {
             handlePlacedBlock(event.getPlayer(), event.getItemInHand(), event.getBlockPlaced());
 
         } catch (Exception ex) {
-            event.getPlayer().sendMessage("[EventException]:[onBlockPlace]");
+            event.getPlayer().sendMessage(ChatColor.DARK_RED+"[EventException]:[onBlockPlace]");
             ex.printStackTrace();
         }
     }
@@ -70,7 +71,7 @@ public class BlockEvents implements Listener, ErowTVConstants {
 
                                 List<Integer> position = Arrays.asList(playersWorld, placedBlock.getX(), placedBlock.getY(), placedBlock.getZ());
                                 //Add correct dir to fileNameCopy.
-                                PasteBlockTool.pasteBlocks(player, placedBlock, null, (DIR_COPY_BLOCKS+fileNameCopy.get(0)), position, MEMORY_PASTE_BLOCK_ACTION);
+                                PasteBlockTool.pasteBlocks(player, placedBlock, null, (DIR_COPY_BLOCKS+fileNameCopy.get(0)), position);
                             }
 
                             break;
@@ -81,7 +82,7 @@ public class BlockEvents implements Listener, ErowTVConstants {
                 }
             }
         } catch (Exception ex) {
-            player.sendMessage("[EventException]:[handlePlacedBlock]");
+            player.sendMessage(ChatColor.DARK_RED+"[EventException]:[handlePlacedBlock]");
             ex.printStackTrace();
         }
     }
@@ -91,7 +92,7 @@ public class BlockEvents implements Listener, ErowTVConstants {
         try {
             BlockTools.blockBreak(event.getPlayer(), event.getBlock());
         } catch (Exception ex) {
-            event.getPlayer().sendMessage("[EventException]:[onBlockBreak]");
+            event.getPlayer().sendMessage(ChatColor.DARK_RED+"[EventException]:[onBlockBreak]");
             ex.printStackTrace();
         }
     }

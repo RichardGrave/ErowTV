@@ -5,6 +5,7 @@ import graver.erowtv.constants.Enumerations.DirectionalRotation;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.player.PlayerTools;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
@@ -104,7 +105,7 @@ public final class BlockTools implements ErowTVConstants {
      */
     public static void blockPlaced(Player player, Block block) {
         if (ErowTV.isDebug) {
-            player.sendMessage("blockPlaced");
+            player.sendMessage(ChatColor.DARK_AQUA+"blockPlaced");
         }
         //check if player isnt null. Maybe block place event is triggerd by something else??? EnderMan???
         if (player != null) {
@@ -120,13 +121,6 @@ public final class BlockTools implements ErowTVConstants {
                     break;
                 case DESTROY_TO_BLOCK:
                     thereCanBeOnlyOne(player, block, ErowTVConstants.MEMORY_DESTROY_TO_POSITION);
-                    break;
-                case SPECIAL_SIGN:
-                    //This is a sign, make it editable(false).
-//                    ((Sign) block.getState()).setEditable(false); TODO:RG is Editable false needed?
-                    String memoryName = SignTools.createMemoryName(player, block, ErowTVConstants.MEMORY_SPECIAL_SIGN_POSITION);
-                    player.sendMessage("MEMORY=" + memoryName);
-                    SignTools.thereCanBeMore(player, block, memoryName);
                     break;
 
                 case NO_RECIPE:
@@ -471,10 +465,10 @@ public final class BlockTools implements ErowTVConstants {
     //Either Sign, WallSign, Stone Button or a Lever
     //Only used when you need a Blockface after clicking a certain Item
     public static BlockFace getBlockFaceClickedBlock(Block clickedBlock) {
-        if (clickedBlock.getType() == Material.SPRUCE_SIGN) {
+        if (clickedBlock.getState().getBlockData() instanceof org.bukkit.block.data.type.Sign) {
             return ((org.bukkit.block.data.type.Sign) clickedBlock.getState().getBlockData()).getRotation().getOppositeFace();
 
-        } else if (clickedBlock.getType() == Material.SPRUCE_WALL_SIGN) {
+        } else if (clickedBlock.getState().getBlockData() instanceof org.bukkit.block.data.type.WallSign) {
             return ((org.bukkit.block.data.type.WallSign) clickedBlock.getState().getBlockData()).getFacing().getOppositeFace();
 
         } else if (clickedBlock.getType() == Material.STONE_BUTTON) {
@@ -590,29 +584,25 @@ public final class BlockTools implements ErowTVConstants {
         return entireBlock;
     }
 
+
     /**
      * Some materials have boolean like directions.
      * Glass has four boolean directions. Example: north=true,east=false,south=false,west=true
-     * Redstone has four different boolean directions. Example: north=none,east=side,south=none,west=side
      *
      * @param entireBlock is the String with entire block data.
      * @param rotation    for a new direction.
-     * @return
+     * @return entireBlock as String
      */
     public static String replaceBooleanDirections(String entireBlock, int rotation) {
-        //Depending on the Material we use 'true & false' or 'side & none'
-        //Redstone uses 'side & none'. Why not the same as the others??????
-        //So check on 'power=' then it should be redstone.
-        String stringTrue = entireBlock.contains("power=") ? "side" : "true";
-        String stringFalse = entireBlock.contains("power=") ? "none" : "false";
+        //Depending on the Material we use 'true & false'
 
         //Get all the boolean true directions so we can use it to set
         //a different direction on true
         boolean[] booleanDirections = {
-                entireBlock.contains("north="+stringTrue),
-                entireBlock.contains("east="+stringTrue),
-                entireBlock.contains("south="+stringTrue),
-                entireBlock.contains("west="+stringTrue)
+                entireBlock.contains("north=true"),
+                entireBlock.contains("east=true"),
+                entireBlock.contains("south=true"),
+                entireBlock.contains("west=true")
         };
 
         //Ratation 0 then it stays the same.
@@ -624,77 +614,272 @@ public final class BlockTools implements ErowTVConstants {
         if (rotation == 1) {
             entireBlock = (booleanDirections[ARRAY_NORTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("east="+stringFalse, "east="+stringTrue) :
+                    entireBlock.replace("east=false", "east=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("east="+stringTrue, "east="+stringFalse));
+                    entireBlock.replace("east=true", "east=false"));
 
             entireBlock = (booleanDirections[ARRAY_EAST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("south="+stringFalse, "south="+stringTrue) :
+                    entireBlock.replace("south=false", "south=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("south="+stringTrue, "south="+stringFalse));
+                    entireBlock.replace("south=true", "south=false"));
 
             entireBlock = (booleanDirections[ARRAY_SOUTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("west="+stringFalse, "west="+stringTrue) :
+                    entireBlock.replace("west=false", "west=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("west="+stringTrue, "west="+stringFalse));
+                    entireBlock.replace("west=true", "west=false"));
 
             entireBlock = (booleanDirections[ARRAY_WEST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("north="+stringFalse, "north="+stringTrue) :
+                    entireBlock.replace("north=false", "north=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("north="+stringTrue, "north="+stringFalse));
+                    entireBlock.replace("north=true", "north=false"));
 
         } else if (rotation == 2) {
             entireBlock = (booleanDirections[ARRAY_NORTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("south="+stringFalse, "south="+stringTrue) :
+                    entireBlock.replace("south=false", "south=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("south="+stringTrue, "south="+stringFalse));
+                    entireBlock.replace("south=true", "south=false"));
 
             entireBlock = (booleanDirections[ARRAY_EAST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("west="+stringFalse, "west="+stringTrue) :
+                    entireBlock.replace("west=false", "west=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("west="+stringTrue, "west="+stringFalse));
+                    entireBlock.replace("west=true", "west=false"));
 
             entireBlock = (booleanDirections[ARRAY_SOUTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("north="+stringFalse, "north="+stringTrue) :
+                    entireBlock.replace("north=false", "north=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("north="+stringTrue, "north="+stringFalse));
+                    entireBlock.replace("north=true", "north=false"));
 
             entireBlock = (booleanDirections[ARRAY_WEST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("east="+stringFalse, "east="+stringTrue) :
+                    entireBlock.replace("east=false", "east=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("east="+stringTrue, "east="+stringFalse));
+                    entireBlock.replace("east=true", "east=false"));
 
         } else if (rotation == 3) {
             entireBlock = (booleanDirections[ARRAY_NORTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("west="+stringFalse, "west="+stringTrue) :
+                    entireBlock.replace("west=false", "west=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("west="+stringTrue, "west="+stringFalse));
+                    entireBlock.replace("west=true", "west=false"));
 
             entireBlock = (booleanDirections[ARRAY_EAST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("north="+stringFalse, "north="+stringTrue) :
+                    entireBlock.replace("north=false", "north=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("north="+stringTrue, "north="+stringFalse));
+                    entireBlock.replace("north=true", "north=false"));
 
             entireBlock = (booleanDirections[ARRAY_SOUTH] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("east="+stringFalse, "east="+stringTrue) :
+                    entireBlock.replace("east=false", "east=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("east="+stringTrue, "east="+stringFalse));
+                    entireBlock.replace("east=true", "east=false"));
 
             entireBlock = (booleanDirections[ARRAY_WEST] ?
                     //If it already is '=true' then it stays true else replace the false.
-                    entireBlock.replace("south="+stringFalse, "south="+stringTrue) :
+                    entireBlock.replace("south=false", "south=true") :
                     //IF it already is '=false' then it stays false else replace the true.
-                    entireBlock.replace("south="+stringTrue, "south="+stringFalse));
+                    entireBlock.replace("south=true", "south=false"));
+
+        }
+
+        //return entireBlock String with changed boolean directions
+        return entireBlock;
+    }
+
+    /**
+     * Some materials have ternary directions.
+     * Redstone has side, up and none as directions. Example: north=none,east=up,south=none,west=side
+     *
+     * @param entireBlock is the String with entire block data.
+     * @param rotation    for a new direction.
+     * @return entireBlock as String
+     */
+    public static String replaceTernaryDirections(String entireBlock, int rotation) {
+        //Get all the boolean true directions so we can use it to set
+        //a different direction on side, up or none
+        boolean[] booleanDirections = {
+                entireBlock.contains("north=side"),
+                entireBlock.contains("east=side"),
+                entireBlock.contains("south=side"),
+                entireBlock.contains("west=side"),
+                entireBlock.contains("north=up"),
+                entireBlock.contains("east=up"),
+                entireBlock.contains("south=up"),
+                entireBlock.contains("west=up")
+        };
+
+        //Ratation 0 then it stays the same.
+        if (rotation == 0) {
+            return entireBlock;
+        }
+
+        //So if your rotate 1 or 3 times then you change ternary directions.
+        if (rotation == 1) {
+            entireBlock = (booleanDirections[ARRAY_NORTH] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("east=up") ? "east=up" : "east=none"),
+                            "east=side") :
+
+                    (booleanDirections[ARRAY_NORTH_UP] ?
+                        //If it already is '=up' then it stays up else replace the side or none.
+                        entireBlock.replace((entireBlock.contains("east=side") ? "east=side" : "east=none"),
+                                    "east=side") :
+                        //IF it already is '=none' then it stays none else replace the side or up.
+                        entireBlock.replace((entireBlock.contains("east=side") ? "east=side" : "east=up"),
+                                    "east=none")));
+
+            entireBlock = (booleanDirections[ARRAY_EAST] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("south=up") ? "south=up" : "south=none"),
+                            "south=side") :
+
+                    (booleanDirections[ARRAY_EAST_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("south=side") ? "south=side" : "south=none"),
+                                    "south=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("south=side") ? "south=side" : "south=up"),
+                                    "south=none")));
+
+            entireBlock = (booleanDirections[ARRAY_SOUTH] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("west=up") ? "west=up" : "west=none"),
+                            "west=side") :
+
+                    (booleanDirections[ARRAY_SOUTH_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("west=side") ? "west=side" : "west=none"),
+                                    "west=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("west=side") ? "west=side" : "west=up"),
+                                    "west=none")));
+
+            entireBlock = (booleanDirections[ARRAY_WEST] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("north=up") ? "north=up" : "north=none"),
+                            "north=side") :
+
+                    (booleanDirections[ARRAY_WEST_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("north=side") ? "north=side" : "north=none"),
+                                    "north=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("north=side") ? "north=side" : "north=up"),
+                                    "north=none")));
+
+
+        } else if (rotation == 2) {
+            entireBlock = (booleanDirections[ARRAY_NORTH] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("south=up") ? "south=up" : "south=none"),
+                            "south=side") :
+
+                    (booleanDirections[ARRAY_NORTH_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("south=side") ? "south=side" : "south=none"),
+                                    "south=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("south=side") ? "south=side" : "south=up"),
+                                    "south=none")));
+
+            entireBlock = (booleanDirections[ARRAY_EAST] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("west=up") ? "west=up" : "west=none"),
+                            "west=side") :
+
+                    (booleanDirections[ARRAY_EAST_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("west=side") ? "west=side" : "west=none"),
+                                    "west=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("west=side") ? "west=side" : "west=up"),
+                                    "west=none")));
+
+            entireBlock = (booleanDirections[ARRAY_SOUTH] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("north=up") ? "north=up" : "north=none"),
+                            "north=side") :
+
+                    (booleanDirections[ARRAY_SOUTH_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("north=side") ? "north=side" : "north=none"),
+                                    "north=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("north=side") ? "north=side" : "north=up"),
+                                    "north=none")));
+
+            entireBlock = (booleanDirections[ARRAY_WEST] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("east=up") ? "east=up" : "east=none"),
+                            "east=side") :
+
+                    (booleanDirections[ARRAY_WEST_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("east=side") ? "east=side" : "east=none"),
+                                    "east=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("east=side") ? "east=side" : "east=up"),
+                                    "east=none")));
+
+
+        } else if (rotation == 3) {
+            entireBlock = (booleanDirections[ARRAY_NORTH] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("west=up") ? "west=up" : "west=none"),
+                            "west=side") :
+
+                    (booleanDirections[ARRAY_NORTH_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("west=side") ? "west=side" : "west=none"),
+                                    "west=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("west=side") ? "west=side" : "west=up"),
+                                    "west=none")));
+
+            entireBlock = (booleanDirections[ARRAY_EAST] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("north=up") ? "north=up" : "north=none"),
+                            "north=side") :
+
+                    (booleanDirections[ARRAY_EAST_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("north=side") ? "north=side" : "north=none"),
+                                    "north=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("north=side") ? "north=side" : "north=up"),
+                                    "north=none")));
+
+            entireBlock = (booleanDirections[ARRAY_SOUTH] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("east=up") ? "east=up" : "east=none"),
+                            "east=side") :
+
+                    (booleanDirections[ARRAY_SOUTH_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("east=side") ? "east=side" : "east=none"),
+                                    "east=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("east=side") ? "east=side" : "east=up"),
+                                    "east=none")));
+
+            entireBlock = (booleanDirections[ARRAY_WEST] ?
+                    //If it already is '=side' then it stays side else replace the up or none.
+                    entireBlock.replace((entireBlock.contains("south=up") ? "south=up" : "south=none"),
+                            "south=side") :
+
+                    (booleanDirections[ARRAY_WEST_UP] ?
+                            //If it already is '=up' then it stays up else replace the side or none.
+                            entireBlock.replace((entireBlock.contains("south=side") ? "south=side" : "south=none"),
+                                    "south=side") :
+                            //IF it already is '=none' then it stays none else replace the side or up.
+                            entireBlock.replace((entireBlock.contains("south=side") ? "south=side" : "south=up"),
+                                    "south=none")));
 
         }
 
@@ -790,7 +975,7 @@ public final class BlockTools implements ErowTVConstants {
         }
 
         if (ErowTV.isDebug) {
-            player.sendMessage("getNewBlockFaceDirection::BlockFace=" + blockFace.toString().toLowerCase());
+            player.sendMessage(ChatColor.DARK_AQUA+"getNewBlockFaceDirection::BlockFace=" + blockFace.toString().toLowerCase());
         }
 
 
@@ -894,7 +1079,7 @@ public final class BlockTools implements ErowTVConstants {
         }
 
         if (ErowTV.isDebug) {
-            player.sendMessage("replaceBlockFaceDirection::facing." + blockFace.toString().toLowerCase());
+            player.sendMessage(ChatColor.DARK_AQUA+"replaceBlockFaceDirection::facing." + blockFace.toString().toLowerCase());
         }
 
         return entireBlock;
@@ -944,7 +1129,7 @@ public final class BlockTools implements ErowTVConstants {
         }
 
         if (ErowTV.isDebug) {
-            player.sendMessage("getBlockFaceByString::FACING=SELF");
+            player.sendMessage(ChatColor.DARK_AQUA+"getBlockFaceByString::FACING=SELF");
         }
         //This shouldn't happen
         return BlockFace.SELF;

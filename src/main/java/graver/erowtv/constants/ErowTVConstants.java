@@ -138,6 +138,7 @@ public interface ErowTVConstants {
 	public final static String SEP_ROW_BLOCK_COUNT = "%";
 
 	//20 game ticks is 1 seconde
+	public final static int TIME_HALF_SECOND = 10;
 	public final static int TIME_SECOND = 20;
 	public final static int TIME_5_SECONDS = 100;
 	public final static int TIME_10_SECONDS = 200;

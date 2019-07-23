@@ -130,6 +130,11 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
         //There should always be one dispenser in this game
         winningsDispenser = materialBlocks.get(Material.DISPENSER).get(0);
 
+        //Clear dispenser to make sure it's empty
+        org.bukkit.block.Dispenser dispenser = (org.bukkit.block.Dispenser) winningsDispenser.getState();
+        Inventory dispenserInventory = dispenser.getInventory();
+        dispenserInventory.clear();
+
         if (ErowTV.isDebug) {
             getPlayer().sendMessage(ChatColor.DARK_AQUA+"redstoneLamps size= " + redstoneLamps.size());
             getPlayer().sendMessage(ChatColor.DARK_AQUA+"stoneButtons size= " + stoneButtons.size());
@@ -233,23 +238,9 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
 
         getPlayer().playSound(getPlayer().getLocation(), Sound.ENTITY_WOLF_HOWL, 1.0f, 1.0f);
 
-        org.bukkit.block.Dispenser dispenser = (org.bukkit.block.Dispenser) winningsDispenser.getState();
-        Inventory dispenserInventory = dispenser.getInventory();
-
-        for (ItemStack items : itemsFromChest) {
-            //Items X2 because player has won :)
-            dispenserInventory.addItem(items);
-            //Dispense first before we add the second time or we won't get 2 items.
-            dispenser.dispense();
-            dispenserInventory.addItem(items);
-            dispenser.dispense();
-        }
-
-        //Just in case, clear the dispenser
-        dispenserInventory.clear();
-
-        //Stop the game after winning
-        GameHandler.stopGameForPlayer(getPlayer());
+        //Use a Thread to dispense. If we dont do this and you won to much then the game freezes
+        //for a couple of seconds because of the for loops.
+        new DispensePrice().runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, TIME_HALF_SECOND);
     }
 
     /**
@@ -289,6 +280,45 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
             }
         } else {
             getPlayer().sendMessage(ChatColor.DARK_RED+"Problem: List<stoneButtons> size is not 21");
+        }
+    }
+
+    private class DispensePrice extends BukkitRunnable {
+        @Override
+        public void run() {
+            try {
+                if (itemsFromChest.size() > 0) {
+                    org.bukkit.block.Dispenser dispenser = (org.bukkit.block.Dispenser) winningsDispenser.getState();
+                    Inventory dispenserInventory = dispenser.getInventory();
+
+                    ItemStack items = itemsFromChest.get(0);
+                    //Items X2 because player has won :)
+                    dispenserInventory.addItem(items);
+                    dispenserInventory.addItem(items);
+
+                    for (int iter = 0; iter < (items.getAmount() * 2); iter++) {
+                        dispenser.dispense();
+                    }
+
+                    itemsFromChest.remove(items);
+
+                    if (ErowTV.isDebug) {
+                        getPlayer().sendMessage(ChatColor.DARK_AQUA+
+                                "DispensePrice itemsFromChest size="+itemsFromChest.size());
+                    }
+                } else {
+                    if (ErowTV.isDebug) {
+                        getPlayer().sendMessage(ChatColor.DARK_AQUA+"DispensePrice has ended");
+                    }
+
+                    this.cancel();
+                    //Stop the game after winning
+                    GameHandler.stopGameForPlayer(getPlayer());
+                }
+
+            } catch (Exception ex) {
+                getPlayer().sendMessage(ChatColor.DARK_RED + "[DispensePrice-run][Exception][" + ex.getMessage() + "]");
+            }
         }
     }
 

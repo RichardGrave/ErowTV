@@ -8,6 +8,7 @@ import graver.erowtv.tools.YmlFileTool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -48,13 +49,13 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
      * Paste the blocks with help of calculated positions from BlockTools.getBlockDirections(fromBlock, toBlock, dataSign)
      *
      * @param player
-     * @param clickedBlock should be the WallSign
+     * @param startingBlock should be the WallSign
      * @param gameUniqueName unique gameName
      * @param gameName to get current facing direction
      * @return HashMap with all the asked materials their locations to use in Games
      */
-    public DoubleOrNothing(Player player, Block clickedBlock, String gameUniqueName, String gameName) {
-        super(player, clickedBlock, gameUniqueName, gameName);
+    public DoubleOrNothing(Player player, Block startingBlock, String gameUniqueName, String gameName) {
+        super(player, startingBlock, gameUniqueName, gameName);
 
         welcomeMessage();
         createDoubleOrNothing();
@@ -161,6 +162,8 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
                 //No need to remove the button from the list, it's game over anyway
                 //Give the block behind the button a red color
                 setGoodOrWrongBlock(event.getClickedBlock(), Material.RED_WOOL);
+                //Play bad sound
+                getPlayer().playSound(getPlayer().getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 1.0f);
 
                 stopGameThreads();
                 //Remove the lamps. Dont track them anymore
@@ -228,6 +231,8 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
     private void playerWins() {
         getPlayer().sendMessage(ChatColor.YELLOW + "You have won. Here is your price");
 
+        getPlayer().playSound(getPlayer().getLocation(), Sound.ENTITY_WOLF_HOWL, 1.0f, 1.0f);
+
         org.bukkit.block.Dispenser dispenser = (org.bukkit.block.Dispenser) winningsDispenser.getState();
         Inventory dispenserInventory = dispenser.getInventory();
 
@@ -286,7 +291,6 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
             getPlayer().sendMessage(ChatColor.DARK_RED+"Problem: List<stoneButtons> size is not 21");
         }
     }
-
 
     //
     /**

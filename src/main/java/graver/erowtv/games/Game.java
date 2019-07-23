@@ -19,9 +19,9 @@ public abstract class Game implements GameInterface {
     //Going to contain all the blocks that are use in the game
     public HashMap<Material, List<Block>> materialBlocks = new HashMap<>();
 
-    public Game(Player player, Block clickedBlock, String gameUniqueName, String gameName) {
+    public Game(Player player, Block startingBlock, String gameUniqueName, String gameName) {
         this.player = player;
-        this.startingBlock = clickedBlock;
+        this.startingBlock = startingBlock;
         this.gameUniqueName = gameUniqueName;
         this.gameName = gameName;
     }

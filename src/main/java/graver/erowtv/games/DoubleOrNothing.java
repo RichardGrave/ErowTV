@@ -312,6 +312,7 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
                     }
 
                     this.cancel();
+
                     //Stop the game after winning
                     GameHandler.stopGameForPlayer(getPlayer());
                 }

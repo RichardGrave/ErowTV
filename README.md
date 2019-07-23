@@ -1,6 +1,6 @@
 <img src="https://yt3.ggpht.com/PXmBt4TUP1q2ixeKwRSFPaKTbaaW9iOOzt7SzWi45ZI0PVUcFMzfxOoQsELvHvLMvROWM9eQkQ=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no">  
 
-# A Minecraft plugin for a [SpigotMC](https://www.spigotmc.org) server.
+# A Minecraft plugin for the [SpigotMC](https://www.spigotmc.org) server.
 
 ## ErowTV on [YouTube](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw) and [Twitter](https://twitter.com/ErowTV)
 
@@ -8,13 +8,14 @@ I am creating this plugin for my two sons Erik and Owen.\
 So they can use it in Minecraft when they are recording videos for our YouTube channel.
 
 - YouTube video 1: [Some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)
-- A few features have already changed sinds the first video and you can see it in the next one.
+- A few features have already changed sinds the first video and you can see it in the next one.\
 YouTube video 2: [YouTube Subscribers counter and more](https://www.youtube.com/watch?v=uWnNGf31Cw8)
 - Short video that has no sound and is a bit lagging.\
 YouTube video 3: [Pasting an entire village and active redstone](https://www.youtube.com/watch?v=Z5vm7HjdGlk)
 
 ## Disclaimer:
-This is **NOT** a mod for clientside single player Minecraft.
+This is **NOT** a mod for clientside single player Minecraft.\
+This **is** a plugin and you'll need a SpigotMC server.
 
 ## Also:
 This may not be the best code.

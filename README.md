@@ -38,6 +38,9 @@ You can give a channel name (or ID) and how many seconds it has to wait before g
   - Countdown Timer: creates a time on a sign or with blocks to begin from with the countdown. Use hours, minutes and seconds.
   - Paste: can paste everything from a file that was created with the Copy blocks.
 - Recipes: are put into recipe crafting book.
+- Mini-game:
+  - DoubleOrNothing: You have to place items in a chest to start the game.
+  Then you have to push buttons on a wall containing 21 buttons. There are two random bad buttons and if you hit one of those two buttons then you'll lose the game and also the items that you placed in the chest. If you hit 7 correct buttons then you win and your items will be doubled.
     
 ## Usable commands in chat:
 - facing: Gives the direction you are facing. NORTH, EAST, etc.

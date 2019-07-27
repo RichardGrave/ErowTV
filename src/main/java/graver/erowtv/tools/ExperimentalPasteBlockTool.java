@@ -156,9 +156,8 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
 
         for (int iterH = 0; iterH < height; iterH += MAX_CHUNK_HEIGHT) {
             for (int iterW = 0; iterW < width; iterW += MAX_CHUNK_WIDTH) {
-                chunkNum++;
-
                 for (int iterD = 0; iterD < depth; iterD += MAX_CHUNK_DEPT) {
+                    chunkNum++;
                     int placeX, placeZ;
 
                     //If equal to 1 then its direction is NorthSouth

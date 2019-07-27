@@ -107,9 +107,8 @@ public final class ExperimentalCopyBlockTool implements ErowTVConstants {
 
         for (int iterH = 0; iterH < height; iterH += MAX_CHUNK_HEIGHT) {
             for (int iterW = 0; iterW < width; iterW += MAX_CHUNK_WIDTH) {
-                chunkNum++;
-
                 for (int iterD = 0; iterD < depth; iterD += MAX_CHUNK_DEPT) {
+                    chunkNum++;
                     int placeX, placeZ;
 
                     //If equal to 1 then its direction is NorthSouth
@@ -131,12 +130,13 @@ public final class ExperimentalCopyBlockTool implements ErowTVConstants {
                     int chunkWidth = (calculatedWidth >= MAX_CHUNK_WIDTH ? MAX_CHUNK_WIDTH : calculatedWidth);
                     int chunkDepth = (calculatedDepth >= MAX_CHUNK_DEPT ? MAX_CHUNK_DEPT : calculatedDepth);
 
-                    copyBlocksAtAllPositions(player,  chunkNum, placeX, placeY, placeZ, xas, zas,
+                    copyBlocksAtAllPositions(player, chunkNum, placeX, placeY, placeZ, xas, zas,
                             chunkDepth, chunkHeight, chunkWidth, isFromBlockYGreater, isNorthSouth, blockFileData,
                             blockIndex, blockIndexReverse);
 
-                }
 
+                    //TODO:RG DEPTH goes wrong
+                }
             }
         }
 

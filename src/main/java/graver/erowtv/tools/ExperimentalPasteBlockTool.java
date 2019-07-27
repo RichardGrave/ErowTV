@@ -12,7 +12,6 @@ import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,7 +80,7 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
                     }
 
                     //No blocks need to be added to a materialBlocks HashMap
-                    pasteBlocksAtAllPositions(player, copyFile, directions, blockFace, null);
+                    pasteChunkPositions(player, copyFile, directions, blockFace, null);
                     //Set blocks and the sign to AIR
                     blockTo.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
 
@@ -96,38 +95,47 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
         }
     }
 
-    /**
-     * Paste the blocks with help of calculated positions from BlockTools.getBlockDirections(fromBlock, toBlock, dataSign)
-     *
-     * @param player
-     * @param copyFile  file with blocks to paste
-     * @param positions for getting starting positions
-     * @param blockFace to get current facing direction
-     * @return HashMap with all the asked materials their locations to use in Games
-     */
-    public static void pasteBlocksAtAllPositions(Player player, File copyFile, int[] positions, BlockFace blockFace,
-                                                 HashMap<Material, List<Block>> materialBlocks) {
 
-//		startX, startY, startZ, xas, zas, isNorthSouth };
+    public static void pasteChunkPositions(Player player, File copyFile, int[] positions, BlockFace blockFace,
+                                               HashMap<Material, List<Block>> materialBlocks){
+
+
+        //		startX, startY, startZ, xas, zas, isNorthSouth };
         boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
         int startX = positions[ARRAY_PLACEMENT_POS_STARTX];
         int startY = positions[ARRAY_PLACEMENT_POS_STARTY];
         int startZ = positions[ARRAY_PLACEMENT_POS_STARTZ];
         int xas = positions[ARRAY_PLACEMENT_POS_XAS];
         int zas = positions[ARRAY_PLACEMENT_POS_ZAS];
-        int facingDirection = positions[ARRAY_CURRENT_FACING_DIRECTION];
-
-        LinkedHashMap<Integer, String> blockIndex = new LinkedHashMap<>();
 
         FileConfiguration blockConfig = YamlConfiguration.loadConfiguration(copyFile);
+        LinkedHashMap<Integer, String> blockIndex = new LinkedHashMap<>();
 
-        if (!blockConfig.contains(ErowTVConstants.YML_D_H_W_KEY)) {
+        if (!blockConfig.contains(ErowTVConstants.YML_TOTAL_D_H_W_F_KEY)) {
             player.sendMessage("Cant find depth, height and widht in yml file");
         }
 
-        String[] dhw = blockConfig.get(ErowTVConstants.YML_D_H_W_KEY).toString().split(ErowTVConstants.SEP_D_H_W);
+        String[] dhw = blockConfig.get(ErowTVConstants.YML_TOTAL_D_H_W_F_KEY).toString().split(ErowTVConstants.SEP_D_H_W);
         if (dhw.length != 4) {
-            player.sendMessage("String doesnt contain depth, height and widht in yml file");
+            player.sendMessage("String doesnt contain depth, height width and facing in yml file");
+        }
+
+
+        int depth = Integer.parseInt(dhw[D_H_W_DEPTH]);
+        int height = Integer.parseInt(dhw[D_H_W_HEIGHT]);
+        int width = Integer.parseInt(dhw[D_H_W_WIDHT]);
+
+        //Your facing direction when copying is needed to recalculate the new block directions if your looking in
+        //a different direction.
+        int wasFacing = Integer.parseInt(dhw[D_H_W_FACE]);
+        int currentFacing = BlockTools.getCurrentBlockFaceRotation(blockFace);
+
+        //getRotation for blocks to rotate them
+        int faceRotation = BlockTools.getRotationDifference(player, wasFacing, currentFacing);
+
+        if (ErowTV.isDebug) {
+            player.sendMessage(ChatColor.DARK_AQUA+"FaceRotation=" + faceRotation +
+                    " - WasFacing=" + wasFacing + " CurrentFacing=" + currentFacing);
         }
 
         //Index all the blockData, so that we can use the index numbers to get entire blockdata when reading the rows
@@ -144,31 +152,144 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
             }
         }
 
+        int chunkNum = 0;
+
+        for (int iterH = 0; iterH < height; iterH += MAX_CHUNK_HEIGHT) {
+            for (int iterW = 0; iterW < width; iterW += MAX_CHUNK_WIDTH) {
+                chunkNum++;
+
+                for (int iterD = 0; iterD < depth; iterD += MAX_CHUNK_DEPT) {
+                    int placeX, placeZ;
+
+                    //If equal to 1 then its direction is NorthSouth
+                    if (isNorthSouth) {
+                        placeX = startX + (iterW * xas);
+                        placeZ = startZ + (iterD * zas);
+                    } else {
+                        placeX = startX + (iterD * xas);
+                        placeZ = startZ + (iterW * zas);
+                    }
+
+                    int placeY = (startY + iterH);
+
+                    pasteBlocksAtAllPositions(player, blockFace, placeX, placeZ, placeY, xas, zas, isNorthSouth,
+                            blockConfig, blockIndex, chunkNum, wasFacing, materialBlocks);
+
+                }
+
+            }
+        }
+
+    }
+
+
+    /**
+     * Paste the blocks with help of calculated positions from BlockTools.getBlockDirections(fromBlock, toBlock, dataSign)
+     *
+     * @param player
+
+     * @param blockFace to get current facing direction
+     * @return HashMap with all the asked materials their locations to use in Games
+     */
+    public static void pasteBlocksAtAllPositions(Player player, BlockFace blockFace, int startX, int startZ, int startY,
+                                                 int xas, int zas, boolean isNorthSouth, FileConfiguration blockConfig,
+                                                 LinkedHashMap<Integer, String> blockIndex, int chunkNum, int wasFacing,
+                                                 HashMap<Material, List<Block>> materialBlocks) {
+
+
+        if (!blockConfig.contains(chunkNum + ErowTVConstants.YML_C_D_H_W_KEY)) {
+            player.sendMessage("Cant find depth, height and widht in yml file");
+        }
+
+        String[] dhw = blockConfig.get(chunkNum + ErowTVConstants.YML_C_D_H_W_KEY).toString().split(ErowTVConstants.SEP_D_H_W);
+        if (dhw.length != 3) {
+            player.sendMessage("String doesnt contain depth, height width and facing in yml file");
+        }
+
+
         //TODO:RG Magic numbers, never use forbidden magic
         //Depth not needed, is calculated before placing blocks
-        int height = Integer.parseInt(dhw[1]);
-        int width = Integer.parseInt(dhw[2]);
+        int height = Integer.parseInt(dhw[D_H_W_HEIGHT]);
+        int width = Integer.parseInt(dhw[D_H_W_WIDHT]);
 
         //Your facing direction when copying is needed to recalculate the new block directions if your looking in
         //a different direction.
-        int wasFacing = Integer.parseInt(dhw[3]);
+
         int currentFacing = BlockTools.getCurrentBlockFaceRotation(blockFace);
 
         //getRotation for blocks to rotate them
         int faceRotation = BlockTools.getRotationDifference(player, wasFacing, currentFacing);
 
         if (ErowTV.isDebug) {
-            player.sendMessage(ChatColor.DARK_AQUA + "FaceRotation=" + faceRotation +
+            player.sendMessage(ChatColor.DARK_AQUA+"FaceRotation=" + faceRotation +
                     " - WasFacing=" + wasFacing + " CurrentFacing=" + currentFacing);
         }
 
         //Paste block in the world with iteration
-//        pasteBlocksInTheWorld(player, startX, startZ, startY, xas, zas, height, width, blockConfig, faceRotation,
-//                isNorthSouth, blockIndex, materialBlocks);
+        pasteBlocksInTheWorld(player, startX, startZ, startY, xas, zas, height, width, chunkNum, blockConfig,
+                faceRotation, isNorthSouth, blockIndex, materialBlocks);
+    }
 
-        new BlockPaster(copyFile, width, height,
-                player, startX, startZ, startY, xas, zas, faceRotation, isNorthSouth,
-                blockIndex, materialBlocks).runTaskTimer(ErowTV.javaPluginErowTV, TIME_ONE_TICK, TIME_HALF_SECOND);
+    private static void
+    pasteBlocksInTheWorld(Player player, int startX, int startZ, int startY, int xas, int zas, int height, int width,
+                          int chunkNum, FileConfiguration blockConfig, int faceRotation, boolean isNorthSouth,
+                          LinkedHashMap<Integer, String> blockIndex, HashMap<Material, List<Block>> materialBlocks) {
+
+        //Key for next row in file
+        int rowNum = 0;
+
+        //Paste all the blocks that are found
+        for (int iterH = 0; iterH < height; iterH++) {
+            for (int iterW = 0; iterW < width; iterW++) {
+                rowNum++;
+                if (!blockConfig.contains(chunkNum+CHUNK+rowNum)) {
+                    player.sendMessage("Missing row to read from yml file");
+                }
+
+                //Use \\ with SEP_BLOCK to use correct split for '$'
+                String[] blockRow = (blockConfig.get(chunkNum+CHUNK+rowNum).toString()).split("\\" + ErowTVConstants.SEP_BLOCK);
+                //Is needed for (iterD * zas) or (iterD * xas) in for loop down below
+                int realDepth = 0;
+
+                for (int iterD = 0; iterD < blockRow.length; iterD++) {
+                    int placeX, placeZ;
+
+                    String[] blockData = blockRow[iterD].split(ErowTVConstants.SEP_BLOCK_DATA);
+                    //Split makes first array position empty if there is no %number infront of the separator '&'
+                    //If isMulti then get number of blocks as Integer. Else its only 1 block.
+                    int numberOfBlocks = (!blockData[0].isEmpty() ? Integer.parseInt(blockData[0].substring(1)) : 1);
+
+                    //Get entire blockData by index number
+                    String entireBlock = blockIndex.get(Integer.parseInt(blockData[1]));
+
+                    for (int iterBlock = 0; iterBlock < numberOfBlocks; iterBlock++) {
+                        //If equal to 1 then its direction is NorthSouth
+                        if (isNorthSouth) {
+                            placeX = startX + (iterW * xas);
+                            placeZ = startZ + (realDepth * zas);
+                        } else {
+                            placeX = startX + (realDepth * xas);
+                            placeZ = startZ + (iterW * zas);
+                        }
+
+                        //Block somewhere in the world
+                        int placeY = (startY + iterH);
+                        Block block = player.getWorld().getBlockAt(placeX, placeY, placeZ);
+
+                        //Start updating the block
+                        updateBlockDirections(player, block, entireBlock, faceRotation);
+
+                        if(materialBlocks != null) {
+                            //Store every block in a HashMap, so we can use it in the game
+                            storeAllMaterials(player, block, placeX, placeY, placeZ, materialBlocks);
+                        }
+
+                        //++ the realDepth for next depth position
+                        realDepth++;
+                    }
+                }
+            }
+        }
     }
 
     private static void storeAllMaterials(Player player, Block block, int x, int y, int z,
@@ -211,9 +332,9 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
                 entireBlock.contains("south=") || entireBlock.contains("west=")) {
 
             //This if for Redstone that uses 'side, up and none'. Example: north=up, south=side, east=none, west=up
-            if (entireBlock.contains("power=")) {
+            if(entireBlock.contains("power=")){
                 entireBlock = BlockTools.replaceTernaryDirections(entireBlock, faceRotation);
-            } else {
+            }else {
                 //This if for blocks that use true or false. Example: north=true, south=false, east=false, west=false
                 entireBlock = BlockTools.replaceBooleanDirections(entireBlock, faceRotation);
             }
@@ -221,122 +342,5 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
 
 
         block.setBlockData(Bukkit.getServer().createBlockData(entireBlock));
-        block.getState().update(true);
-    }
-
-    //Exmperimental Thread paste.
-    //When a copy is insanely large, then the server will crash during the paste function.
-    //It can be just to big.
-    private static class BlockPaster extends BukkitRunnable {
-
-
-        FileConfiguration blockConfig;
-
-        int rowNum = 1;
-        int realDepth = 0;
-        int finalWidth = 0;
-        int finalHeight = 0;
-
-        int tmpDepth = 0;
-        int tmpWidht = 0;
-        int tmpHeight = 0;
-        LinkedHashMap<Integer, String> blockIndex;
-        boolean isNorthSouth;
-        int startX = 0;
-        int startZ = 0;
-        int xas = 0;
-        int zas = 0;
-        int startY = 0;
-        Player player;
-        int faceRotation;
-        HashMap<Material, List<Block>> materialBlocks;
-        String[] blockRow;
-
-        public BlockPaster(File copyFile, int finalWidth, int finalHeight,
-                           Player player, int startX, int startZ, int startY, int xas, int zas, int faceRotation, boolean isNorthSouth,
-                           LinkedHashMap<Integer, String> blockIndex, HashMap<Material, List<Block>> materialBlocks) {
-            //first time
-            this.blockConfig = YamlConfiguration.loadConfiguration(copyFile);
-            this.blockRow = (blockConfig.get(rowNum + "").toString()).split("\\" + ErowTVConstants.SEP_BLOCK);
-
-            this.finalWidth = finalWidth;
-            this.finalHeight = finalHeight;
-            this.player = player;
-            this.startX = startX;
-            this.startY = startY;
-            this.startZ = startZ;
-            this.xas =xas;
-            this.zas = zas;
-            this.faceRotation = faceRotation;
-            this.isNorthSouth = isNorthSouth;
-            this.blockIndex = blockIndex;
-            this.materialBlocks = materialBlocks;
-        }
-
-
-        @Override
-        public void run() {
-            try {
-                for (int iterW = 0; iterW < finalWidth; iterW++) {
-                    for (int iterD = 0; iterD < blockRow.length; iterD++) {
-                        int placeX, placeZ;
-
-                        String[] blockData = blockRow[iterD].split(ErowTVConstants.SEP_BLOCK_DATA);
-                        //Split makes first array position empty if there is no %number infront of the separator '&'
-                        //If isMulti then get number of blocks as Integer. Else its only 1 block.
-                        int numberOfBlocks = (!blockData[0].isEmpty() ? Integer.parseInt(blockData[0].substring(1)) : 1);
-
-                        //Get entire blockData by index number
-                        String entireBlock = blockIndex.get(Integer.parseInt(blockData[1]));
-
-                        for (int iterBlock = 0; iterBlock < numberOfBlocks; iterBlock++) {
-                            //If equal to 1 then its direction is NorthSouth
-                            if (isNorthSouth) {
-                                placeX = startX + (tmpWidht * xas);
-                                placeZ = startZ + (realDepth * zas);
-                            } else {
-                                placeX = startX + (realDepth * xas);
-                                placeZ = startZ + (tmpWidht * zas);
-                            }
-
-                            //Block somewhere in the world
-                            int placeY = (startY + tmpHeight);
-                            Block block = player.getWorld().getBlockAt(placeX, placeY, placeZ);
-
-                            //Start updating the block
-                            updateBlockDirections(player, block, entireBlock, faceRotation);
-
-                            if (materialBlocks != null) {
-                                //Store every block in a HashMap, so we can use it in the game
-                                storeAllMaterials(player, block, placeX, placeY, placeZ, materialBlocks);
-                            }
-
-                            //++ the realDepth for next depth position
-                            realDepth++;
-                        }
-                    }
-
-                    realDepth = 0;
-                    tmpWidht++;
-                    rowNum++;
-                    if (blockConfig.contains(rowNum + "")) {
-                        blockRow = (blockConfig.get(rowNum + "").toString()).split("\\" + ErowTVConstants.SEP_BLOCK);
-                    }
-                }
-
-                    tmpWidht = 0;
-                    tmpHeight++;
-
-                if (tmpHeight >= finalHeight) {
-                    this.cancel();
-                }
-
-            } catch (Exception ex) {
-                player.sendMessage(ChatColor.DARK_RED + "[DispensePrice-run][Exception][" + ex.getMessage() + "]");
-            }
-
-        }
-
-
     }
 }

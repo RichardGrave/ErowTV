@@ -5,6 +5,10 @@
 - [x] Fix bug with COPY/DESTROY FROM and TO blocks. Sometimes they only COPY/DESTROY a small part between the blocks.
 
 ## Changes ##
+- [ ] This is one that I'm not sure on yet. I am looking at what kind of Copy/Pasting works best.\
+I'm testing pasting in row vs pasting in chunks (like Minecraft uses).\
+At first I didn't want to focus on pasting in chunks, but it seems that chunks are better handled by the Spigot server
+and less likely to let the server crash if you copy a piece of the world that is to big.
 - [x] I want to remmove the Special sign so that every sign can be use for special actions.\
 At first I used it so players can't click other players signs with the memory system. But for the mini-games everybody must have the ability to click the sign. I don't see any reason to block other players for clicking Timer, YouTube or paste signs either.
 

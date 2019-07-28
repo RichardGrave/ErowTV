@@ -147,9 +147,9 @@ public interface ErowTVConstants {
 	public final static String SEP_ROW_BLOCK_COUNT = "%";
 
 	//5 X 5 X 5 = 125 X 4 chunks = 500 (Should be a good number to paste)
-	public final static int MAX_CHUNK_HEIGHT = 5;
-	public final static int MAX_CHUNK_WIDTH = 5;
-	public final static int MAX_CHUNK_DEPT = 5;
+	public final static int MAX_CHUNK_HEIGHT = 4;
+	public final static int MAX_CHUNK_WIDTH = 4;
+	public final static int MAX_CHUNK_DEPT = 4;
 
 	//20 game ticks is 1 seconde
 	public final static int TIME_ONE_TICK = 1;

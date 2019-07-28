@@ -206,45 +206,101 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
         @Override
         public void run() {
             try {
-                if(chunkIterH >= height){
-                    this.cancel();
-                }
+                pastedChunks = 0;
 
-                loopEnder:
-                for (int iterH = chunkIterH; iterH < height; chunkIterH += MAX_CHUNK_HEIGHT) {
-                    for (int iterW = chunkIterW; iterW < width; chunkIterW += MAX_CHUNK_WIDTH) {
-                        for (int iterD = chunkIterD; iterD < depth; chunkIterD += MAX_CHUNK_DEPT) {
-                            if (pastedChunks == 4) {
-                                pastedChunks = 0;
-                                break loopEnder;
-                            }
+                while (pastedChunks != 10) {
 
-                            chunkNum++;
-                            int placeX, placeZ;
+                    chunkNum++;
+                    int placeX, placeZ;
 
-                            //If equal to 1 then its direction is NorthSouth
-                            if (isNorthSouth) {
-                                placeX = startX + (iterW * xas);
-                                placeZ = startZ + (iterD * zas);
-                            } else {
-                                placeX = startX + (iterD * xas);
-                                placeZ = startZ + (iterW * zas);
-                            }
-
-                            int placeY = (startY + iterH);
-
-                            pasteBlocksAtAllPositions(player, blockFace, placeX, placeZ, placeY, xas, zas, isNorthSouth,
-                                    blockConfig, blockIndex, chunkNum, wasFacing, materialBlocks);
-
-                            pastedChunks++;
-                        }
+                    //If equal to 1 then its direction is NorthSouth
+                    if (isNorthSouth) {
+                        placeX = startX + (chunkIterW * xas);
+                        placeZ = startZ + (chunkIterD * zas);
+                    } else {
+                        placeX = startX + (chunkIterD * xas);
+                        placeZ = startZ + (chunkIterW * zas);
                     }
+
+                    //Block somewhere in the world
+                    int placeY = (startY + chunkIterH);
+
+                    pasteBlocksAtAllPositions(player, blockFace, placeX, placeZ, placeY, xas, zas, isNorthSouth,
+                            blockConfig, blockIndex, chunkNum, wasFacing, materialBlocks);
+
+                    chunkIterD += MAX_CHUNK_DEPT;
+
+                    if (chunkIterD >= depth) {
+                        chunkIterD = 0;
+                        chunkIterW += MAX_CHUNK_WIDTH;
+//                        rowNum++;
+//                        if(blockConfig.contains(rowNum + "")) {
+//                            blockRow = (blockConfig.get(rowNum + "").toString()).split("\\" + ErowTVConstants.SEP_BLOCK);
+//                        }
+                    }
+
+                    if (chunkIterW >= width) {
+                        chunkIterW = 0;
+                        chunkIterH += MAX_CHUNK_HEIGHT;
+                    }
+                    if (chunkIterH >= height) {
+                        this.cancel();
+                        player.sendMessage(ChatColor.GREEN + "Pasting is done.");
+                        break;
+//                        isDonePasting = true;
+                    }
+
+                    pastedChunks++;
                 }
+
             } catch (Exception ex) {
-                player.sendMessage(ChatColor.DARK_RED + "[ChunkPaster-run][Exception][" + ex.getMessage() + "]");
+                player.sendMessage(ChatColor.DARK_RED + "[BlockPaster-run][Exception][" + ex.getMessage() + "]");
             }
         }
     }
+
+//        @Override
+//        public void run() {
+//            try {
+//                if(chunkIterH >= height){
+//                    this.cancel();
+//                }
+//
+//                loopEnder:
+//                for (int iterH = chunkIterH; iterH < height; chunkIterH += MAX_CHUNK_HEIGHT) {
+//                    for (int iterW = chunkIterW; iterW < width; chunkIterW += MAX_CHUNK_WIDTH) {
+//                        for (int iterD = chunkIterD; iterD < depth; chunkIterD += MAX_CHUNK_DEPT) {
+//                            if (pastedChunks == 4) {
+//                                pastedChunks = 0;
+//                                break loopEnder;
+//                            }
+//
+//                            chunkNum++;
+//                            int placeX, placeZ;
+//
+//                            //If equal to 1 then its direction is NorthSouth
+//                            if (isNorthSouth) {
+//                                placeX = startX + (iterW * xas);
+//                                placeZ = startZ + (iterD * zas);
+//                            } else {
+//                                placeX = startX + (iterD * xas);
+//                                placeZ = startZ + (iterW * zas);
+//                            }
+//
+//                            int placeY = (startY + iterH);
+//
+//                            pasteBlocksAtAllPositions(player, blockFace, placeX, placeZ, placeY, xas, zas, isNorthSouth,
+//                                    blockConfig, blockIndex, chunkNum, wasFacing, materialBlocks);
+//
+//                            pastedChunks++;
+//                        }
+//                    }
+//                }
+//            } catch (Exception ex) {
+//                player.sendMessage(ChatColor.DARK_RED + "[ChunkPaster-run][Exception][" + ex.getMessage() + "]");
+//            }
+//        }
+//    }
 
     /**
      * Paste the blocks with help of calculated positions from BlockTools.getBlockDirections(fromBlock, toBlock, dataSign)

@@ -12,6 +12,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
 
 
     public static void pasteChunkPositions(Player player, File copyFile, int[] positions, BlockFace blockFace,
-                                               HashMap<Material, List<Block>> materialBlocks){
+                                           HashMap<Material, List<Block>> materialBlocks) {
 
 
         //		startX, startY, startZ, xas, zas, isNorthSouth };
@@ -120,7 +121,6 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
             player.sendMessage("String doesnt contain depth, height width and facing in yml file");
         }
 
-
         int depth = Integer.parseInt(dhw[D_H_W_DEPTH]);
         int height = Integer.parseInt(dhw[D_H_W_HEIGHT]);
         int width = Integer.parseInt(dhw[D_H_W_WIDHT]);
@@ -134,7 +134,7 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
         int faceRotation = BlockTools.getRotationDifference(player, wasFacing, currentFacing);
 
         if (ErowTV.isDebug) {
-            player.sendMessage(ChatColor.DARK_AQUA+"FaceRotation=" + faceRotation +
+            player.sendMessage(ChatColor.DARK_AQUA + "FaceRotation=" + faceRotation +
                     " - WasFacing=" + wasFacing + " CurrentFacing=" + currentFacing);
         }
 
@@ -152,41 +152,104 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
             }
         }
 
-        int chunkNum = 0;
-
-        for (int iterH = 0; iterH < height; iterH += MAX_CHUNK_HEIGHT) {
-            for (int iterW = 0; iterW < width; iterW += MAX_CHUNK_WIDTH) {
-                for (int iterD = 0; iterD < depth; iterD += MAX_CHUNK_DEPT) {
-                    chunkNum++;
-                    int placeX, placeZ;
-
-                    //If equal to 1 then its direction is NorthSouth
-                    if (isNorthSouth) {
-                        placeX = startX + (iterW * xas);
-                        placeZ = startZ + (iterD * zas);
-                    } else {
-                        placeX = startX + (iterD * xas);
-                        placeZ = startZ + (iterW * zas);
-                    }
-
-                    int placeY = (startY + iterH);
-
-                    pasteBlocksAtAllPositions(player, blockFace, placeX, placeZ, placeY, xas, zas, isNorthSouth,
-                            blockConfig, blockIndex, chunkNum, wasFacing, materialBlocks);
-
-                }
-
-            }
-        }
-
+        new ChunkPaster(player, blockFace, startX, startZ, startY, xas, zas, isNorthSouth,
+                blockConfig, blockIndex, wasFacing, materialBlocks, height, width, depth).
+                runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, TIME_HALF_SECOND);
     }
 
+    private static class ChunkPaster extends BukkitRunnable {
+
+        private Player player;
+        private BlockFace blockFace;
+        private int startX;
+        private int startZ;
+        private int startY;
+        private int xas;
+        private int zas;
+        private boolean isNorthSouth;
+        private FileConfiguration blockConfig;
+        private LinkedHashMap<Integer, String> blockIndex;
+        private int wasFacing;
+        private HashMap<Material, List<Block>> materialBlocks;
+        private int height;
+        private int width;
+        private int depth;
+
+        public ChunkPaster(Player player, BlockFace blockFace, int startX, int startZ, int startY,
+                           int xas, int zas, boolean isNorthSouth, FileConfiguration blockConfig,
+                           LinkedHashMap<Integer, String> blockIndex, int wasFacing,
+                           HashMap<Material, List<Block>> materialBlocks, int height, int width, int depth) {
+
+            this.player = player;
+            this.blockFace = blockFace;
+            this.startX = startX;
+            this.startZ = startZ;
+            this.startY = startY;
+            this.xas = xas;
+            this.zas = zas;
+            this.isNorthSouth = isNorthSouth;
+            this.blockConfig = blockConfig;
+            this.blockIndex = blockIndex;
+            this.wasFacing = wasFacing;
+            this.materialBlocks = materialBlocks;
+            this.height = height;
+            this.width = width;
+            this.depth = depth;
+        }
+
+        int pastedChunks = 0;
+        int chunkIterH = 0;
+        int chunkIterW = 0;
+        int chunkIterD = 0;
+        int chunkNum = 0;
+
+        @Override
+        public void run() {
+            try {
+                if(chunkIterH >= height){
+                    this.cancel();
+                }
+
+                loopEnder:
+                for (int iterH = chunkIterH; iterH < height; chunkIterH += MAX_CHUNK_HEIGHT) {
+                    for (int iterW = chunkIterW; iterW < width; chunkIterW += MAX_CHUNK_WIDTH) {
+                        for (int iterD = chunkIterD; iterD < depth; chunkIterD += MAX_CHUNK_DEPT) {
+                            if (pastedChunks == 4) {
+                                pastedChunks = 0;
+                                break loopEnder;
+                            }
+
+                            chunkNum++;
+                            int placeX, placeZ;
+
+                            //If equal to 1 then its direction is NorthSouth
+                            if (isNorthSouth) {
+                                placeX = startX + (iterW * xas);
+                                placeZ = startZ + (iterD * zas);
+                            } else {
+                                placeX = startX + (iterD * xas);
+                                placeZ = startZ + (iterW * zas);
+                            }
+
+                            int placeY = (startY + iterH);
+
+                            pasteBlocksAtAllPositions(player, blockFace, placeX, placeZ, placeY, xas, zas, isNorthSouth,
+                                    blockConfig, blockIndex, chunkNum, wasFacing, materialBlocks);
+
+                            pastedChunks++;
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                player.sendMessage(ChatColor.DARK_RED + "[ChunkPaster-run][Exception][" + ex.getMessage() + "]");
+            }
+        }
+    }
 
     /**
      * Paste the blocks with help of calculated positions from BlockTools.getBlockDirections(fromBlock, toBlock, dataSign)
      *
      * @param player
-
      * @param blockFace to get current facing direction
      * @return HashMap with all the asked materials their locations to use in Games
      */
@@ -220,7 +283,7 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
         int faceRotation = BlockTools.getRotationDifference(player, wasFacing, currentFacing);
 
         if (ErowTV.isDebug) {
-            player.sendMessage(ChatColor.DARK_AQUA+"FaceRotation=" + faceRotation +
+            player.sendMessage(ChatColor.DARK_AQUA + "FaceRotation=" + faceRotation +
                     " - WasFacing=" + wasFacing + " CurrentFacing=" + currentFacing);
         }
 
@@ -241,12 +304,12 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
         for (int iterH = 0; iterH < height; iterH++) {
             for (int iterW = 0; iterW < width; iterW++) {
                 rowNum++;
-                if (!blockConfig.contains(chunkNum+CHUNK+rowNum)) {
+                if (!blockConfig.contains(chunkNum + CHUNK + rowNum)) {
                     player.sendMessage("Missing row to read from yml file");
                 }
 
                 //Use \\ with SEP_BLOCK to use correct split for '$'
-                String[] blockRow = (blockConfig.get(chunkNum+CHUNK+rowNum).toString()).split("\\" + ErowTVConstants.SEP_BLOCK);
+                String[] blockRow = (blockConfig.get(chunkNum + CHUNK + rowNum).toString()).split("\\" + ErowTVConstants.SEP_BLOCK);
                 //Is needed for (iterD * zas) or (iterD * xas) in for loop down below
                 int realDepth = 0;
 
@@ -278,7 +341,7 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
                         //Start updating the block
                         updateBlockDirections(player, block, entireBlock, faceRotation);
 
-                        if(materialBlocks != null) {
+                        if (materialBlocks != null) {
                             //Store every block in a HashMap, so we can use it in the game
                             storeAllMaterials(player, block, placeX, placeY, placeZ, materialBlocks);
                         }
@@ -331,9 +394,9 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
                 entireBlock.contains("south=") || entireBlock.contains("west=")) {
 
             //This if for Redstone that uses 'side, up and none'. Example: north=up, south=side, east=none, west=up
-            if(entireBlock.contains("power=")){
+            if (entireBlock.contains("power=")) {
                 entireBlock = BlockTools.replaceTernaryDirections(entireBlock, faceRotation);
-            }else {
+            } else {
                 //This if for blocks that use true or false. Example: north=true, south=false, east=false, west=false
                 entireBlock = BlockTools.replaceBooleanDirections(entireBlock, faceRotation);
             }

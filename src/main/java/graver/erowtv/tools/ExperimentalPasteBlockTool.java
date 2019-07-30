@@ -154,7 +154,7 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
 
         new ChunkPaster(player, blockFace, startX, startZ, startY, xas, zas, isNorthSouth,
                 blockConfig, blockIndex, wasFacing, materialBlocks, height, width, depth).
-                runTaskTimer(ErowTV.javaPluginErowTV, TIME_ONE_TICK, (TIME_SECOND*2));
+                runTaskTimer(ErowTV.javaPluginErowTV, TIME_ONE_TICK, (TIME_SECOND*3));
     }
 
     private static class ChunkPaster extends BukkitRunnable {

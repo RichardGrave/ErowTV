@@ -148,9 +148,9 @@ public interface ErowTVConstants {
 
 	//25 (Should be a good number to paste)
 	//Dont use numbers to small or to big. Somehow they cause the server to run behind
-	public final static int MAX_CHUNK_HEIGHT = 25;
-	public final static int MAX_CHUNK_WIDTH = 25;
-	public final static int MAX_CHUNK_DEPT = 25;
+	public final static int MAX_CHUNK_HEIGHT = 20;
+	public final static int MAX_CHUNK_WIDTH = 20;
+	public final static int MAX_CHUNK_DEPT = 50;
 
 	//20 game ticks is 1 seconde
 	public final static int TIME_ONE_TICK = 1;

@@ -36,6 +36,8 @@ public final class ChunkCopyBlockTool implements ErowTVConstants {
         int height = positions[ARRAY_COPY_POS_HEIGHT];
         int width = positions[ARRAY_COPY_POS_WIDTH];
 
+        //TODO:RG try to create a progress indicator
+
         //Should be faster then pasting. Do this every 5 ticks. (250ms)
         new ChunkCopier(player, fileName, startX, startY, startZ, xas, zas, depth, height, width,
                 facingDirection, isFromBlockYGreater, isNorthSouth).

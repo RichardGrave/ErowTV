@@ -8,9 +8,9 @@ I am creating this plugin for my two sons Erik and Owen.\
 So they can use it in Minecraft when they are recording videos for our YouTube channel.
 
 - YouTube video 1: [Showing some of the features](https://www.youtube.com/watch?v=u3wUQMlg6dA)
-- A few features have already changed sinds the first video and you can see it in the next one.
+- A few features have already changed sinds the first video and you can see it in the next one.\
 YouTube video 2: [YouTube Subscribers counter and more](https://www.youtube.com/watch?v=uWnNGf31Cw8)
-- Short video that has no sound and is a bit lagging.
+- Short video that has no sound and is a bit lagging.\
 YouTube video 3: [Pasting an entire village and active redstone](https://www.youtube.com/watch?v=Z5vm7HjdGlk)
 - YouTube video 4: [Improved Copy/Paste function and mini-game](https://www.youtube.com/watch?v=LGHf3h3XZ1I)
 

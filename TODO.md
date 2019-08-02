@@ -1,5 +1,7 @@
 ## TODO ##
 - [ ] Add more actions that can be used to the SIGN_ACTIONS.md
+- [ ] The Copy/Paste function needs to give the MAIN Minecraft thread time to keep up (or the server could get a timeout/crash). When copying or pasting the function should stop for a moment after every X number of blocks before continuing.
+- [ ] Making a Copy/Paste function that does everything in chunks (like Minecraft does). Best for copying and pasting bigger pieces of the world. Also needs to stop for a moment before continuing to give the MAIN Minecraft thread time to catch up.
 
 ## Bugs ##
 - [x] Fix bug with COPY/DESTROY FROM and TO blocks. Sometimes they only COPY/DESTROY a small part between the blocks.

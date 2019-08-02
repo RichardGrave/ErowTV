@@ -1,8 +1,9 @@
-package graver.erowtv.tools;
+package graver.erowtv.tools.copypaste;
 
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
 import graver.erowtv.main.ErowTV;
+import graver.erowtv.tools.YmlFileTool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public final class ExperimentalPasteBlockTool implements ErowTVConstants {
+public final class ChunkPasteBlockTool implements ErowTVConstants {
 
     private static int ARRAY_PLACEMENT_POS_STARTX = 0;
     private static int ARRAY_PLACEMENT_POS_STARTY = 1;
@@ -30,7 +31,7 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
     private static int ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH = 5;
     private static int ARRAY_CURRENT_FACING_DIRECTION = 6;
 
-    private ExperimentalPasteBlockTool() {
+    private ChunkPasteBlockTool() {
     }
 
     /**
@@ -46,11 +47,10 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
         Block blockTo = player.getWorld().getBlockAt(pasteBlock.get(ErowTVConstants.BLOCK_POS_X),
                 pasteBlock.get(ErowTVConstants.BLOCK_POS_Y), pasteBlock.get(ErowTVConstants.BLOCK_POS_Z));
 
-        //Add DIR_COPY_BLOCKS for SPECIAL_SIGN
+        //Add DIR_COPY_CHUNKS
         if (fileName == null || fileName.isEmpty()) {
             //Get file name if no filename is given
-            //This only happens with SPECIAL_SIGN
-            fileName = DIR_COPY_BLOCKS + sign.getLine(SPECIAL_SIGN_PARAMETER_1);
+            fileName = DIR_COPY_CHUNKS + sign.getLine(SPECIAL_SIGN_PARAMETER_1);
         }
 
         if (fileName != null && !fileName.isEmpty()) {
@@ -112,11 +112,11 @@ public final class ExperimentalPasteBlockTool implements ErowTVConstants {
         FileConfiguration blockConfig = YamlConfiguration.loadConfiguration(copyFile);
         LinkedHashMap<Integer, String> blockIndex = new LinkedHashMap<>();
 
-        if (!blockConfig.contains(ErowTVConstants.YML_TOTAL_D_H_W_F_KEY)) {
+        if (!blockConfig.contains(ErowTVConstants.YML_D_H_W_KEY)) {
             player.sendMessage("Cant find depth, height and widht in yml file");
         }
 
-        String[] dhw = blockConfig.get(ErowTVConstants.YML_TOTAL_D_H_W_F_KEY).toString().split(ErowTVConstants.SEP_D_H_W);
+        String[] dhw = blockConfig.get(ErowTVConstants.YML_D_H_W_KEY).toString().split(ErowTVConstants.SEP_D_H_W);
         if (dhw.length != 4) {
             player.sendMessage("String doesnt contain depth, height width and facing in yml file");
         }

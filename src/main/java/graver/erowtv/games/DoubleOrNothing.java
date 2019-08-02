@@ -3,7 +3,7 @@ package graver.erowtv.games;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
 import graver.erowtv.main.ErowTV;
-import graver.erowtv.tools.ExperimentalPasteBlockTool;
+import graver.erowtv.tools.PasteBlockTool;
 import graver.erowtv.tools.YmlFileTool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -96,8 +96,7 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
                 //Get directions for pasting the blocks
                 int[] directions = BlockTools.getBlockDirections(signPosition, getStartingBlock(), null);
 
-                ExperimentalPasteBlockTool.pasteChunkPositions(getPlayer(), gameFile, directions,
-                        blockFaceSign, materialBlocks);
+                PasteBlockTool.pasteBlocksAtAllPositions(getPlayer(), gameFile, directions, blockFaceSign, materialBlocks);
 
                 handleMaterialBlocks();
             } else {

@@ -3,7 +3,7 @@ package graver.erowtv.item;
 import graver.erowtv.constants.Enumerations;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
-import graver.erowtv.tools.ExperimentalPasteBlockTool;
+import graver.erowtv.tools.PasteBlockTool;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -72,7 +72,7 @@ public class BlockEvents implements Listener, ErowTVConstants {
                                 List<Integer> position = Arrays.asList(playersWorld, placedBlock.getX(), placedBlock.getY(), placedBlock.getZ());
                                 //Add correct dir to fileNameCopy.
 //                                PasteBlockTool.pasteBlocks(player, placedBlock, null, (DIR_COPY_BLOCKS+fileNameCopy.get(0)), position);
-                                ExperimentalPasteBlockTool.pasteBlocks(player, placedBlock, null, (DIR_COPY_BLOCKS+fileNameCopy.get(0)), position);
+                                PasteBlockTool.pasteBlocks(player, placedBlock, null, (DIR_COPY_BLOCKS+fileNameCopy.get(0)), position);
                             }
 
                             break;

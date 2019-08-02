@@ -1,8 +1,9 @@
-package graver.erowtv.tools;
+package graver.erowtv.tools.copypaste;
 
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
 import graver.erowtv.main.ErowTV;
+import graver.erowtv.tools.YmlFileTool;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,11 +13,11 @@ import org.bukkit.entity.Player;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public final class ExperimentalCopyBlockTool implements ErowTVConstants {
+public final class ChunkCopyBlockTool implements ErowTVConstants {
 
 
 
-    private ExperimentalCopyBlockTool() {
+    private ChunkCopyBlockTool() {
     }
 
     /**
@@ -42,7 +43,7 @@ public final class ExperimentalCopyBlockTool implements ErowTVConstants {
             String fileName = wallSign.getLine(COPY_BLOCK_SIGN_FILE_NAME).trim();
 
             if (fileName != null && !fileName.isEmpty()) {
-                fileName = DIR_COPY_BLOCKS + fileName.replace(' ', '_');
+                fileName = DIR_COPY_CHUNKS + fileName.replace(' ', '_');
 
                 //Copy block has a sign to click on for directions, so CustomBlockFace = NULL
                 int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, clickedBlock, null);
@@ -100,7 +101,7 @@ public final class ExperimentalCopyBlockTool implements ErowTVConstants {
         int width = positions[ARRAY_PLACEMENT_POS_WIDTH];
 
         //first save depth, height and width
-        blockFileData.put(ErowTVConstants.YML_TOTAL_D_H_W_F_KEY, depth + ErowTVConstants.SEP_D_H_W + height +
+        blockFileData.put(ErowTVConstants.YML_D_H_W_KEY, depth + ErowTVConstants.SEP_D_H_W + height +
                 ErowTVConstants.SEP_D_H_W + width + ErowTVConstants.SEP_D_H_W + facingDirection);
 
         int chunkNum = 0;

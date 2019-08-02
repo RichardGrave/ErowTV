@@ -19,6 +19,7 @@ public interface ErowTVConstants {
 	public final static String FILE_EXTENSION_YML = ".yml";
 	public final static String DIR_FILE_SAVE = "/saved_files/";
 	public final static String DIR_COPY_BLOCKS = "/copy_blocks/";
+	public final static String DIR_COPY_CHUNKS = "/copy_chunks/";
 	public final static String DIR_GENERAL = "/general/";
 	public final static String DIR_GAMES = "/games/";
 
@@ -128,8 +129,8 @@ public interface ErowTVConstants {
 	public final static String MEMORY_SIGN_NAME_SEPERATOR = "#";
 
 	//Yml save
-	//Always save depth, height, width and facing with a copy
-	public final static String YML_TOTAL_D_H_W_F_KEY = "TOTAL_D_H_W_F";
+	//Always save depth, height and width with a copy
+	public final static String YML_D_H_W_KEY = "D_H_W";
 	public final static String SEP_D_H_W = "_";
 
 
@@ -150,7 +151,7 @@ public interface ErowTVConstants {
 	//Dont use numbers to small or to big. Somehow they cause the server to run behind
 	public final static int MAX_CHUNK_HEIGHT = 20;
 	public final static int MAX_CHUNK_WIDTH = 20;
-	public final static int MAX_CHUNK_DEPT = 50;
+	public final static int MAX_CHUNK_DEPT = 40;
 
 	//20 game ticks is 1 seconde
 	public final static int TIME_ONE_TICK = 1;

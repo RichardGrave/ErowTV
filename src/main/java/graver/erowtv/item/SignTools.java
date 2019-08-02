@@ -5,8 +5,8 @@ import graver.erowtv.games.GameHandler;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.special.CountDownTimer;
 import graver.erowtv.special.SpecialHandler;
-import graver.erowtv.tools.ExperimentalCopyBlockTool;
-import graver.erowtv.tools.ExperimentalPasteBlockTool;
+import graver.erowtv.tools.CopyBlockTool;
+import graver.erowtv.tools.copypaste.ChunkPasteBlockTool;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -150,13 +150,13 @@ public final class SignTools implements ErowTVConstants {
 				//We also need the COPY_TO position
 				if (ErowTV.doesPlayerHaveSpecificMemory(player, MEMORY_COPY_TO_POSITION)) {
 //					//Start the copy
-//					CopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
-//							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION),
-//							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION));
-					//Start the copy
-					ExperimentalCopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
+					CopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
 							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION),
 							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION));
+					//Start the copy
+//					ChunkCopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
+//							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION),
+//							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION));
 				} else {
 					player.sendMessage(ChatColor.DARK_RED+"A 'Copy to block' is needed");
 				}
@@ -166,12 +166,12 @@ public final class SignTools implements ErowTVConstants {
 				//We also need the COPY_FROM position
 				if (ErowTV.doesPlayerHaveSpecificMemory(player, MEMORY_COPY_FROM_POSITION)) {
 					//Start the copy
-//					CopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
-//							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION),
-//							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION));
-					ExperimentalCopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
+					CopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
 							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION),
 							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION));
+//					ChunkCopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
+//							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION),
+//							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION));
 				} else {
 					player.sendMessage(ChatColor.DARK_RED+"A 'Copy from block' is needed");
 				}
@@ -215,7 +215,7 @@ public final class SignTools implements ErowTVConstants {
 				case SPECIAL_PASTE:
 					List<Integer> signPosition = Arrays.asList(null, sign.getX(), sign.getY(), sign.getZ());
 //					PasteBlockTool.pasteBlocks(player, clickedBlock, sign, null, signPosition);
-					ExperimentalPasteBlockTool.pasteBlocks(player, clickedBlock, sign, null, signPosition);
+					ChunkPasteBlockTool.pasteBlocks(player, clickedBlock, sign, null, signPosition);
 					break;
 				case SPECIAL_GAME:
 					if(!isLeftClick){

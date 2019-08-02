@@ -31,6 +31,7 @@ public final class YmlFileTool implements ErowTVConstants {
 	public static boolean saveToYmlFile(String fileName, Player player, LinkedHashMap<String, String> values) {
 		try {
 			player.sendMessage("Path: "+ErowTV.fileSaveFolder);
+			player.sendMessage("File: "+ fileName);
 			File blockYml = new File(ErowTV.fileSaveFolder + fileName + FILE_EXTENSION_YML);
 			if (blockYml.exists()) {
 				// Never save to a existing file, just in case the data would be appended to te
@@ -47,6 +48,8 @@ public final class YmlFileTool implements ErowTVConstants {
 					return false;
 				}
 			}
+
+			//TODO:RG if DIR does not exist, then create it.
 
 			blockYml.createNewFile();
 

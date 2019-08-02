@@ -40,8 +40,8 @@ public final class DestroyBlockTool implements ErowTVConstants {
 			int[] directions = BlockTools.getBlockDirectionsFromTo(fromBlock, toBlock, null, player.getFacing());
 
 			if(ErowTV.isDebug) {
-				player.sendMessage(ChatColor.DARK_AQUA+"DEPTH="+directions[ARRAY_PLACEMENT_POS_DEPTH] + " HEIGHT="+directions[ARRAY_PLACEMENT_POS_HEIGHT] + " WIDTH="+directions[ARRAY_PLACEMENT_POS_WIDTH]);
-				player.sendMessage(ChatColor.DARK_AQUA+"XAS="+directions[ARRAY_PLACEMENT_POS_XAS] + " ZAS="+directions[ARRAY_PLACEMENT_POS_ZAS] + " IS_NORTH_SOUTH="+directions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH]);
+				player.sendMessage(ChatColor.DARK_AQUA+"DEPTH="+directions[ARRAY_COPY_POS_DEPTH] + " HEIGHT="+directions[ARRAY_COPY_POS_HEIGHT] + " WIDTH="+directions[ARRAY_COPY_POS_WIDTH]);
+				player.sendMessage(ChatColor.DARK_AQUA+"XAS="+directions[ARRAY_COPY_POS_XAS] + " ZAS="+directions[ARRAY_COPY_POS_ZAS] + " IS_NORTH_SOUTH="+directions[ARRAY_COPY_POS_IS_NORTH_SOUTH]);
 			}
 
 			if(directions.length != 0) {
@@ -74,17 +74,17 @@ public final class DestroyBlockTool implements ErowTVConstants {
 	 */
 	public static void destroyBlocksAtAllPositions(Player player, int[] positions) {	
 //		startX, startY, startZ, depth, (height+1), width, xas, zas, isNorthSouth };
-		boolean isNorthSouth = (positions[ARRAY_PLACEMENT_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
-		int startX = positions[ARRAY_PLACEMENT_POS_STARTX];
-		int startY = positions[ARRAY_PLACEMENT_POS_STARTY];
-		int startZ = positions[ARRAY_PLACEMENT_POS_STARTZ];
-		int xas = positions[ARRAY_PLACEMENT_POS_XAS];
-		int zas = positions[ARRAY_PLACEMENT_POS_ZAS];
-		boolean isFromBlockYGreater = (positions[ARRAY_PLACEMENT_FROM_Y_GREATER]==1 ? true : false);
+		boolean isNorthSouth = (positions[ARRAY_COPY_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
+		int startX = positions[ARRAY_COPY_POS_STARTX];
+		int startY = positions[ARRAY_COPY_POS_STARTY];
+		int startZ = positions[ARRAY_COPY_POS_STARTZ];
+		int xas = positions[ARRAY_COPY_POS_XAS];
+		int zas = positions[ARRAY_COPY_POS_ZAS];
+		boolean isFromBlockYGreater = (positions[ARRAY_COPY_FROM_Y_GREATER]==1 ? true : false);
 		
-		int depth = positions[ARRAY_PLACEMENT_POS_DEPTH];
-		int height = positions[ARRAY_PLACEMENT_POS_HEIGHT];
-		int width = positions[ARRAY_PLACEMENT_POS_WIDTH];
+		int depth = positions[ARRAY_COPY_POS_DEPTH];
+		int height = positions[ARRAY_COPY_POS_HEIGHT];
+		int width = positions[ARRAY_COPY_POS_WIDTH];
 		
 		//Copy all the blocks that are found
 		for (int iterH = 0; iterH < height; iterH++) {

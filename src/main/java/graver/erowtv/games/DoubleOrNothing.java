@@ -3,8 +3,8 @@ package graver.erowtv.games;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.item.BlockTools;
 import graver.erowtv.main.ErowTV;
-import graver.erowtv.tools.PasteBlockTool;
 import graver.erowtv.tools.YmlFileTool;
+import graver.erowtv.tools.copypaste.PasteBlockTool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -59,9 +59,6 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
 
         welcomeMessage();
         createDoubleOrNothing();
-        createRandomButtons();
-        //Every 2 seconds
-        new GameLights().runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, TIME_SECOND);
     }
 
     public void welcomeMessage() {
@@ -96,16 +93,44 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
                 //Get directions for pasting the blocks
                 int[] directions = BlockTools.getBlockDirections(signPosition, getStartingBlock(), null);
 
-                PasteBlockTool.pasteBlocksAtAllPositions(getPlayer(), gameFile, directions,
-                        blockFaceSign, materialBlocks);
-
-                handleMaterialBlocks();
+                //Checks when the Pasting is done, then get the materialBlocks.
+                new GamePaster(gameFile, directions).runTaskTimer(ErowTV.javaPluginErowTV, TIME_ONE_TICK, TIME_HALF_SECOND);
             } else {
                 getPlayer().sendMessage("Game '" + GAME_NAME + "' cannot be created");
             }
         } catch (Exception ex) {
             getPlayer().sendMessage(ChatColor.DARK_RED+"[EventException]:[createDoubleOrNothing]");
             ex.printStackTrace();
+        }
+    }
+
+    private class GamePaster extends BukkitRunnable {
+        private PasteBlockTool pasteBlockTool;
+
+        public GamePaster(File gameFile, int[] directions){
+            pasteBlockTool = new PasteBlockTool();
+            pasteBlockTool.pasteBlocksAtAllPositions(getPlayer(), gameFile, directions, blockFaceSign, true);
+        }
+
+        @Override
+        public void run() {
+            try {
+                if (pasteBlockTool.isDonePasting()) {
+                    //get materials for the game
+                    setMaterialBlocks(pasteBlockTool.getMaterialBlocks());
+                    //do something with the materials
+                    handleMaterialBlocks();
+                    //create the random BAD buttons
+                    createRandomButtons();
+                    //Every 1 seconds
+                    new GameLights().runTaskTimer(ErowTV.javaPluginErowTV, TIME_SECOND, TIME_SECOND);
+
+                    //we have it all, so stop the Runnable
+                    this.cancel();
+                }
+            } catch (Exception ex) {
+                getPlayer().sendMessage(ChatColor.DARK_RED + "[DispensePrice-run][Exception][" + ex.getMessage() + "]");
+            }
         }
     }
 
@@ -231,7 +256,6 @@ public class DoubleOrNothing extends Game implements ErowTVConstants {
 
     /**
      * Player wins, therefor he gets double his items back (that he had put into the chest before the game started)
-     *
      */
     private void playerWins() {
         getPlayer().sendMessage(ChatColor.YELLOW + "You have won. Here is your price");

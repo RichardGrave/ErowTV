@@ -3,7 +3,7 @@ package graver.erowtv.item;
 import graver.erowtv.constants.Enumerations;
 import graver.erowtv.constants.ErowTVConstants;
 import graver.erowtv.main.ErowTV;
-import graver.erowtv.tools.PasteBlockTool;
+import graver.erowtv.tools.copypaste.PasteHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -62,19 +62,25 @@ public class BlockEvents implements Listener, ErowTVConstants {
                             //If it's not a sign then use the copy action
                             //Start pasting
                             World.Environment environment = player.getWorld().getEnvironment();
-                            int playersWorld = (environment == World.Environment.NETHER ? WORLD_NETHER : environment == World.Environment.NORMAL ? WORLD_NORMAL : WORLD_END);
+                            int playersWorld = (environment == World.Environment.NETHER ?
+                                    WORLD_NETHER : environment == World.Environment.NORMAL ? WORLD_NORMAL : WORLD_END);
 
                             List<String> fileNameCopy = (List<String>) ErowTV.readPlayerMemory(player, MEMORY_PASTE_BLOCK_ACTION);
 
                             //Has to have a filename else do nothing
                             if (fileNameCopy != null && !fileNameCopy.isEmpty()) {
 
-                                List<Integer> position = Arrays.asList(playersWorld, placedBlock.getX(), placedBlock.getY(), placedBlock.getZ());
+                                List<Integer> position = Arrays.asList(playersWorld, placedBlock.getX(),
+                                        placedBlock.getY(), placedBlock.getZ());
+
                                 //Add correct dir to fileNameCopy.
-                                PasteBlockTool.pasteBlocks(player, placedBlock, null, (DIR_COPY_BLOCKS+fileNameCopy.get(0)), position);
+                                new PasteHandler().pasteBlocks(player, placedBlock, null,
+                                        (DIR_COPY_BLOCKS+fileNameCopy.get(0)), position, DIR_COPY_BLOCKS);
                             }
 
                             break;
+
+                            //TODO:RG Maybe a CHUNK paste block?
 
                         case NO_RECIPE:
                             break;

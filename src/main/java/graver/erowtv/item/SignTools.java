@@ -5,8 +5,8 @@ import graver.erowtv.games.GameHandler;
 import graver.erowtv.main.ErowTV;
 import graver.erowtv.special.CountDownTimer;
 import graver.erowtv.special.SpecialHandler;
-import graver.erowtv.tools.CopyBlockTool;
-import graver.erowtv.tools.PasteBlockTool;
+import graver.erowtv.tools.copypaste.CopyHandler;
+import graver.erowtv.tools.copypaste.PasteHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -14,7 +14,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.List;
 
 public final class SignTools implements ErowTVConstants {
@@ -149,8 +148,8 @@ public final class SignTools implements ErowTVConstants {
 			if (BlockTools.isBlockPositionTheSame(blockBehindSign, (List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION))) {
 				//We also need the COPY_TO position
 				if (ErowTV.doesPlayerHaveSpecificMemory(player, MEMORY_COPY_TO_POSITION)) {
-					//Start the copy
-					CopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
+//					//Start the copy
+					CopyHandler.doCopy(player, clickedBlock, sign,
 							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION),
 							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION));
 				} else {
@@ -161,8 +160,7 @@ public final class SignTools implements ErowTVConstants {
 			} else if (BlockTools.isBlockPositionTheSame(blockBehindSign, (List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION))) {
 				//We also need the COPY_FROM position
 				if (ErowTV.doesPlayerHaveSpecificMemory(player, MEMORY_COPY_FROM_POSITION)) {
-					//Start the copy
-					CopyBlockTool.copyFromAndToBlocks(player, clickedBlock, sign,
+					CopyHandler.doCopy(player, clickedBlock, sign,
 							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_FROM_POSITION),
 							(List<Integer>) ErowTV.readPlayerMemory(player, MEMORY_COPY_TO_POSITION));
 				} else {
@@ -181,11 +179,6 @@ public final class SignTools implements ErowTVConstants {
 
 	private static void handleToolSignAction(Player player, Block clickedBlock, Sign sign, Block blockBehindSign,
 											 BlockFace blockFace,  boolean isWallSign, boolean isLeftClick){
-//		//Get sign world and coordinates
-//		List<Integer> signPosition = (List<Integer>)ErowTV.readPlayerMemory(player, uniqueMemory);
-		//With that, create a sign Object.
-//		Sign toolSign = (Sign) player.getWorld().getBlockAt(sign.get(ErowTVConstants.BLOCK_POS_X),
-//				sign.get(ErowTVConstants.BLOCK_POS_Y), sign.get(ErowTVConstants.BLOCK_POS_Z)).getState();
 
 		if(ErowTV.isDebug) {
 			player.sendMessage(ChatColor.DARK_AQUA+"SPECIAL_SIGN = " + sign.getLine(SPECIAL_SIGN_ACTION).toLowerCase());
@@ -206,14 +199,16 @@ public final class SignTools implements ErowTVConstants {
 					}
 					break;
 				case SPECIAL_PASTE:
-					List<Integer> signPosition = Arrays.asList(null, sign.getX(), sign.getY(), sign.getZ());
-					PasteBlockTool.pasteBlocks(player, clickedBlock, sign, null, signPosition);
+					//Normal paste
+					PasteHandler.doPaste(player, clickedBlock, sign, false);
+					break;
+				case SPECIAL_CPASTE:
+					//Paste in chunks
+					PasteHandler.doPaste(player, clickedBlock, sign, true);
 					break;
 				case SPECIAL_GAME:
 					if(!isLeftClick){
 						GameHandler.createGameForPlayer(player, sign, clickedBlock);
-						//TODO:RG Tijdelijk
-//						GameHandler.stopGameForPlayer(player);
 					}
 					break;
 			}

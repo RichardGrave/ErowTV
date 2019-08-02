@@ -15,6 +15,8 @@ public final class CopyHandler implements ErowTVConstants {
 
     private CopyHandler(){}
 
+    //TODO:RG Create JavaDoc for copy/pasting methods
+
 
     public static void doCopy(Player player, Block clickedBlock, Sign wallSign,
                          List<Integer> copyFromPosition, List<Integer> copyToPosition){

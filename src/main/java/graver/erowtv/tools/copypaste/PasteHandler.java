@@ -119,31 +119,34 @@ public final class PasteHandler implements ErowTVConstants {
 
     public static void updateBlockDirections(Player player, Block block, String entireBlock, int faceRotation) {
 
-        //Blocks with facing need a new recalculated facing (by BlockFace direction from Copy sign)
-        if (entireBlock.contains("facing=")) {
-            //Get new BlockFace direction by using old BlockFace and the ratation
-            BlockFace blockFaceFromSavedBlock = BlockTools.getBlockFaceByString(player, entireBlock);
-            BlockFace newBlockFaceDirection = BlockTools.getNewBlockFaceDirection(player, blockFaceFromSavedBlock, faceRotation);
+        //Only if the block contains '[' because extra properties are between '[' and ']'
+        if(entireBlock.contains("[")) {
+            //Blocks with facing need a new recalculated facing (by BlockFace direction from Copy sign)
+            if (entireBlock.contains("facing=")) {
+                //Get new BlockFace direction by using old BlockFace and the ratation
+                BlockFace blockFaceFromSavedBlock = BlockTools.getBlockFaceByString(player, entireBlock);
+                BlockFace newBlockFaceDirection = BlockTools.getNewBlockFaceDirection(player, blockFaceFromSavedBlock, faceRotation);
 
-            //Replace old 'facing=' with the new 'facing='
-            entireBlock = BlockTools.replaceBlockFaceDirection(player, entireBlock, newBlockFaceDirection);
-        }
+                //Replace old 'facing=' with the new 'facing='
+                entireBlock = BlockTools.replaceBlockFaceDirection(player, entireBlock, newBlockFaceDirection);
+            }
 
-        //Some blocks don't have facing but 'axis='
-        if (entireBlock.contains("axis=")) {
-            entireBlock = BlockTools.replaceAxisDirection(entireBlock, faceRotation);
-        }
+            //Some blocks don't have facing but 'axis='
+            if (entireBlock.contains("axis=")) {
+                entireBlock = BlockTools.replaceAxisDirection(entireBlock, faceRotation);
+            }
 
-        //Glass has boolean directions for north, east, south and west.
-        if (entireBlock.contains("north=") || entireBlock.contains("east=") ||
-                entireBlock.contains("south=") || entireBlock.contains("west=")) {
+            //Glass has boolean directions for north, east, south and west.
+            if (entireBlock.contains("north=") || entireBlock.contains("east=") ||
+                    entireBlock.contains("south=") || entireBlock.contains("west=")) {
 
-            //This if for Redstone that uses 'side, up and none'. Example: north=up, south=side, east=none, west=up
-            if (entireBlock.contains("power=")) {
-                entireBlock = BlockTools.replaceTernaryDirections(entireBlock, faceRotation);
-            } else {
-                //This if for blocks that use true or false. Example: north=true, south=false, east=false, west=false
-                entireBlock = BlockTools.replaceBooleanDirections(entireBlock, faceRotation);
+                //This if for Redstone that uses 'side, up and none'. Example: north=up, south=side, east=none, west=up
+                if (entireBlock.contains("power=")) {
+                    entireBlock = BlockTools.replaceTernaryDirections(entireBlock, faceRotation);
+                } else {
+                    //This if for blocks that use true or false. Example: north=true, south=false, east=false, west=false
+                    entireBlock = BlockTools.replaceBooleanDirections(entireBlock, faceRotation);
+                }
             }
         }
 

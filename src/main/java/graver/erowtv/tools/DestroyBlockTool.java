@@ -9,6 +9,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
@@ -47,8 +48,9 @@ public final class DestroyBlockTool implements ErowTVConstants {
 			if(directions.length != 0) {
 				player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 1.0f, 1.0f);
 
-				destroyBlocksAtAllPositions(player, directions);
-				
+				//2 seconds for Main Thread to keep up with us?
+				new BlockDestroyer(player, directions).runTaskTimer(ErowTV.javaPluginErowTV, TIME_ONE_TICK, TIME_SECOND*2);
+
 				//Set blocks and the sign to AIR
 				blockFrom.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
 				blockTo.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
@@ -66,30 +68,49 @@ public final class DestroyBlockTool implements ErowTVConstants {
 		}
 	}
 
-	/**
-	 * Destroy the blocks with help of calculated positions from BlockTools.getBlockDirections(fromBlock, toBlock, dataSign)
-	 * 
-	 * @param player
-	 * @param positions
-	 */
-	public static void destroyBlocksAtAllPositions(Player player, int[] positions) {	
-//		startX, startY, startZ, depth, (height+1), width, xas, zas, isNorthSouth };
-		boolean isNorthSouth = (positions[ARRAY_COPY_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
-		int startX = positions[ARRAY_COPY_POS_STARTX];
-		int startY = positions[ARRAY_COPY_POS_STARTY];
-		int startZ = positions[ARRAY_COPY_POS_STARTZ];
-		int xas = positions[ARRAY_COPY_POS_XAS];
-		int zas = positions[ARRAY_COPY_POS_ZAS];
-		boolean isFromBlockYGreater = (positions[ARRAY_COPY_FROM_Y_GREATER]==1 ? true : false);
-		
-		int depth = positions[ARRAY_COPY_POS_DEPTH];
-		int height = positions[ARRAY_COPY_POS_HEIGHT];
-		int width = positions[ARRAY_COPY_POS_WIDTH];
-		
-		//Copy all the blocks that are found
-		for (int iterH = 0; iterH < height; iterH++) {
-			for (int iterW = 0; iterW < width; iterW++) {
-				for (int iterD = 0; iterD < depth; iterD++) {
+	private static class BlockDestroyer extends BukkitRunnable {
+
+		private Player player;
+		private int startX;
+		private int startZ;
+		private int startY;
+		private int xas;
+		private int zas;
+		private int height;
+		private int width;
+		private int depth;
+		private boolean isNorthSouth;
+		private boolean isFromBlockYGreater;
+
+		public BlockDestroyer(Player player, int[] positions) {
+			this.player = player;
+
+			this.isNorthSouth = (positions[ARRAY_COPY_POS_IS_NORTH_SOUTH] == ErowTVConstants.IS_NORTH_SOUTH);
+			this.startX = positions[ARRAY_COPY_POS_STARTX];
+			this.startY = positions[ARRAY_COPY_POS_STARTY];
+			this.startZ = positions[ARRAY_COPY_POS_STARTZ];
+			this.xas = positions[ARRAY_COPY_POS_XAS];
+			this.zas = positions[ARRAY_COPY_POS_ZAS];
+			this.isFromBlockYGreater = (positions[ARRAY_COPY_FROM_Y_GREATER]==1 ? true : false);
+
+			this.depth = positions[ARRAY_COPY_POS_DEPTH];
+			this.height = positions[ARRAY_COPY_POS_HEIGHT];
+			this.width = positions[ARRAY_COPY_POS_WIDTH];
+		}
+
+		//Tmp values
+		int blocksDestroyed = 0;
+
+		int iterH = 0;
+		int iterW = 0;
+		int iterD = 0;
+
+		@Override
+		public void run() {
+			try {
+				blocksDestroyed = 0;
+
+				while (blocksDestroyed <= MAX_BLOCKS) {
 					int placeX, placeZ;
 
 					//If equal to 1 then its direction is NorthSouth
@@ -103,14 +124,37 @@ public final class DestroyBlockTool implements ErowTVConstants {
 
 					int placeY = (isFromBlockYGreater ? (startY - iterH) : (startY + iterH));
 
-					//Place a single block in the world at calculate position
 					Block block = player.getWorld().getBlockAt(placeX, placeY, placeZ);
+
 					if(block.getType() != Material.AIR) {
 						//Only show explosion with blocks that are not AIR
 						block.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, block.getLocation(), 3);
 						block.setType(Material.AIR, ErowTVConstants.DO_NOT_APPLY_PHYSICS);
 					}
+
+
+					blocksDestroyed++;
+					iterD++;
+
+					if (iterD >= depth) {
+						iterD = 0;
+						iterW++;
+					}
+
+					if (iterW >= width) {
+						iterW = 0;
+						iterH++;
+					}
+
+					if (iterH >= height) {
+						this.cancel();
+						player.sendMessage(ChatColor.GREEN + "Destroying is done.");
+						//break loop or it will continue
+						break;
+					}
 				}
+			} catch (Exception ex) {
+				player.sendMessage(ChatColor.DARK_RED + "[BlockDestroyer-run][Exception][" + ex.getMessage() + "]");
 			}
 		}
 	}

@@ -83,10 +83,6 @@ public final class CopyBlockTool implements ErowTVConstants {
 			blockIndex.put(ErowTVConstants.YML_D_H_W_KEY, depth + ErowTVConstants.SEP_D_H_W + height +
 					ErowTVConstants.SEP_D_H_W + width + ErowTVConstants.SEP_D_H_W + facingDirection);
 
-			player.sendMessage("depth="+depth);
-			player.sendMessage("width="+width);
-			player.sendMessage("height="+height);
-
 			this.player = player;
 			this.fileName = fileName;
 			this.startX = startX;
@@ -229,7 +225,7 @@ public final class CopyBlockTool implements ErowTVConstants {
 					}
 				}
 			} catch (Exception ex) {
-				player.sendMessage(ChatColor.DARK_RED + "[BlockPaster-run][Exception][" + ex.getMessage() + "]");
+				player.sendMessage(ChatColor.DARK_RED + "[BlockCopier-run][Exception][" + ex.getMessage() + "]");
 			}
 		}
 	}

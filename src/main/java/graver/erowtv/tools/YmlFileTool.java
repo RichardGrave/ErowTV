@@ -49,6 +49,11 @@ public final class YmlFileTool implements ErowTVConstants {
 				}
 			}
 
+			//Create directory if it doesn't exist yet
+			if(!blockYml.getParentFile().exists()){
+				blockYml.getParentFile().mkdirs();
+			}
+
 			//TODO:RG if DIR does not exist, then create it.
 
 			blockYml.createNewFile();

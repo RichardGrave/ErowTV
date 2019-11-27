@@ -1,8 +1,11 @@
-<img src="https://yt3.ggpht.com/PXmBt4TUP1q2ixeKwRSFPaKTbaaW9iOOzt7SzWi45ZI0PVUcFMzfxOoQsELvHvLMvROWM9eQkQ=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no">  
+<img src="https://yt3.ggpht.com/JO-pAp65T9KKVymwFXKqGONpCiRjGWqpS3at3WPoKnyQqWuP3MYo6oDRwxD54vknFyWsuKIZYA=w2560-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj">  
 
 # A Minecraft plugin for the [SpigotMC](https://www.spigotmc.org) server.
 
-## ErowTV on [YouTube](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw) and [Twitter](https://twitter.com/ErowTV)
+## Tele-grave on [YouTube](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw) and [Twitter](https://twitter.com/TeleGrave)
+
+Erik and Owen wanted a name change for the YouTube/Twitter channel.
+The project name is still the same.
 
 I am creating this plugin for my two sons Erik and Owen.\
 So they can use it in Minecraft when they are recording videos for our YouTube channel.
@@ -57,7 +60,7 @@ It will also remove blocks from the memory system if they break.
 ## What to do in the future:
 - A server memory system, that remembers where the placed Games/Tools are in the world. This by saving to a file and loading from a file if the server has been restarted. Because the player memory system gets cleaned up when the server stops or restarts. The YouTube Subscribers Counter won't work anymore and the Countdown Timer will stop counting down.
 - More YouTube videos about this plugin on our channel.\
-[YouTube Channel ErowTV](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
+[YouTube Channel TeleGrave](https://www.youtube.com/channel/UCinO1QSRjtQi6hiabNDhhzw)
 - Here is a [TODO](https://github.com/RichardGrave/ErowTV/blob/master/TODO.md) list with Bugs, Changes and New Features.
 
 
